@@ -1,0 +1,7 @@
+.htaccess
+env.php
+media/*
+vendor/*
+wp-cli.yml
+wp-content/plugins/*
+wp-core

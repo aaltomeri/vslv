@@ -1,0 +1,39 @@
+{
+	"repositories": [
+		{
+	      "type":"composer",
+	      "url":"http://wpackagist.org"
+	    },
+		{
+			"type": "package",
+			"package": {
+				"name": "wordpress",
+				"type": "webroot",
+				"version": "3.8",
+				"dist": {
+					"type": "zip",
+					"url": "https://github.com/WordPress/WordPress/archive/3.8.zip"
+				},
+				"require": {
+					"fancyguy/webroot-installer": "1.0.0"
+				}
+			}
+		}
+	],
+	"require":{
+		"php": ">=5.3.0",
+		"wordpress": "3.8",
+    	"wpackagist/attachments": "*",
+    	"wpackagist/wordpress-seo": "*",
+    	"wpackagist/google-analytics-for-wordpress": "*",
+    	"wpackagist/enable-media-replace": "*"
+	},
+	"config": {
+		"bin-dir": "bin/",
+		"process-timeout": "1000"
+	},
+	"extra": {
+		"webroot-dir": "wp-core",
+		"webroot-package": "wordpress"
+	}
+}
