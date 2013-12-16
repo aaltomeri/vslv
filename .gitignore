@@ -5,3 +5,4 @@ vendor/*
 wp-cli.yml
 wp-content/plugins/*
 wp-core
+!.gitkeep
