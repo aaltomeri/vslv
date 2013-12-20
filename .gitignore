@@ -4,5 +4,7 @@ media/*
 vendor/*
 wp-cli.yml
 wp-content/plugins/*
+!sitepress*
 wp-core
 !.gitkeep
+node_modules
