@@ -1,31 +1,114 @@
 // Modified http://paulirish.com/2009/markup-based-unobtrusive-comprehensive-dom-ready-execution/
 // Only fires on body class (working off strictly WordPress body_class)
 
-var ExampleSite = {
-  // All pages
-  common: {
-    init: function() {
-      // JS here
+// Application
+// we pass the required modules to be used
+var VSLV_APP = (function(page_module, project_module) {
+
+  var Router = Backbone.Router.extend({
+
+    routes: {
+
+      ':slug': 'page',
+      'project/:slug': 'project'
+
     },
-    finalize: function() { }
-  },
-  // Home page
-  home: {
-    init: function() {
-      // JS here
+
+    project: function(slug) {
+
+      console.log("project: " + slug);
+
+    },
+
+
+    page: function(slug) {
+
+      console.log("page: " + slug);
+
     }
-  },
-  // About page
-  about: {
-    init: function() {
-      // JS here
+
+  });
+
+  return {
+
+    root: "/",
+
+    router: new Router(),
+
+    // All pages
+    common: {
+
+      init: function() {
+
+        $.get('/wp-json.php/').success(function(data) {
+          console.log(data);
+        });
+
+        project_module.collection.fetch()
+          .success(function(data) {
+
+            console.log(data);
+
+          })
+          .error(function(data, response) {
+
+            console.log(response);
+
+          });
+
+        
+
+      },
+
+      finalize: function() { }
+
+    },
+    // Home page
+    home: {
+      init: function() {
+        // JS here
+      }
+    },
+    // About page
+    about: {
+      init: function() {
+        // JS here
+      }
     }
+
+  };
+
+}(PAGE_MODULE, PROJECT_MODULE));
+
+// start routing
+Backbone.history.start({pushState: true, root: VSLV_APP.root });
+
+// All navigation that is relative should be passed through the navigate
+// method, to be processed by the router. If the link has a `data-bypass`
+// attribute, bypass the delegation completely.
+$(document).on("click", "a:not([data-bypass])", function(evt) {
+
+  var href = { prop: $(this).prop("href"), attr: $(this).attr("href").replace(/^\//,'').replace(/\/$/,'') };
+  var root = location.protocol + "//" + location.host + VSLV_APP.root;
+
+  if(href.attr.match(/media/)) {
+    return;
   }
-};
+
+  if (href.prop && href.prop.slice(0, root.length) === root) {
+    console.log(root);
+    console.log(href.attr);
+    console.log(href.attr.replace(root,''));
+    evt.preventDefault();
+    Backbone.history.navigate(href.attr.replace(root,''), true);
+    //_gaq.push(['_trackPageview']); 
+  }
+
+});
 
 var UTIL = {
   fire: function(func, funcname, args) {
-    var namespace = ExampleSite;
+    var namespace = VSLV_APP;
     funcname = (funcname === undefined) ? 'init' : funcname;
     if (func !== '' && namespace[func] && typeof namespace[func][funcname] === 'function') {
       namespace[func][funcname](args);
