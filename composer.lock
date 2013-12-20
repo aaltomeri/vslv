@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a7002ccffcaa12d3db3d7bfc5c85b6a0",
+    "hash": "3c7cfab1feffb4ea6f2fab1a8f759d09",
     "packages": [
         {
             "name": "composer/installers",
@@ -137,10 +137,10 @@
         },
         {
             "name": "wpackagist/attachments",
-            "version": "3.5.3",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/attachments.3.5.3.zip",
+                "url": "http://downloads.wordpress.org/plugin/attachments.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -152,10 +152,10 @@
         },
         {
             "name": "wpackagist/enable-media-replace",
-            "version": "trunk",
+            "version": "2.9.3",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.zip",
+                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.2.9.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -167,10 +167,10 @@
         },
         {
             "name": "wpackagist/google-analytics-for-wordpress",
-            "version": "4.3.3",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.4.3.3.zip",
+                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -181,11 +181,26 @@
             "homepage": "http://wordpress.org/extend/plugins/google-analytics-for-wordpress"
         },
         {
-            "name": "wpackagist/wordpress-seo",
-            "version": "1.4.21",
+            "name": "wpackagist/json-rest-api",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.1.4.21.zip",
+                "url": "http://downloads.wordpress.org/plugin/json-rest-api.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/json-rest-api"
+        },
+        {
+            "name": "wpackagist/wordpress-seo",
+            "version": "trunk",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.zip",
                 "reference": null,
                 "shasum": null
             },

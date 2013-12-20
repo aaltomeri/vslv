@@ -26,7 +26,9 @@
     	"wpackagist/attachments": "*",
     	"wpackagist/wordpress-seo": "*",
     	"wpackagist/google-analytics-for-wordpress": "*",
-    	"wpackagist/enable-media-replace": "*"
+    	"wpackagist/enable-media-replace": "*",
+    	"wpackagist/json-rest-api": "*"
+
 	},
 	"config": {
 		"bin-dir": "bin/",
