@@ -27,7 +27,8 @@
     	"wpackagist/wordpress-seo": "*",
     	"wpackagist/google-analytics-for-wordpress": "*",
     	"wpackagist/enable-media-replace": "*",
-    	"wpackagist/json-rest-api": "*"
+    	"wpackagist/json-rest-api": "*",
+    	"wpackagist/posts-to-posts": "*"
 
 	},
 	"config": {

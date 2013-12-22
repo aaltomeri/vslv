@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3c7cfab1feffb4ea6f2fab1a8f759d09",
+    "hash": "c77ed920dd51f3f0f9df259dfba0a458",
     "packages": [
         {
             "name": "composer/installers",
@@ -137,10 +137,10 @@
         },
         {
             "name": "wpackagist/attachments",
-            "version": "trunk",
+            "version": "3.5.3",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/attachments.zip",
+                "url": "http://downloads.wordpress.org/plugin/attachments.3.5.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -152,10 +152,10 @@
         },
         {
             "name": "wpackagist/enable-media-replace",
-            "version": "2.9.3",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.2.9.3.zip",
+                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -167,10 +167,10 @@
         },
         {
             "name": "wpackagist/google-analytics-for-wordpress",
-            "version": "trunk",
+            "version": "4.3.3",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.zip",
+                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.4.3.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -182,10 +182,10 @@
         },
         {
             "name": "wpackagist/json-rest-api",
-            "version": "trunk",
+            "version": "0.8",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/json-rest-api.zip",
+                "url": "http://downloads.wordpress.org/plugin/json-rest-api.0.8.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -196,11 +196,26 @@
             "homepage": "http://wordpress.org/extend/plugins/json-rest-api"
         },
         {
-            "name": "wpackagist/wordpress-seo",
+            "name": "wpackagist/posts-to-posts",
             "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.zip",
+                "url": "http://downloads.wordpress.org/plugin/posts-to-posts.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/posts-to-posts"
+        },
+        {
+            "name": "wpackagist/wordpress-seo",
+            "version": "1.4.22",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.1.4.22.zip",
                 "reference": null,
                 "shasum": null
             },
