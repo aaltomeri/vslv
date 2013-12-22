@@ -3,6 +3,12 @@
  * Custom functions
  */
 
+// add Project post type
+require_once locate_template('/post-types/project.php');
+
+// add Client post type
+require_once locate_template('/post-types/client.php');
+
 /**
  * JSON API related inits
  */

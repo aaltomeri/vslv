@@ -2,14 +2,14 @@
 
 function project_init() {
 	register_post_type( 'project', array(
-		'hierarchical'      => false,
+		'hierarchical'      => true,
 		'public'            => true,
 		'show_in_nav_menus' => true,
 		'show_ui'           => true,
 		'supports'          => array( 'title', 'editor' ),
 		'has_archive'       => true,
 		'query_var'         => true,
-		'rewrite'           => true,
+		'rewrite'           => array('slug' => 'portfolio'),
 		'labels'            => array(
 			'name'                => __( 'Projects', 'vslv' ),
 			'singular_name'       => __( 'Project', 'vslv' ),
