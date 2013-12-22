@@ -89,6 +89,40 @@ function projects_medias( $attachments )
 
 add_action( 'attachments_register', 'projects_medias' );
 
+/**
+ * Allow connecting Projects to Clients
+ */
+function vslv_connection_types() {
+  p2p_register_connection_type( array(
+    'name' => 'clients_to_projects',
+    'from' => 'client',
+    'to' => 'project'
+  ) );
+}
+add_action( 'p2p_init', 'vslv_connection_types' );
+
+
+function populate_posts_with_connected_posts( $posts ) {
+
+  global $wp_query;
+
+  // populate clients with connected projects
+  if($wp_query->query_vars['post_type'] == 'client') {
+
+    if(function_exists('p2p_type')) {
+
+      p2p_type('clients_to_projects')->each_connected( $wp_query );
+
+    }
+
+  }
+
+  return $posts;
+
+}
+add_action('wp_head', 'populate_posts_with_connected_posts');
+
+
 
 
 

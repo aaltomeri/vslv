@@ -6,4 +6,19 @@
   <div class="entry-summary">
     <?php the_excerpt(); ?>
   </div>
+  <div>
+  	<?php if($post->connected): ?>
+			
+		<h4>Projects</h4>
+
+		<ul>
+			<?php foreach($post->connected as $connected_post): ?>
+			
+			<li><?php echo $connected_post->post_title; ?></li>
+
+			<?php endforeach; ?>
+		</ul>
+		
+	<?php endif; ?>
+  </div>
 </article>
