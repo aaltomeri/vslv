@@ -15,10 +15,13 @@ require_once locate_template('/post-types/client.php');
 
 // add Project post type Json API capability
 function vslv_project_api_init() {
+
     global $vslv_api_project, $wp_json_server;
 
     require_once dirname( __FILE__ ) . '/../post-types/class-vslv-api-project.php';
+
     $vslv_api_project = new VSLV_API_Project($wp_json_server);
+
 }
 add_action( 'wp_json_server_before_serve', 'vslv_project_api_init' );
 
