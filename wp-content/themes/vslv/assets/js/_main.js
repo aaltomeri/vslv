@@ -10,7 +10,7 @@ var VSLV_APP = (function(page_module, project_module) {
     routes: {
 
       ':slug': 'page',
-      'project/:slug': 'project'
+      'portfolio/:slug': 'project'
 
     },
 
@@ -40,21 +40,25 @@ var VSLV_APP = (function(page_module, project_module) {
 
       init: function() {
 
+        // start routing
+        // should trigger route
+        Backbone.history.start({pushState: true, root: VSLV_APP.root });
+
         $.get('/wp-json.php/').success(function(data) {
-          console.log(data);
+          //console.log(data);
         });
 
-        project_module.collection.fetch()
-          .success(function(data) {
+        // project_module.collection.fetch()
+        //   .success(function(data) {
 
-            console.log(data);
+        //     console.log(data);
 
-          })
-          .error(function(data, response) {
+        //   })
+        //   .error(function(data, response) {
 
-            console.log(response);
+        //     console.log(response);
 
-          });
+        //   });
 
         
 
@@ -80,8 +84,6 @@ var VSLV_APP = (function(page_module, project_module) {
 
 }(PAGE_MODULE, PROJECT_MODULE));
 
-// start routing
-Backbone.history.start({pushState: true, root: VSLV_APP.root });
 
 // All navigation that is relative should be passed through the navigate
 // method, to be processed by the router. If the link has a `data-bypass`
@@ -96,12 +98,11 @@ $(document).on("click", "a:not([data-bypass])", function(evt) {
   }
 
   if (href.prop && href.prop.slice(0, root.length) === root) {
-    console.log(root);
-    console.log(href.attr);
-    console.log(href.attr.replace(root,''));
+
     evt.preventDefault();
     Backbone.history.navigate(href.attr.replace(root,''), true);
     //_gaq.push(['_trackPageview']); 
+    
   }
 
 });

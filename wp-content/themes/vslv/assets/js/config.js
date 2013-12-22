@@ -10,7 +10,7 @@ var VSLV_CONFIG = {
 		},
 		project: {
 			name: "project",
-			route: "media"
+			route: "projects"
 		}
 	}
 
