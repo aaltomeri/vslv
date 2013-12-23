@@ -1,6 +1,6 @@
 var VSLV_CONFIG = {
 
-	lang: 'en',
+	lang: 'fr',
 	base_url: '/wp-json.php/',
 
 	modules: {

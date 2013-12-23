@@ -1,11 +1,23 @@
-var PROJECT_MODULE = (function() {
+var PROJECT_MODULE = (function(win, $, cjs) {
 
-  var name = "project";
+  if(typeof cjs === "undefined") {
+    throw "Project module depends on CreateJS library. It seems to be missing.";
+  }
+
+
+  var name = "project",
+      collection;
 
 	var Model = Backbone.Model.extend({
-          
+      
       initialize: function() {
-        console.log();
+        
+        if(this.get('featured_image')) {
+          this.set('thumbnail',
+            this.get('featured_image').attachment_meta.sizes.thumbnail
+          );
+        }
+
       }
 
     }),
@@ -15,15 +27,49 @@ var PROJECT_MODULE = (function() {
       model: Model
     }),
 
-    View = Backbone.View.extend({});
+    ListView = Backbone.View.extend({}),
+
+    init = function() {
+
+        collection =  new Collection();
+
+        // preload portfolio thumbnails
+        var project_thumbs_queue = new createjs.LoadQueue(),
+            project_thumbs_loading_manifest = [];
+
+        // We will start the portfolio build once the projects have been fetched
+        collection.on('reset', function() {
+
+          this.each(function(model) {
+
+            if(model.get('thumbnail')) {
+              // add to the loading queue
+              project_thumbs_loading_manifest.push({
+                id: 'project_' + model.get('post_name') + '_thumbnail',
+                src: model.get('thumbnail').url
+              });
+            }
+          });
+
+          project_thumbs_queue.loadManifest(project_thumbs_loading_manifest);
+          project_thumbs_queue.on('fileload', function(o) { $('body').append(o.result); });
+          project_thumbs_queue.on('complete', function(o) { console.log(o); });
+
+        });
+
+        // fetch projects
+        collection.fetch({reset: true, data: {filter: {orderby: 'title', order: 'ASC'}}});
+
+    };
+
+
 
 	return {
 
-		collection: new Collection(),
-		model: new Model(),
-		view: new View()
+		collection: collection,
+    init: init
 
 	};
 
 
-}());
+}(window, jQuery, createjs));

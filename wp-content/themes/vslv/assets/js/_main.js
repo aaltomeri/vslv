@@ -44,23 +44,8 @@ var VSLV_APP = (function(page_module, project_module) {
         // should trigger route
         Backbone.history.start({pushState: true, root: VSLV_APP.root });
 
-        $.get('/wp-json.php/').success(function(data) {
-          //console.log(data);
-        });
-
-        // project_module.collection.fetch()
-        //   .success(function(data) {
-
-        //     console.log(data);
-
-        //   })
-        //   .error(function(data, response) {
-
-        //     console.log(response);
-
-        //   });
-
-        
+        // init projects (portfolio)
+        project_module.init();
 
       },
 

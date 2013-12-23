@@ -4,9 +4,7 @@ var PAGE_MODULE = (function() {
 
 	var Model = Backbone.Model.extend({
           
-      initialize: function() {
-        console.log();
-      }
+      initialize: function() {}
 
     }),
 
@@ -17,14 +15,9 @@ var PAGE_MODULE = (function() {
 
     View = Backbone.View.extend({});
 
-    // extend Module with bind/trigger capabilities
-
-
 	return {
 
-		collection: new Collection(),
-		model: new Model(),
-		view: new View()
+		collection: new Collection()
 
 	};
 
