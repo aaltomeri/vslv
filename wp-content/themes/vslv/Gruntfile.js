@@ -48,6 +48,7 @@ module.exports = function(grunt) {
             'assets/js/plugins/bootstrap/tab.js',
             'assets/js/plugins/bootstrap/affix.js',
             'assets/js/plugins/*.js',
+            'assets/js/bower_components/PreloadJS/lib/preloadjs-0.4.1.min.js',
             'assets/js/modules/*.js',
             'assets/js/_*.js'
           ]

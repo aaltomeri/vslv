@@ -1,0 +1,14 @@
+{
+  "name": "PreloadJS",
+  "homepage": "https://github.com/CreateJS/PreloadJS",
+  "_release": "ebfce22ffd",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ebfce22ffd49ef20b0ed5e61a35eb85842fca371"
+  },
+  "_source": "git://github.com/CreateJS/PreloadJS.git",
+  "_target": "*",
+  "_originalSource": "PreloadJS",
+  "_direct": true
+}
