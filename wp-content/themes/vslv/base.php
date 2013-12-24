@@ -16,12 +16,18 @@
       get_template_part('templates/header');
     }
   ?>
-
-  <div class="wrap container" role="document">
-    <div class="content row">
+  
+  <div class="wrap" role="document">
+    <div class="content">
       <main class="main <?php echo roots_main_class(); ?>" role="main">
         <?php var_dump(Roots_Wrapping::$main_template); ?>
+
+        <div id="discovery"></div>
+
+        <ul id="portfolio"></ul>
+
         <?php include roots_template_path(); ?>
+
       </main><!-- /.main -->
     </div><!-- /.content -->
   </div><!-- /.wrap -->
