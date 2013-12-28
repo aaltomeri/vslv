@@ -1,4 +1,49 @@
 <?php
+
+/**
+ * augment post meta attachments (added by Attachments plugin) 
+ * by retrieving the actual attachments
+ * use the json_prepare_meta hook
+ * @see prepare_meta in WP_JSON_Posts Class (JSON REST API plugin)
+ */
+function vslv_augment_posts_json_with_attachments($custom_fields) {
+
+  // look for 'attachments' post meta
+  foreach($custom_fields as $key => $value) {
+
+    if($key == 'attachments') {
+      // get first element of array as the actual value (because it is formatted this way)
+      // and decode it (as it's been stored as json)
+      $value = json_decode($value[0]);
+
+      // ----- get attachments ------ //
+      
+      // get attachments ids
+      $attachments_ids = array();
+      foreach($value as $attachments_instance => $attachments) {
+        $attachments_ids = array_merge($attachments_ids, array_map(
+            function($value) { return $value->id; },
+            $attachments
+          )
+        );
+      }
+
+      // user WP_Query and attachments_ids 
+      // goal is to have only one query to retrieve attachments
+      $wp_q = new WP_Query(array('post_type' => 'attachment', 'post_status' => array('publish', 'inherit'), 'post__in' => $attachments_ids));
+      $attachments = $wp_q->get_posts();
+
+      $custom_fields['medias'] = $attachments;
+
+    }
+
+  }
+
+  return $custom_fields;
+
+}
+add_action( 'json_prepare_meta', 'vslv_augment_posts_json_with_attachments' );
+
 /**
  * Enqueue scripts and stylesheets
  *
@@ -11,6 +56,9 @@
  * 3. /theme/assets/js/main.min.js (in footer)
  */
 function roots_scripts() {
+
+
+
   wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '4e744e3fceeebf326147f9a24378c250');
 
   // jQuery is loaded using the same method from HTML5 Boilerplate:
@@ -27,11 +75,15 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'a650d6e74fc480b404660995723fbc66', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'e60db80879fc7703724bd0efbe81a8e8', true);
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');
   wp_enqueue_script('backbone');
+
+  $appData = require_once(dirname(__FILE__) . '/../appData.php');
+  wp_localize_script( 'roots_scripts', 'APP_DATA', $appData );
   wp_enqueue_script('roots_scripts');
+
 }
 add_action('wp_enqueue_scripts', 'roots_scripts', 100);
 

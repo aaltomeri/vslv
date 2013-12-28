@@ -3,12 +3,6 @@
  * Custom functions
  */
 
-// add Project post type
-require_once locate_template('/post-types/project.php');
-
-// add Client post type
-require_once locate_template('/post-types/client.php');
-
 /**
  * JSON API related inits
  */
@@ -25,6 +19,18 @@ function vslv_project_api_init() {
 }
 add_action( 'wp_json_server_before_serve', 'vslv_project_api_init' );
 
+// add certain query vars to the allowed query vars array
+// allows to query for children of posts for instance
+// useful for attachments which are children of posts
+function vslv_add_json_api_query_vars($json_query_vars) {
+
+  array_push($json_query_vars, 'post__in');
+  array_push($json_query_vars, 'post_parent');
+
+  return $json_query_vars;
+
+}
+add_action( 'json_query_vars', 'vslv_add_json_api_query_vars' );
 
 /**
  * Attachments
@@ -52,7 +58,7 @@ function projects_medias( $attachments )
     'label'         => 'Project Medias',
 
     // all post types to utilize (string|array)
-    'post_type'     => array( 'project', 'page' ),
+    'post_type'     => array( 'project' ),
 
     // meta box position (string) (normal, side or advanced)
     'position'      => 'normal',

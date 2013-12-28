@@ -14,6 +14,9 @@
  * @package WordPress
  */
 
+// composer autoload mechanism
+require __DIR__ . '/vendor/autoload.php';
+
 define('CONTENT_DIR', '/wp-content');
 define('WP_CONTENT_DIR', dirname(__FILE__) . CONTENT_DIR);
 define('WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . CONTENT_DIR);

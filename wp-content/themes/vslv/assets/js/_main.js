@@ -3,31 +3,101 @@
 
 // Application
 // we pass the required modules to be used
-var VSLV_APP = (function(page_module, project_module) {
+var VSLV_APP = (function(page_module, project_module, app_data) {
 
   var Router = Backbone.Router.extend({
 
-    routes: {
+      routes: {
 
-      ':slug': 'page',
-      'portfolio/:slug': 'project'
+        ':slug': 'page',
+        'portfolio/:slug': 'project'
 
-    },
+      },
 
-    project: function(slug) {
+      project: function(slug) {
 
-      console.log("project: " + slug);
+        console.log("project: " + slug);
 
-    },
+      },
 
 
-    page: function(slug) {
+      page: function(slug) {
 
-      console.log("page: " + slug);
+        console.log("page: " + slug);
 
-    }
+      }
 
-  });
+    }),
+
+   /**
+     * DiscoveryModel
+     * 
+     * Model for the Projects or Pages we are showing through the Discovery View
+     */
+    DiscoveryModel = Backbone.Model.extend({
+
+      initialize: function() {
+        // console.log(this);
+      }
+
+    }),
+
+    /**
+     * DiscoveryCollection
+     * 
+     * Collection of Pages or Projects which medias we are sequentially displaying
+     */
+    DiscoveryCollection = Backbone.Collection.extend({
+
+      model: DiscoveryModel,
+
+      initialize: function() {
+
+          
+
+          console.log(this);
+
+      }
+
+    }),
+
+    /** 
+     * DiscoveryView
+     * 
+     * manages media navigation mechanism 
+     * cycling through each project and its medias as full screen images or videos
+     * medias displayed do not necessarily belong to a project and can for instance be featured images for pages 
+     * 
+     */
+    DiscoveryView = Backbone.View.extend({
+
+        initialize: function() {},
+
+        /**
+         * Preloads all media for projects
+         * 
+         * @return {[type]} [description]
+         */
+        preloadAllMedias: function() {},
+
+        /**
+         * Preload a Project medias
+         */
+        preloadProjectMedias: function() {},
+
+        /**
+         * Should implement the transition between one media to the next
+         * simply displaying the first media if none is displayed yet
+         */
+        render: function() {
+
+
+        }
+
+    }),
+
+    currentPage,
+    discoveries;
 
   return {
 
@@ -40,12 +110,80 @@ var VSLV_APP = (function(page_module, project_module) {
 
       init: function() {
 
+        // app data 
+        app_data = this.parse_app_data();
+
         // start routing
         // should trigger route
         Backbone.history.start({pushState: true, root: VSLV_APP.root });
 
-        // init projects (portfolio)
-        project_module.init();
+        // init current page
+        currentPage = page_module.init(app_data.currentPost);
+
+        // when projects
+        project_module.on('Projects:loaded', function() {
+
+          console.log('Projects:loaded');
+
+          // extract required infos from projects
+          // to build 'discovery' models
+          var _discoveries = this.collection.map(function(project) {
+
+            return {
+              title: project.get('title'),
+              content: project.get('content'),
+              medias : project.get('medias') || []
+            };
+
+          });
+
+          // first Discovery is the Page we have landed on
+          _discoveries.unshift({
+            title: currentPage.get('title'),
+            content: currentPage.get('content'),
+            medias: currentPage.get('medias') || []
+          });
+
+          // instantiate Discovery Collection
+          discoveries = new DiscoveryCollection(_discoveries);
+
+          // add 'medias' to Discovery model when they're available for Current Page
+          currentPage.on('Page:MediasLoaded', function() {
+              discoveries.findWhere({ title: currentPage.get('title') }).set('medias', this.get('medias'));
+          },
+          currentPage);
+          currentPage.getMediasInfos();
+
+        });
+
+        // init projects
+        project_module.init(app_data.projects);
+
+      },
+
+      /**
+       * parse application data json strings 
+       * - current post data 
+       * - projects data
+       * 
+       * this data has been added to the page as strings 
+       * the result of calls to the JSON API
+       * 
+       */
+      parse_app_data: function() {
+
+        _.each(app_data, function(value, key) {
+
+          try {
+            app_data[key] = $.parseJSON(value);
+          }
+          catch(e) {
+            app_data[key] = value;
+          }
+
+        });
+
+        return app_data;
 
       },
 
@@ -67,7 +205,7 @@ var VSLV_APP = (function(page_module, project_module) {
 
   };
 
-}(PAGE_MODULE, PROJECT_MODULE));
+}(PAGE_MODULE, PROJECT_MODULE, APP_DATA));
 
 
 // All navigation that is relative should be passed through the navigate

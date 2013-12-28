@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Roots includes
  */
@@ -15,5 +16,12 @@ require_once locate_template('/lib/gallery.php');         // Custom [gallery] mo
 require_once locate_template('/lib/comments.php');        // Custom comments modifications
 require_once locate_template('/lib/relative-urls.php');   // Root relative URLs
 require_once locate_template('/lib/widgets.php');         // Sidebars and widgets
+
+// add Project post type
+require_once locate_template('/post-types/project.php');
+
+// add Client post type
+require_once locate_template('/post-types/client.php');
+
 require_once locate_template('/lib/scripts.php');         // Scripts and stylesheets
 require_once locate_template('/lib/custom.php');          // Custom functions

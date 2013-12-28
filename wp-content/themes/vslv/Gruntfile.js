@@ -55,8 +55,8 @@ module.exports = function(grunt) {
         },
         options: {
           // JS source map: to enable, uncomment the lines below and update sourceMappingURL based on your install
-          // sourceMap: 'assets/js/scripts.min.js.map',
-          // sourceMappingURL: '/app/themes/roots/assets/js/scripts.min.js.map'
+          sourceMap: 'assets/js/scripts.min.js.map',
+          sourceMappingURL: '/Users/thomasmery/Documents/WebDev/Clients/Mister Brown/Vue Sur La Ville/application/www/wp-content/themes/vslv/assets/js/scripts.min.js.map',
           beautify: true,
           mangle: false
         }

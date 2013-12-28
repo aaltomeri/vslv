@@ -4,29 +4,138 @@ var PROJECT_MODULE = (function(win, $, cjs) {
     throw "Project module depends on CreateJS library. It seems to be missing.";
   }
 
+  var module = _.extend({}, Backbone.Events),
+      name = "project",
 
-  var name = "project",
-      collection,
-      portfolioView;
+      /**
+       * Project Model
+       */
+      Model = Backbone.Model.extend({
 
-	var Model = Backbone.Model.extend({
-      
-      initialize: function() {
-        
-        if(this.get('featured_image')) {
-          this.set('thumbnail',
-            this.get('featured_image').attachment_meta.sizes.thumbnail
+        mediasLoaded: false,
+
+        initialize: function() {
+          
+          // add convenient thumbnail attribute
+          if(this.get('featured_image')) {
+            this.set('thumbnail',
+              this.get('featured_image').attachment_meta.sizes.thumbnail
+            );
+          }
+
+        },
+
+        /**
+         * populate 'medias' attribute for model - an array of objects
+         * based on the presence of meta attachments (Attachments WP plugin)
+         * we actually want to get more infos than just the ID and name of the attachments
+         */
+        getMediasInfos: function() {
+
+          var attachments = this.get('post_meta').attachments || null,
+              medias = [],
+              attachments_ids = [];
+
+
+          if(!attachments) {
+            return null;
+          }
+
+          attachments = $.parseJSON(attachments[0]);
+
+          // loop through attachments and get each attachement data 
+          // build an array of attachments ids for mass retrieval
+          _.each(attachments.projects_medias, function(attachment) {
+
+            attachments_ids.push(attachment.id);
+
+          });
+
+          // make a request to get all attachments for the project
+          // filter with the attachments ids we got from above
+          // Note: post__in query vars need to be enable for this to work
+          // @see custom.php vslv_add_json_api_query_vars()
+          var promise = $.get(VSLV_CONFIG.base_url + 'media/', {fields: 'ID', filter: { post__in: attachments_ids }})
+              
+              .success(function(data) {
+
+                medias = data;
+
+              })
+              .error(function() {
+
+                throw('Error retrieving medias for project: ' + this.get('ID'));
+
+              });
+
+          // when all attachments data have been retrieved
+          // set a 'medias' attribute on the model with all the attachments data
+          $.when.call($, promise).done(
+
+            $.proxy(function() {
+
+              this.set('medias', medias);
+              this.trigger('Project:MediasLoaded');
+
+              },
+              this
+            )
           );
+
+          return promise;
+
         }
 
-      }
+      }),
 
-    }),
+      /**
+       * Project Collection
+       */
+      Collection = Backbone.Collection.extend({
+        
+        url: VSLV_CONFIG.base_url + VSLV_CONFIG.modules[name].route + '?lang=' + VSLV_CONFIG.lang,
+        
+        model: Model,
 
-    Collection = Backbone.Collection.extend({
-      url: VSLV_CONFIG.base_url + VSLV_CONFIG.modules[name].route + '?lang=' + VSLV_CONFIG.lang,
-      model: Model
-    }),
+        initialize: function() {
+
+          var medias_promises = [];
+
+          this.on('reset', function() {
+
+            module.trigger('Projects:loaded');
+            
+            // get medias (attachments) for each project
+            this.each(function(model) {
+
+              // store getMedias promises
+              //medias_promises.push(model.getMediasInfos());
+
+            });
+
+            // trigger final 'loaded' event when all promises have been fullfilled
+            $.when.apply($, medias_promises).done(
+
+              $.proxy(function() {
+
+                  module.trigger('Projects:loaded');
+
+                },
+                this
+              )
+
+            );
+
+          });
+
+        }
+
+
+      }),
+
+      collection = new Collection(),
+
+      portfolioView,
 
     
     /**
@@ -119,7 +228,10 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         render: function() {
 
-            this.$el.html($('<img />').attr('src', this.model.get('thumbnail').url));
+            var $link = $('<a />').attr('href', this.model.get('link')),
+                $image = $('<img />').attr('src', this.model.get('thumbnail').url);
+
+            this.$el.html($link.append($image));
 
             return this;
 
@@ -127,54 +239,35 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         launchProject: function() {
 
-            console.log(this.$el);
+            //console.log(this.model);
 
         }
 
     }),
 
-    // manage main Projects navigation mechanism
-    // cycling through each project and its medias as full screen images or videos
-    // this View constitutes 
-    DiscoveryView = Backbone.View.extend({
+    init = function(projects) {
 
-        initialize: function() {},
-
-        /**
-         * Preloads all media for projects
-         * 
-         * @return {[type]} [description]
-         */
-        preloadAllMedias: function() {},
-
-        /**
-         * Preload a Project medias
-         * @return {[type]} [description]
-         */
-        preloadProjectMedias: function() {},
-
-        render: function() {}
-
-    }),
-
-    init = function() {
-
-        collection =  new Collection();
         portfolioView = new PortofolioView({ el: '#portfolio', collection: collection });
 
-        // fetch projects
-        collection.fetch({reset: true, data: {filter: {orderby: 'title', order: 'ASC'}}});
+        // fetch projects if no projects have been passed
+        if(projects.length) {
+
+          collection.reset(projects);
+
+        }
+        else {
+
+          collection.fetch({reset: true, data: {filter: {orderby: 'title', order: 'ASC'}}});
+          
+        }
 
     };
 
+  // exports
+  module.collection = collection;
+  module.init = init;
 
-
-	return {
-
-		collection: collection,
-    init: init
-
-	};
+	return module;
 
 
 }(window, jQuery, createjs));

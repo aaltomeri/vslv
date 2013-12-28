@@ -21,9 +21,9 @@
 		}
 	],
 	"require":{
-		"php": ">=5.3.0",
-		"wordpress": "3.8",
-    	"wpackagist/attachments": "*",
+	"php": ">=5.3.0",
+	"wordpress": "3.8",
+	"wpackagist/attachments": "*",
     	"wpackagist/wordpress-seo": "*",
     	"wpackagist/google-analytics-for-wordpress": "*",
     	"wpackagist/enable-media-replace": "*",

@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c77ed920dd51f3f0f9df259dfba0a458",
+    "hash": "b74fab5842e68bca59bc9800cf4df1cb",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.7",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "d792632d27e1980d921cbbba12eab7b888338d4c"
+                "reference": "c87cfc35882eb50df3eef1734bfa52fbcd6c782c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/d792632d27e1980d921cbbba12eab7b888338d4c",
-                "reference": "d792632d27e1980d921cbbba12eab7b888338d4c",
+                "url": "https://api.github.com/repos/composer/installers/zipball/c87cfc35882eb50df3eef1734bfa52fbcd6c782c",
+                "reference": "c87cfc35882eb50df3eef1734bfa52fbcd6c782c",
                 "shasum": ""
             },
             "replace": {
@@ -61,6 +61,7 @@
                 "codeigniter",
                 "concrete5",
                 "drupal",
+                "elgg",
                 "fuelphp",
                 "installer",
                 "joomla",
@@ -77,7 +78,7 @@
                 "wordpress",
                 "zend"
             ],
-            "time": "2013-10-24 16:13:49"
+            "time": "2013-12-24 18:04:46"
         },
         {
             "name": "fancyguy/webroot-installer",
