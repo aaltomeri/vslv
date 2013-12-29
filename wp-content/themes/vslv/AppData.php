@@ -13,7 +13,8 @@ $post_json = file_get_contents(home_url() . '/wp-json.php/posts/' . $post->ID);
 
 // projects list
 $projects_params = http_build_query(array('filter' => array('orderby'=>'title', 'order'=>'ASC')));
-$projects_json = file_get_contents(home_url() . '/wp-json.php/projects?' . $projects_params);
+//$projects_json = file_get_contents(home_url() . '/wp-json.php/projects?' . $projects_params);
+$projects_json = array();
 
 $data = array(
 
