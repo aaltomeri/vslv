@@ -6,12 +6,15 @@
  * use the json_prepare_meta hook
  * @see prepare_meta in WP_JSON_Posts Class (JSON REST API plugin)
  */
-function vslv_augment_posts_json_with_attachments($custom_fields) {
+function vslv_augment_posts_json_with_attachments($_post, $post, $context) {
+
+  global $wp_json_server;
 
   // look for 'attachments' post meta
-  foreach($custom_fields as $key => $value) {
+  foreach($_post['post_meta'] as $key => $value) {
 
     if($key == 'attachments') {
+
       // get first element of array as the actual value (because it is formatted this way)
       // and decode it (as it's been stored as json)
       $value = json_decode($value[0]);
@@ -28,21 +31,32 @@ function vslv_augment_posts_json_with_attachments($custom_fields) {
         );
       }
 
-      // user WP_Query and attachments_ids 
-      // goal is to have only one query to retrieve attachments
-      $wp_q = new WP_Query(array('post_type' => 'attachment', 'post_status' => array('publish', 'inherit'), 'post__in' => $attachments_ids));
-      $attachments = $wp_q->get_posts();
+      // as prepare_post is common to all Post Types 
+      // we remove the filter here to avoid it being called recursively
+      // as $wp_json_media->getPosts will use it as well
+      remove_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
 
-      $custom_fields['medias'] = $attachments;
+      $wp_json_media = new WP_JSON_Media($wp_json_server);
+      $attachments = $wp_json_media->getPosts(array('post__in' => $attachments_ids), 'single');
+
+      // re-add action for following requests
+      add_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
+
+      // // user WP_Query and attachments_ids 
+      // // goal is to have only one query to retrieve attachments
+      // $wp_q = new WP_Query(array('post_type' => 'attachment', 'post_status' => array('publish', 'inherit'), 'post__in' => $attachments_ids));
+      // $attachments = $wp_q->get_posts();
+
+      $_post['medias'] = $attachments;
 
     }
 
   }
 
-  return $custom_fields;
+  return $_post;
 
 }
-add_action( 'json_prepare_meta', 'vslv_augment_posts_json_with_attachments' );
+add_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
 
 /**
  * Enqueue scripts and stylesheets
@@ -56,8 +70,6 @@ add_action( 'json_prepare_meta', 'vslv_augment_posts_json_with_attachments' );
  * 3. /theme/assets/js/main.min.js (in footer)
  */
 function roots_scripts() {
-
-
 
   wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '4e744e3fceeebf326147f9a24378c250');
 
@@ -75,7 +87,7 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'e60db80879fc7703724bd0efbe81a8e8', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'efc94019ae09020d9c4e9ce72198273c', true);
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');
   wp_enqueue_script('backbone');
