@@ -51,13 +51,7 @@ var VSLV_APP = (function(page_module, project_module, app_data) {
 
       model: DiscoveryModel,
 
-      initialize: function() {
-
-          
-
-          console.log(this);
-
-      }
+      initialize: function() {}
 
     }),
 
@@ -122,8 +116,6 @@ var VSLV_APP = (function(page_module, project_module, app_data) {
 
         // when projects
         project_module.on('Projects:loaded', function() {
-
-          console.log('Projects:loaded');
 
           // extract required infos from projects
           // to build 'discovery' models

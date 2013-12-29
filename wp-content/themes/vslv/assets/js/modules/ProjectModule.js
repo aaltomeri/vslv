@@ -104,27 +104,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           this.on('reset', function() {
 
             module.trigger('Projects:loaded');
-            
-            // get medias (attachments) for each project
-            this.each(function(model) {
-
-              // store getMedias promises
-              //medias_promises.push(model.getMediasInfos());
-
-            });
-
-            // trigger final 'loaded' event when all promises have been fullfilled
-            $.when.apply($, medias_promises).done(
-
-              $.proxy(function() {
-
-                  module.trigger('Projects:loaded');
-
-                },
-                this
-              )
-
-            );
 
           });
 
@@ -229,7 +208,8 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         render: function() {
 
             var $link = $('<a />').attr('href', this.model.get('link')),
-                $image = $('<img />').attr('src', this.model.get('thumbnail').url);
+                $image = $('<img />').attr('src',
+                  this.model.get('thumbnail')? this.model.get('thumbnail').url : '#');
 
             this.$el.html($link.append($image));
 
