@@ -6,6 +6,20 @@
     </header>
     <div class="entry-content">
       <?php the_content(); ?>
+
+      <?php $attachments = new Attachments( 'projects_medias' ); ?>
+
+      <?php if( $attachments->exist() ) : ?>
+        <h3>Medias</h3>
+        <ul>
+          <?php while( $attachment = $attachments->get() ) : ?>
+            <li>
+              <?php echo $attachments->image( 'thumbnail' ); ?>
+            </li>
+          <?php endwhile; ?>
+        </ul>
+      <?php endif; ?>
+
     </div>
     <footer>
       <?php wp_link_pages(array('before' => '<nav class="page-nav"><p>' . __('Pages:', 'roots'), 'after' => '</p></nav>')); ?>
