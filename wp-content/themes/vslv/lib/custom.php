@@ -128,6 +128,36 @@ function populate_posts_with_connected_posts( $posts ) {
 }
 add_action('wp_head', 'populate_posts_with_connected_posts');
 
+/**
+ * shortcode to display a list of VSLV clients
+ * @param  $atts 
+ * @return string The list as HTML
+ */
+function vslvs_clients_list_sc( $atts ) {
+  
+  global $post;
+  
+  $atts = shortcode_atts( array(
+    ), $atts );
+
+  $output = '<ul>';
+  
+  $wp_q = new WP_Query(array('post_type' => 'client', 'posts_per_page' => -1));
+  $clients = $wp_q->get_posts();
+
+  foreach ($clients as $key => $client) {
+    $output .= '<li>';    
+    $output .= $client->post_title;    
+    $output .= '</li>';    
+  }
+
+  $output .= '<ul>';
+
+  return $output;
+  
+}
+add_shortcode("vslv-clients", 'vslvs_clients_list_sc');
+
 
 
 
