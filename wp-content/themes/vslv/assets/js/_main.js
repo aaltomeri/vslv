@@ -40,71 +40,18 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         console.log("page: " + slug);
 
-      }
-
-    }),
         // activate menu item
         $('#menu-primary-navigation li').removeClass('active');
         $('#menu-primary-navigation li.menu-' + slug).addClass('active');
 
-   /**
-     * DiscoveryModel
-     * 
-     * Model for the Projects or Pages we are showing through the Discovery View
-     */
-    DiscoveryModel = Backbone.Model.extend({
-
-      initialize: function() {
-        // console.log(this);
-      }
-
-    }),
-
-    /**
-     * DiscoveryCollection
-     * 
-     * Collection of Pages or Projects which medias we are sequentially displaying
-     */
-    DiscoveryCollection = Backbone.Collection.extend({
-
-      model: DiscoveryModel,
-
-      initialize: function() {}
-
-    }),
-
-    /** 
-     * DiscoveryView
-     * 
-     * manages media navigation mechanism 
-     * cycling through each project and its medias as full screen images or videos
-     * medias displayed do not necessarily belong to a project and can for instance be featured images for pages 
-     * 
-     */
-    DiscoveryView = Backbone.View.extend({
-
-        initialize: function() {},
-
-        /**
-         * Preloads all media for projects
-         * 
-         * @return {[type]} [description]
-         */
-        preloadAllMedias: function() {},
-
-        /**
-         * Preload a Project medias
-         */
-        preloadProjectMedias: function() {},
-
-        /**
-         * Should implement the transition between one media to the next
-         * simply displaying the first media if none is displayed yet
-         */
-        render: function() {
 
 
-        }
+
+
+
+
+
+
 
     }),
 
