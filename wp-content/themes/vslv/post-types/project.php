@@ -9,7 +9,7 @@ function project_init() {
 		'supports'          => array( 'title', 'editor', 'thumbnail' ),
 		'has_archive'       => true,
 		'query_var'         => true,
-		'rewrite'           => array('slug' => 'portfolio'),
+		'rewrite'           => array('slug' => 'projects'),
 		'labels'            => array(
 			'name'                => __( 'Projects', 'vslv' ),
 			'singular_name'       => __( 'Project', 'vslv' ),
