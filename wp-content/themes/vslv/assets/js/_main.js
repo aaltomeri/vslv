@@ -166,7 +166,25 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // init projects
         project_module.init(app_data.projects);
 
+        /**
+         * Main Menu
+         */
+        $('.navbar-collapse').on('show.bs.collapse', function() {
+
+            $('.banner').removeClass('collapsed');
+
+        });
+
+        $('.navbar-collapse').on('hide.bs.collapse', function() {
+
+            $('.banner').addClass('collapsed');
+
+        });
+
+        
       },
+
+      
 
       /**
        * parse application data json strings
