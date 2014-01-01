@@ -134,7 +134,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
      * 
      * @type View
      */
-    PortofolioView = Backbone.View.extend({
+    PortfolioView = Backbone.View.extend({
 
       id: 'portfolio',
       items: [],
@@ -186,6 +186,18 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
 
         }, this);
+      },
+
+      show: function() {
+
+        this.$el.show();
+
+      },
+
+      hide: function() {
+
+        this.$el.hide();
+
       }
 
     }),
