@@ -171,7 +171,39 @@ var PAGE_MODULE = (function() {
 
       init = function(currentPost_data) {
 
+        module.collection = new Collection();
+        module.collection.fetch({reset: true});
+
+        module.collection.on('reset', function() {
+
+          module.trigger('Pages:loaded');
+
+        });
+
         module.currentPage = new Model(currentPost_data);
+
+        // instantiate Page View
+        module.currentPageView = new View({ el: $('#content'), model: module.currentPage });
+        //module.currentPageView.render();
+
+        return module.currentPage;
+
+      },
+
+      make_page = function(attributes) {
+
+        var model;
+        
+        // minimum requirement
+        // check if there is an ID attribute passed in atributes parameter 
+        if(!attributes.ID) {
+          throw new Error('You need at least an ID to make a page.');
+        }
+
+        model = new Model(attributes);
+        model.getMediasInfos();
+        
+        module.collection.add(model);
 
         return model;
 
@@ -179,6 +211,7 @@ var PAGE_MODULE = (function() {
 
   // exports
   module.init = init;
+  module.make_page = make_page;
 
 	return module;
 
