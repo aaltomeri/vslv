@@ -209,7 +209,6 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
   };
 
-}(PAGE_MODULE, PROJECT_MODULE, APP_DATA));
 }(PAGE_MODULE, PROJECT_MODULE, DISCOVERY_MODULE, APP_DATA));
 
 
