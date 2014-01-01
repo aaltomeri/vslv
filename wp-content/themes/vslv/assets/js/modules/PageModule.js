@@ -30,7 +30,7 @@ var PAGE_MODULE = (function() {
           // add it to the model medias array
           _.each(attachments.attachments, function(attachment) {
 
-            var promise = $.get(VSLV_CONFIG.base_url + 'media/' + attachment.id)
+            var promise = $.get(VSLV_CONFIG.base_url + 'media/' + attachment.id, {context: 'single'})
               .success(function(data) {
 
                 medias.push(data);
