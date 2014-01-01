@@ -21,8 +21,10 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       routes: {
 
+        'projects/:slug': 'project',
+        '': 'page',
         ':slug': 'page',
-        'portfolio/:slug': 'project'
+        ':category/:slug': 'page'
 
       },
 
