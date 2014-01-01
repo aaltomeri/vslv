@@ -44,18 +44,37 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         $('#menu-primary-navigation li').removeClass('active');
         $('#menu-primary-navigation li.menu-' + slug).addClass('active');
 
+        var newPage = page_module.collection.findWhere({ slug: slug });
 
+        // in case requested page is not found in Pages collection ( post type : pages )
+        // make page (make Page Model instance and add it to Pages collection) 
+        // use currentPage object to make it if it exists
+        if(!newPage && currentPage) {
+          
+          newPage = page_module.make_page(currentPage.attributes);
 
+        }
 
+        switch(slug) {
 
+          case 'portfolio':
+            project_module.portfolioView.show();
+            break;
 
+          case null:
+            this.page('portfolio');
 
+        }
 
+        page_module.currentPageView.model = currentPage = newPage;
+        page_module.currentPageView.render();
 
+      }
 
     }),
 
     currentPage,
+    discoveryView,
     discoveries;
 
   return {
@@ -69,52 +88,83 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       init: function() {
 
+        var firstDiscovery;
+
         // app data 
         app_data = this.parse_app_data();
 
-        // start routing
-        // should trigger route
-        Backbone.history.start({pushState: true, root: VSLV_APP.root });
+        // when Pages are ready
+        page_module.on('Pages:loaded', function() {
 
-        // init current page
-        currentPage = page_module.init(app_data.currentPost);
+          // START ROUTING
+          // should trigger route
+          Backbone.history.start({pushState: true, root: VSLV_APP.root });
+          
+        });
 
-        // when projects
+        // when Projects are ready
         project_module.on('Projects:loaded', function() {
 
-          // extract required infos from projects
-          // to build 'discovery' models
-          var _discoveries = this.collection.map(function(project) {
+          // ADD PROJECTS TO DISCOVERIES
+          discovery_module.make_discoveries(project_module.collection);
 
-            return {
-              title: project.get('title'),
-              content: project.get('content'),
-              medias : project.get('medias') || []
-            };
+          console.log(discovery_module.collection);
 
-          });
+        },
+        this);
 
-          // first Discovery is the Page we have landed on
-          _discoveries.unshift({
-            title: currentPage.get('title'),
-            content: currentPage.get('content'),
-            medias: currentPage.get('medias') || []
-          });
+        // INIT PAGES
+        currentPage = page_module.init(app_data.currentPost);
 
-          // instantiate Discovery Collection
-          discoveries = new DiscoveryCollection(_discoveries);
+        // INIT PROJECTS
+        // we can pass projects data if we want to
+        // bootstraping the app with it
+        // at the moment this is an empty array (@see appData.php)
+        // as we want to make a request and show a preloader 
+        project_module.init(app_data.projects);
+
+        
+        /**
+         * DISCOVERIES
+         */
+
+        // first Discovery is the Page we have landed on
+        // unless it's a project - as it is not a Page per se
+        if(currentPage.get('type') !== 'project') {
+
+          firstDiscovery = discovery_module.make_discovery(currentPage);
+
+        }
+
+        // in case medias infos has not been loaded for currentPage
+        // wait until it is and add its medias to the corresponding Discovery Model
+        if(typeof currentPage.get('medias') !== undefined && currentPage.get('medias').length === 0) {
 
           // add 'medias' to Discovery model when they're available for Current Page
           currentPage.on('Page:MediasLoaded', function() {
-              discoveries.findWhere({ title: currentPage.get('title') }).set('medias', this.get('medias'));
+              firstDiscovery.set('medias', this.get('medias'));
           },
           currentPage);
-          currentPage.getMediasInfos();
 
+        }
+        else { // add it right away
+
+          firstDiscovery.set('medias', currentPage.get('medias'));
+
+        }
+
+        // INIT DISCOVERIES and CREATE DISCOVERY COLLECTION
+        // also creates Discovery View which will rule the Discovery process (cycling through projects)
+        discoveries = discovery_module.init(firstDiscovery);
+
+        // before any route
+        VSLV_APP.router.on('beforeroute', function() {
+
+          // hide portfolio
+          project_module.portfolioView.hide();
+    
         });
 
-        // init projects
-        project_module.init(app_data.projects);
 
         /**
          * Main Menu
