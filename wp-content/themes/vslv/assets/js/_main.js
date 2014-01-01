@@ -32,8 +32,9 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         console.log("project: " + slug);
 
-      },
+        var d = discoveries.findWhere({slug:slug});
 
+      },
 
       page: function(slug) {
 
