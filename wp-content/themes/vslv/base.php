@@ -17,20 +17,24 @@
     }
   ?>
   
-  <div class="wrap" role="document">
-    <div class="content">
-      <main class="main <?php echo roots_main_class(); ?>" role="main">
-        <?php var_dump(Roots_Wrapping::$main_template); ?>
+  <main class="main" role="main">
 
-        <div id="discovery"></div>
+    <?php //var_dump(roots_template_path()); ?>
 
-        <ul id="portfolio"></ul>
+    <div id="discovery">
+      <canvas></canvas>
+      <video></video>
+    </div>
 
-        <?php include roots_template_path(); ?>
+    <div id="content"></div>
 
-      </main><!-- /.main -->
-    </div><!-- /.content -->
-  </div><!-- /.wrap -->
+    <ul id="portfolio"></ul>
+    
+  </main><!-- /.main -->
+
+  <div class="seo-content">
+    <?php include roots_template_path(); ?>
+  </div>
 
   <?php get_template_part('templates/footer'); ?>
 
