@@ -9,7 +9,12 @@ global $post;
 // Note: we will need to parse the returned string in our app init function to make them into js objects
 
 // current post
-$post_json = file_get_contents(home_url() . '/wp-json.php/posts/' . $post->ID);
+if($post !== null) {
+	$post_json = file_get_contents(home_url() . '/wp-json.php/posts/' . $post->ID);
+}
+else {
+	$post_json = null;
+}
 
 // projects list
 $projects_params = http_build_query(array('filter' => array('orderby'=>'title', 'order'=>'ASC')));
