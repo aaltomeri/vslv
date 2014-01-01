@@ -169,9 +169,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
       },
 
       /**
-       * parse application data json strings 
-       * - current post data 
-       * - projects data
+       * parse application data json strings
        * 
        * this data has been added to the page as strings 
        * the result of calls to the JSON API
