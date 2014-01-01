@@ -43,6 +43,9 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
       }
 
     }),
+        // activate menu item
+        $('#menu-primary-navigation li').removeClass('active');
+        $('#menu-primary-navigation li.menu-' + slug).addClass('active');
 
    /**
      * DiscoveryModel
