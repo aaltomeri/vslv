@@ -82,7 +82,92 @@ var PAGE_MODULE = (function() {
         model: Model
       }),
 
-      View = Backbone.View.extend({}),
+      View = Backbone.View.extend({
+
+        visible: false,
+
+        events: {
+
+          'click': 'toggle'
+
+        },
+
+        initialize: function() {
+
+          //this.model.on('change', this.render, this);
+
+        },
+
+        render: function() {
+
+          this.hide();
+          this.show();
+          
+        },
+
+        setText: function() {
+
+          this.$el.html(this.model.get('content'));
+
+        },
+
+        show: function() {
+
+          var view = this;
+
+          if(this.model.get('content')) {
+
+            this.$el.transition({
+
+              left: 0
+
+            }, function() {
+
+              view.visible = true;
+              
+            });
+
+
+          }
+
+          return this.$el;
+
+        },
+
+        hide: function() {
+
+          var view = this;
+              
+          this.$el
+            .transition({
+
+              left: -this.$el.outerWidth() + 40
+
+            },
+            function() {
+
+              view.visible = false;
+              view.setText();
+
+            });
+
+          return this.$el;
+
+        },
+
+        toggle: function() {
+
+          if(this.visible) {
+            this.hide();
+          }
+          else {
+            this.show();
+          }
+
+        }
+
+
+      }),
 
       init = function(currentPost_data) {
 
