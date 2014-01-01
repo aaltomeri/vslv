@@ -13,7 +13,69 @@
    Base
    ========================================================================== */
 
+html, body, #main {
+
+    height: 100%;
+    overflow: hidden;
+
+    font-family: 'Merriweather', serif;
+
+}
+
 body { }
+
+h1, h2, h3, h4, h5, h6 {
+
+  font-family: 'Maven Pro', sans-serif;
+  text-transform: uppercase;
+
+}  
+
+/* ==========================================================================
+   Discovery
+   ========================================================================== */
+
+#discovery {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    background-size: cover;
+    background-position: center center;
+
+}
+
+
+/* ==========================================================================
+   Portfolio
+   ========================================================================== */
+
+ul#portfolio {
+  
+  // hide by default
+  display: none;
+
+  position: absolute;
+  top: 200px;
+  left: 0px; 
+
+  z-index: 10;
+
+   margin: 0;
+   padding: 0;
+
+  li {
+      
+      display: inline-block;
+      list-style: none;
+
+  } 
+
+}
 
 
 
@@ -21,26 +83,10 @@ body { }
    Header
    ========================================================================== */
 
-.banner { }
+.banner {
 
 
-
-/* ==========================================================================
-   Content
-   ========================================================================== */
-
-.content { }
-
-
-
-/* ==========================================================================
-   Primary Content
-   ========================================================================== */
-
-.main { }
-
-/* Gallery Shortcode */
-.gallery-row { padding: 15px 0; }
+}
 
 .navbar-header {
 
@@ -156,11 +202,44 @@ body { }
 
 
 /* ==========================================================================
-   Sidebar
+   Content
    ========================================================================== */
 
-.sidebar { }
+#content { 
+    
+    position: absolute;
+    background: rgba(255,255,255,0.6);
+    color: #000;
+    
+    font-size: 1.3rem;
 
+    top: 0;
+    left: -999px;
+    padding: 60px 60px 60px 40px;
+
+    width: 50%;
+    max-height: 80%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    // overflow: hidden;
+    // overflow-x: auto;
+
+}
+
+.seo-content {
+   display: none;
+}
+
+
+
+/* ==========================================================================
+   Primary Content
+   ========================================================================== */
+
+.main { }
+
+/* Gallery Shortcode */
+.gallery-row { padding: 15px 0; }
 
 
 /* ==========================================================================
@@ -179,9 +258,9 @@ body { }
    Footer
    ========================================================================== */
 
+body > footer { display: none }
+
 .content-info { }
-
-
 
 /* ==========================================================================
    WordPress Generated Classes
