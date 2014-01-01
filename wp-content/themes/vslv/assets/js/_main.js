@@ -4,6 +4,7 @@
 // Application
 // we pass the required modules to be used
 var VSLV_APP = (function(page_module, project_module, app_data) {
+var VSLV_APP = (function(page_module, project_module, discovery_module, app_data) {
 
   var Router = Backbone.Router.extend({
 
@@ -198,6 +199,7 @@ var VSLV_APP = (function(page_module, project_module, app_data) {
   };
 
 }(PAGE_MODULE, PROJECT_MODULE, APP_DATA));
+}(PAGE_MODULE, PROJECT_MODULE, DISCOVERY_MODULE, APP_DATA));
 
 
 // All navigation that is relative should be passed through the navigate
