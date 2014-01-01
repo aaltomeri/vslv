@@ -6,7 +6,11 @@ var PAGE_MODULE = (function() {
 
       Model = Backbone.Model.extend({
           
-        initialize: function() {},
+        initialize: function() {
+
+          this.getMediasInfos();
+
+        },
 
         /**
          * populate 'medias' attribute for model - an array of objects
