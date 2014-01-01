@@ -1,8 +1,14 @@
 var PAGE_MODULE = (function() {
 
-	var module = _.extend({}, Backbone.Events),
+	var module = _.extend({
+
+        collection: null,
+        currentPage: null,
+        currentPageView: null
+
+      }, Backbone.Events),
+
       name = "page",
-      currentPage,
 
       Model = Backbone.Model.extend({
           
@@ -80,14 +86,13 @@ var PAGE_MODULE = (function() {
 
       init = function(currentPost_data) {
 
-        currentPage = new Model(currentPost_data);
+        module.currentPage = new Model(currentPost_data);
 
-        return currentPage;
+        return model;
 
       };
 
   // exports
-  module.collection = new Collection();
   module.init = init;
 
 	return module;
