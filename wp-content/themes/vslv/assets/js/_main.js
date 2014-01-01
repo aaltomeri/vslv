@@ -8,6 +8,18 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
   var Router = Backbone.Router.extend({
 
+      // extend VSLV router with ability to trigger 'beforeroute' event
+      // useful to perform operations before any route callback is called
+      route: function(route, name, callback) {
+        return Backbone.Router.prototype.route.call(this, route, name, function() {
+          if (!callback) {
+            callback = this[name];
+          }
+          this.trigger.apply(this, ['beforeroute'].concat(_.toArray(arguments)));
+          callback.apply(this, arguments);
+        });
+      },
+
       routes: {
 
         ':slug': 'page',
