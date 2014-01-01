@@ -4,7 +4,14 @@ var PROJECT_MODULE = (function(win, $, cjs) {
     throw "Project module depends on CreateJS library. It seems to be missing.";
   }
 
-  var module = _.extend({}, Backbone.Events),
+  var module = _.extend({
+
+        collection: null,
+        portfolioView: null
+
+
+      }, Backbone.Events),
+      
       name = "project",
 
       /**
@@ -111,10 +118,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
 
       }),
-
-      collection = new Collection(),
-
-      portfolioView,
 
     
     /**
@@ -227,24 +230,24 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
     init = function(projects) {
 
-        portfolioView = new PortofolioView({ el: '#portfolio', collection: collection });
+        module.collection = new Collection();
+        module.portfolioView = new PortfolioView({ el: '#portfolio', collection: module.collection });
 
         // fetch projects if no projects have been passed
         if(projects.length) {
 
-          collection.reset(projects);
+          module.collection.reset(projects);
 
         }
         else {
 
-          collection.fetch({reset: true, data: {filter: {orderby: 'title', order: 'ASC'}}});
+          module.collection.fetch({reset: true, data: {filter: {orderby: 'title', order: 'ASC'}}});
           
         }
 
     };
 
   // exports
-  module.collection = collection;
   module.init = init;
 
 	return module;
