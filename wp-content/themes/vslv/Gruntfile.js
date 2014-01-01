@@ -59,7 +59,8 @@ module.exports = function(grunt) {
           sourceMap: 'assets/js/scripts.min.js.map',
           sourceMappingURL: '/Users/thomasmery/Documents/WebDev/Clients/Mister Brown/Vue Sur La Ville/application/www/wp-content/themes/vslv/assets/js/scripts.min.js.map',
           beautify: true,
-          mangle: false
+          mangle: false,
+          compress: false
         }
       }
     },
