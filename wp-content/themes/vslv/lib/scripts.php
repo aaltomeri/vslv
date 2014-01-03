@@ -37,7 +37,7 @@ function vslv_augment_posts_json_with_attachments($_post, $post, $context) {
       remove_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
 
       $wp_json_media = new WP_JSON_Media($wp_json_server);
-      $attachments = $wp_json_media->getPosts(array('post__in' => $attachments_ids), 'single');
+      $attachments = $wp_json_media->getPosts(array('post__in' => $attachments_ids, 'orderby' => 'post__in'), 'single');
 
       // re-add action for following requests
       add_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
