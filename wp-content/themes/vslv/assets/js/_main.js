@@ -102,20 +102,25 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           
         });
 
-        // when Projects are ready
+        /**
+         * INIT DISCOVERY PROCESS
+         * when Projects are ready
+         */
         project_module.on('Projects:loaded', function() {
 
           // ADD PROJECTS TO DISCOVERIES
           discovery_module.make_discoveries(project_module.collection);
 
-          console.log(discovery_module.collection);
+          // now that we have the infos we need
+          // we can start the PRELOADING of discoveries medias
+          discovery_module.discoveryView.preloadAllMedias();
 
         },
         this);
 
         // INIT PAGES
         currentPage = page_module.init(app_data.currentPost);
-
+        
         // INIT PROJECTS
         // we can pass projects data if we want to
         // bootstraping the app with it
