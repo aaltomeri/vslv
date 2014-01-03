@@ -21,13 +21,8 @@
 
     <?php //var_dump(roots_template_path()); ?>
 
-    <div id="discovery">
-      <canvas></canvas>
-      <video></video>
-    </div>
-
+    <div id="discovery"></div>
     <div id="content"></div>
-
     <ul id="portfolio"></ul>
     
   </main><!-- /.main -->
