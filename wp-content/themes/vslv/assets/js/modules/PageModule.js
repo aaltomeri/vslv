@@ -29,7 +29,6 @@ var PAGE_MODULE = (function() {
               medias = [],
               requests_promises = [];
 
-
           if(!attachments) {
             return;
           }
@@ -38,12 +37,12 @@ var PAGE_MODULE = (function() {
 
           // loop through attachments and get each attachment data 
           // add it to the model medias array
-          _.each(attachments.attachments, function(attachment) {
+          _.each(attachments.attachments, function(attachment, index) {
 
             var promise = $.get(VSLV_CONFIG.base_url + 'media/' + attachment.id, {context: 'single'})
               .success(function(data) {
 
-                medias.push(data);
+                medias[index] = data;
 
               })
               .error(function() {
@@ -202,7 +201,7 @@ var PAGE_MODULE = (function() {
 
         model = new Model(attributes);
         model.getMediasInfos();
-        
+
         module.collection.add(model);
 
         return model;
