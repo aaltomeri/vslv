@@ -104,8 +104,40 @@
     DiscoveryView = Backbone.View.extend({
 
         currentMedia: null,
+        w: 0,
+        h: 0,
+        $c: null,
+        c: null,
+        ctx: null,
+        $c2: null,
+        c2: null,
+        ctx2: null,
+        $c3: null,
+        c3: null,
+        ctx3: null,
 
         initialize: function() {
+
+          this.w   = this.$el.width();
+          this.h   = this.$el.height();
+
+          this.$c  = $('<canvas></canvas>').attr('width',this.w).attr('height',this.h);
+          this.c   = this.$c.get(0);
+          this.ctx = this.c.getContext('2d');
+          this.ctx.globalCompositeOperation = "destination-atop";
+
+          this.$c2 = $('<canvas></canvas>').attr('width',this.w).attr('height',this.h);
+          this.c2  = this.$c2.get(0);
+          this.ctx2 = this.c2.getContext('2d');
+          this.ctx2.globalCompositeOperation = "destination-atop";
+          
+          this.$c3 = $('<canvas></canvas>').attr('width',this.w).attr('height',this.h);
+          this.c3  = this.$c3.get(0);
+          this.ctx3 = this.c3.getContext('2d');
+          this.ctx3.globalCompositeOperation = "copy";
+
+          // append first canvas
+          this.$el.append(this.$c);
 
           // there are medias we can work with
           if(this.model.get('medias') && this.model.get('medias').length !== 0) {
@@ -120,10 +152,107 @@
             this.model.on('change:medias', function() {
 
                 this.renderRandomMedia();
+        /**
+         * Should implement the transition between one media to the next
+         * simply displaying the first media if none is displayed yet
+         * switching to next model in collection when all medias have been displayed
+         */
+        render: function() {
+
+          console.group('render Discovery Media');
+
+          if(this.currentMedia === null) {
+            console.warn('TRYING TO RENDER DISCOVERY VIEW BUT NO CURRENT MEDIA HAS BEEN SET');
+            return;
+          }
+
+          // is it an image?
+          if(this.currentMedia.attachment_meta.sizes !== undefined) {
+
+            this.renderImage(this.currentMedia);
+
+          }
+          // if not we will be expecting a Video
+          else if (this.currentMedia.attachment_meta.mime_type.match(/video/)) {
+
+            this.renderVideo(this.currentMedia);
+
+          }
+          // nothing else
+          else {
+            throw new Error("Current Media Type not supported: " + this.currentMedia.attachment_meta.mime_type);
+          }
+
+        },
+
+        renderImage: function(mediaObject) {
+
+          var mediaElement;
+
+          console.log('img: ', mediaObject.source);
+
+          // has it been preloaded yet?
+          // we check if a result is returned from the loadQueue for this media
+          // we are expecting an HTML Image
+          if(this.loadQueue !== null && this.loadQueue.getResult(mediaObject.slug) instanceof HTMLImageElement) { // yep
+
+            mediaElement = this.currentMedia.element = this.loadQueue.getResult(mediaObject.slug);
+            this.drawMediaOnCanvas(mediaElement, this.c);
+            
+          }
+          else { // nope
+
+            var _load_queue = new createjs.LoadQueue();
+
+            _load_queue.loadFile({ id: mediaObject.slug, src: mediaObject.attachment_meta.sizes.large.url});
+
+            _load_queue.on('fileload', function(e) {
+
+              console.log('fileload: ', e.item.tag);
+
+              mediaObject.preloadItem = e.item;
+
+              mediaElement = this.currentMedia.element = e.item.tag;
+              this.drawMediaOnCanvas(mediaElement, this.c);
 
             },
             this);
+
+          }
+
+          console.groupEnd();
+
+        },
+
+        renderVideo: function(mediaObject) {
+
+            console.log('video: ', mediaObject.source);
+
+            // this is temporary and should be converted into a method
+            // that will properly create a video element and set the correct source
+            // depending on browser
+            var view = this,
+                mediaElement = this.currentMedia.element = $('<video></video>').attr('src', mediaObject.source).get(0);
             
+            mediaElement.addEventListener('loadeddata', function() {
+              console.log(view);
+              view.drawMediaOnCanvas(mediaElement, view.c);
+            });
+
+        },
+
+        drawMediaOnCanvas: function(mediaElement, canvasElement) {
+
+          var m = mediaElement,
+              c = canvasElement,
+              ctx = c.getContext('2d'),
+              sw = mediaElement instanceof HTMLVideoElement? mediaElement.videoWidth : mediaElement.width,
+              sh = mediaElement instanceof HTMLVideoElement? mediaElement.videoHeight : mediaElement.height;
+
+          c.width = c.width;
+          ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, this.w, this.h);
+
+        },
           }
 
 
