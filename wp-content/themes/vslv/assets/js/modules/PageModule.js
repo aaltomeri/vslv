@@ -120,7 +120,7 @@ var PAGE_MODULE = (function() {
 
           var view = this;
 
-          if(this.model.get('content')) {
+          if(this.model.get('content') || this.model.get('title')) {
 
             this.$el.transition({
 
