@@ -84,6 +84,7 @@ var PAGE_MODULE = (function() {
       View = Backbone.View.extend({
 
         visible: false,
+        content_template: null,
 
         events: {
 
@@ -93,7 +94,10 @@ var PAGE_MODULE = (function() {
 
         initialize: function() {
 
-          //this.model.on('change', this.render, this);
+          _.templateSettings.variable = 'data';
+
+          // make content template
+          this.content_template = _.template($('#content-template').html());
 
         },
 
@@ -106,7 +110,9 @@ var PAGE_MODULE = (function() {
 
         setText: function() {
 
-          this.$el.html(this.model.get('content'));
+          this.$el.html(
+            this.content_template( this.model.attributes )
+          );
 
         },
 
