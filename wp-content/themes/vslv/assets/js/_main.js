@@ -21,16 +21,20 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       routes: {
 
-        'projects/:slug': 'project',
+        'projects/:slug(/:media_id)': 'project',
         '': 'page',
         ':slug': 'page',
         ':category/:slug': 'page'
 
       },
 
-      project: function(slug) {
+      project: function(slug, media_id) {
 
         console.log("project: " + slug);
+
+        if(media_id === undefined) {
+          media_id = 1;
+        }
 
         var d = discoveries.findWhere({slug:slug});
 
