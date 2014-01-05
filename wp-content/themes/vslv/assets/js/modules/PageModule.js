@@ -26,7 +26,7 @@ var PAGE_MODULE = (function() {
         getMediasInfos: function() {
 
           var attachments = this.get('post_meta').attachments || null,
-              medias = [],
+              medias = this.get('medias') || [],
               requests_promises = [];
 
           if(!attachments) {
