@@ -7,7 +7,7 @@
     <div class="entry-content">
       <?php the_content(); ?>
 
-      <?php $attachments = new Attachments( 'projects_medias' ); ?>
+      <?php $attachments = new Attachments( 'attachments' ); ?>
 
       <?php if( $attachments->exist() ) : ?>
         <h3>Medias</h3>

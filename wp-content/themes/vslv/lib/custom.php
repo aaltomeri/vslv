@@ -35,7 +35,7 @@ add_action( 'json_query_vars', 'vslv_add_json_api_query_vars' );
 /**
  * Attachments
  */
-function projects_medias( $attachments )
+function _attachments( $attachments )
 {
   $fields         = array(
     array(
@@ -90,10 +90,10 @@ function projects_medias( $attachments )
 
   );
 
-  $attachments->register( 'projects_medias', $args ); // unique instance name
+  $attachments->register( 'attachments', $args ); // unique instance name
 }
 
-add_action( 'attachments_register', 'projects_medias' );
+add_action( 'attachments_register', '_attachments' );
 
 /**
  * Allow connecting Projects to Clients

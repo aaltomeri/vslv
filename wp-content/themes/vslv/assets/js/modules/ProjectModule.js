@@ -52,7 +52,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
           // loop through attachments and get each attachement data 
           // build an array of attachments ids for mass retrieval
-          _.each(attachments.projects_medias, function(attachment) {
+          _.each(attachments.attachments, function(attachment) {
 
             attachments_ids.push(attachment.id);
 
