@@ -28,8 +28,68 @@
     DiscoveryCollection = Backbone.Collection.extend({
 
       model: DiscoveryModel,
+      currentModel: null,
+      currentModelIndex: -1,
 
-      initialize: function() {}
+      initialize: function() {},
+
+      next: function() {
+
+        console.group("Next Discovery");
+
+        // loop
+        if(this.currentModelIndex === this.length-1) {
+
+          this.resetCurrentModelIndex();
+
+        }
+
+        this.currentModelIndex++;
+        this.setCurrenModel(this.currentModelIndex);
+
+        console.groupEnd();
+
+        return this.currentModel;
+
+      },
+
+      setCurrenModel: function(indexOrModel) {
+
+        if(typeof indexOrModel === 'object') {
+
+          this.currentModel = indexOrModel;
+
+        }
+        else {
+
+          this.currentModel = this.at(indexOrModel);
+
+        }
+          
+        this.currentModelIndex = this.indexOf(this.currentModel);
+
+        console.info("Discovery index: ", this.currentModelIndex, "/", this.length, ' - ', this.currentModel.get("slug"));
+        console.info("Discovery Medias: ", this.currentModel.get("medias"));
+
+        this.trigger("Discovery:set", this.currentModel);
+
+        return this.currentModel;
+
+      },
+
+      setCurrentModelBySlug: function(slug) {
+
+        var model = this.findWhere({slug: slug});
+
+        return this.setCurrenModel(model);
+
+      },
+
+      resetCurrentModelIndex: function() {
+
+        this.currentModelIndex = -1;
+
+      }
 
     }),
 
