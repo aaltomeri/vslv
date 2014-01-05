@@ -38,6 +38,10 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         var d = discoveries.findWhere({slug:slug});
 
+        discoveries.setCurrentModelBySlug(slug);
+
+        //page_module.currentPageView.render();
+
       },
 
       page: function(slug) {
@@ -87,12 +91,12 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
     router: new Router(),
 
+    firstDiscovery: null,
+
     // All pages
     common: {
 
       init: function() {
-
-        var firstDiscovery;
 
         // app data 
         app_data = this.parse_app_data();
@@ -112,24 +116,19 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
          */
         project_module.on('Projects:loaded', function() {
 
-          // ADD PROJECTS TO DISCOVERIES
-          discovery_module.make_discoveries(project_module.collection);
-
-          // now that we have the infos we need
-          // we can start the PRELOADING of discoveries medias
-          discovery_module.discoveryView.preloadAllMedias();
+          this.initDiscoveryProcess(project_module.collection);
 
         },
         this);
 
         // INIT PAGES
         currentPage = page_module.init(app_data.currentPost);
-        
+
         // INIT PROJECTS
         // we can pass projects data if we want to
         // bootstraping the app with it
         // at the moment this is an empty array (@see appData.php)
-        // as we want to make a request and show a preloader 
+        // as we want to make an ajax request and show a preloader 
         project_module.init(app_data.projects);
 
         
@@ -137,13 +136,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
          * DISCOVERIES
          */
 
-        // first Discovery is the Page we have landed on
-        // unless it's a project - as it is not a Page per se
-        if(currentPage.get('type') !== 'project') {
-
-          firstDiscovery = discovery_module.make_discovery(currentPage);
-
-        }
+        firstDiscovery = discovery_module.make_discovery(currentPage);
 
         // in case medias infos has not been loaded for currentPage
         // wait until it is and add its medias to the corresponding Discovery Model
@@ -166,6 +159,23 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // also creates Discovery View which will rule the Discovery process (cycling through projects)
         discoveries = discovery_module.init(firstDiscovery);
 
+        // make page_module display the Discovery infos
+        // when new Discovery is set
+        discovery_module.collection.on('Discovery:set', function(discoveryModel) {
+
+          // content
+          page_module.currentPageView.model = discoveryModel;
+          page_module.currentPageView.render();
+
+          // update address bar
+          var type = discoveryModel.get('type'),
+              slug = discoveryModel.get('slug'),
+              route = VSLV_CONFIG.modules[type].route;
+
+          Backbone.history.navigate(route + '/' + slug);
+
+        });
+
         // before any route
         VSLV_APP.router.on('beforeroute', function() {
 
@@ -175,9 +185,60 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         });
 
 
-        /**
-         * Main Menu
-         */
+        this.initMainMenu();
+
+      },
+
+      initDiscoveryProcess: function(collection) {
+
+        var firstDiscovery;
+
+        // ADD PROJECTS TO DISCOVERIES
+        discovery_module.make_discoveries(collection);
+
+        firstDiscovery = discovery_module.collection.at(0);
+
+        // now that we have the infos we need
+        // we can start the PRELOADING of discoveries medias
+        discovery_module.discoveryView.preloadAllMedias();
+
+        // remove first Discovery from collection if it's a page
+        // as we 
+        // only needed it on page load to display a bg image before any Discovery process begins
+        // and that, as we will allow to cycle through discoveries, we don't want to come back to the Page we landed on
+        if(firstDiscovery.get('type') !== "project") {
+
+          discovery_module.collection.remove(firstDiscovery);
+          
+        }
+        // if first Discovery is a project it also exists in the fetched projects
+        // so we need to remove it 
+        else {
+
+          // get the discoveries and remove them (this will match the first discovery as well)
+          var discoveries_to_be_removed = discovery_module.collection.where({ slug: firstDiscovery.get('slug') });
+
+          // leave only duplicate to be removed
+          // firstDiscovery is kept
+          discoveries_to_be_removed.shift();
+
+          // remove duplicate
+          discovery_module.collection.remove(discoveries_to_be_removed);
+
+          // reset currentModelIndex for Discovery Collection
+          // as it's already moved ahead for displaying first discovery
+          //discovery_module.collection.resetCurrentModelIndex();
+
+        }
+
+
+      },
+
+      /**
+       * Main Menu
+       */
+      initMainMenu: function() {
+
         $('.navbar-collapse').on('show.bs.collapse', function() {
 
             $('.banner').removeClass('collapsed');
@@ -190,10 +251,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
-        
-      },
 
-      
+      },
 
       /**
        * parse application data json strings

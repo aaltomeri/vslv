@@ -16,6 +16,12 @@
 
       initialize: function() {
         
+      },
+
+      setCurrentMedia: function(index) {
+
+
+
       }
 
     }),
@@ -103,7 +109,9 @@
      */
     DiscoveryView = Backbone.View.extend({
 
+        loadQueue: null,
         currentMedia: null,
+        currentMediaIndex: 0,
         w: 0,
         h: 0,
         $c: null,
@@ -115,6 +123,10 @@
         $c3: null,
         c3: null,
         ctx3: null,
+
+        events: {
+          'click': 'next'
+        },
 
         initialize: function() {
 
@@ -142,7 +154,7 @@
           // there are medias we can work with
           if(this.model.get('medias') && this.model.get('medias').length !== 0) {
 
-            this.renderRandomMedia();
+            this.renderFirstMedia();
 
           }
           else {
@@ -151,7 +163,35 @@
             // and hope there is at least one media to be displayed
             this.model.on('change:medias', function() {
 
-                this.renderRandomMedia();
+                this.renderFirstMedia();
+
+            },
+            this);
+            
+          }
+
+
+          this.collection.on('Discovery:set', function() {
+
+            this.renderFirstMedia();
+
+          },
+          this);
+
+
+        },
+
+        next: function() {
+
+          this.currentMedia = this.getNextMedia();
+
+          if(this.currentMedia) {
+            this.render();
+          }
+
+
+        },
+
         /**
          * Should implement the transition between one media to the next
          * simply displaying the first media if none is displayed yet
@@ -253,8 +293,41 @@
           ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, this.w, this.h);
 
         },
+
+        getMediaAt: function(index) {
+
+          if(!this.model.get('medias') || this.model.get('medias').length === 0) {
+
+            throw new Error('There is no media for this Discovery');
+
           }
 
+          if(index > this.model.get('medias').length-1) {
+            throw new Error('There is no media at index ' + index);
+          }
+
+          return this.model.get('medias')[index];
+
+        },
+
+        getNextMedia: function() {
+
+          if(!this.model.get('medias') || this.model.get('medias').length === 0) {
+
+            throw new Error('There is no media for this Discovery');
+
+          }
+
+          this.currentMediaIndex++;
+
+          if(this.currentMediaIndex > this.model.get('medias').length-1) {
+
+            this.model = this.collection.next();
+            this.currentMediaIndex = 0;
+
+          }
+
+          return this.setCurrentMedia();
 
         },
 
@@ -264,21 +337,44 @@
 
           if(!this.model.get('medias') || this.model.get('medias').length === 0) {
 
-            return;
+            throw new Error('There is no media for this Discovery');
 
           }
 
           rdm = Math.floor(Math.random()*this.model.get('medias').length);
 
-          return this.model.get('medias')[rdm].attachment_meta.sizes.large;
+          return this.model.get('medias')[rdm];
 
         },
 
-        setCurrentMedia: function(media) {
 
-          this.currentMedia = media;
+        setCurrentMedia: function(index) {
 
-          return media;
+          if(!index) {
+            this.currentMedia = this.getMediaAt(this.currentMediaIndex);
+          }
+          else {
+            this.currentMedia = this.getMediaAt(index);
+            this.currentMediaIndex = index;
+          }
+
+          return this.currentMedia;
+
+        },
+
+        renderFirstMedia: function() {
+
+          this.currentMedia = this.getMediaAt(0);
+
+          if(this.currentMedia === null) {
+            throw new Error('No first media found. Can not render.');
+          }
+
+          if(this.currentMedia !== null) {
+
+            this.render();
+
+          }
 
         },
 
@@ -294,36 +390,69 @@
 
         },
 
+
         /**
          * Preloads all media for projects
          * 
          * @return {[type]} [description]
          */
-        preloadAllMedias: function() {},
+        preloadAllMedias: function() {
 
-        /**
-         * Preload a Project medias
-         */
-        preloadProjectMedias: function() {},
+          console.group("DiscoveryView: Preload All Medias");
 
-        /**
-         * Should implement the transition between one media to the next
-         * simply displaying the first media if none is displayed yet
-         * switching to next model in collection when all medias have been displayed
-         */
-        render: function() {
+          // we need to get a list of objects to be used in a PreloadJS manifest
+          // we make sure there are no duplicates based on .id
+          // and we remove any non-image media
+          var view = this,
 
-            if(this.currentMedia === null) {
-              console.warn('TRYING TO RENDER DISCOVERY VIEW BUT NO CURRENTMEDIA HAS BEEN SET');
-              return;
-            }
+            _load_manifest = _.compact(_.uniq(_.flatten(
 
-            this.$el.css({opacity : 0});
-            this.$el.css({
-              'background-image': "url(" + this.currentMedia.url + ")"
-            });
-            this.$el.transition({opacity : 1, duration: 2000 });
+            this.collection.map(function(model) {
 
+              var _medias = _.map(model.get('medias'), function(media, index) {
+
+                if(media.attachment_meta.sizes) { // make sure we are dealing with an image
+                  return {
+                    id: media.slug,
+                    src: media.attachment_meta.sizes.large.url
+                  };
+                }
+                else {
+                  return false;
+                }
+
+              });
+
+              return _medias;
+
+            })
+
+          ), function(o) { return o.id; })),
+          _load_queue = new createjs.LoadQueue();
+
+          //console.log(_load_manifest);
+
+          _load_queue.on('progress', function(e) {
+            // console.log(e.progress);
+          });
+
+          _load_queue.on('fileload', function(e) {
+
+          });
+
+          _load_queue.on('complete', function(e) {
+            console.log("All images preloaded");
+            //setInterval(function() { view.next(); }, 500);
+          },
+          this);
+
+          _load_queue.loadManifest(_load_manifest);
+
+          // keep a reference to the queue
+          // to be able to ask it later for medias that have been preloaded
+          this.loadQueue = _load_queue;
+
+          console.groupEnd();
 
         }
 
@@ -339,8 +468,8 @@
         module.collection.add(model);
 
         // Discovery View
-        module.discoveryView = new DiscoveryView( { el: "#discovery", model: model });
-       
+        module.discoveryView = new DiscoveryView( { el: "#discovery", model: model, collection: module.collection });
+
       }
 
       return module.collection;
@@ -360,6 +489,7 @@
       var d = new DiscoveryModel();
 
       d.set({
+        type: model.get('type') || '',
         title: model.get('title') || '',
         slug: model.get('slug')  || '',
         content: model.get('content')  || '',
@@ -380,6 +510,7 @@
       var _discoveries = collection.map(function(model) {
 
         return {
+          type: model.get('type') || '',
           title: model.get('title'),
           slug: model.get('slug'),
           content: model.get('content'),
