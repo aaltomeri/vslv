@@ -54,6 +54,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         var newPage = page_module.collection.findWhere({ slug: slug });
 
+        // SPECIAL CASE
         // in case requested page is not found in Pages collection ( post type : pages )
         // make page (make Page Model instance and add it to Pages collection) 
         // use currentPage object to make it if it exists
@@ -98,8 +99,15 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       init: function() {
 
+        console.group('APP INIT');
+
         // app data 
         app_data = this.parse_app_data();
+
+
+        /**
+         * DATA REQUESTS CALLBACKS
+         */
 
         // when Pages are ready
         page_module.on('Pages:loaded', function() {
@@ -110,25 +118,34 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           
         });
 
+
         /**
-         * INIT DISCOVERY PROCESS
          * when Projects are ready
          */
         project_module.on('Projects:loaded', function() {
 
+          // init discovery process
           this.initDiscoveryProcess(project_module.collection);
 
         },
         this);
 
-        // INIT PAGES
+        /**
+         * INIT PAGES
+         */
         currentPage = page_module.init(app_data.currentPost);
 
-        // INIT PROJECTS
-        // we can pass projects data if we want to
-        // bootstraping the app with it
-        // at the moment this is an empty array (@see appData.php)
-        // as we want to make an ajax request and show a preloader 
+        /*jshint -W027*/
+        // return;
+
+        /**
+         * INIT PROJECTS
+         * we can pass projects data if we want to
+         * bootstraping the app with it
+         * at the moment this is an empty array (@see appData.php)
+         * as we want to make an ajax request and show a preloader 
+         */
+        
         project_module.init(app_data.projects);
 
         
@@ -186,6 +203,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
 
         this.initMainMenu();
+
+        console.groupEnd();
 
       },
 
