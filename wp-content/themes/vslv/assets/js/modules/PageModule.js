@@ -14,7 +14,7 @@ var PAGE_MODULE = (function() {
           
         initialize: function() {
 
-          this.getMediasInfos();
+          // this.getMediasInfos();
 
         },
 
