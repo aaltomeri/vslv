@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b74fab5842e68bca59bc9800cf4df1cb",
+    "hash": "eb4f3168c5ae2a99cba04d6f6ec9c4ae",
     "packages": [
         {
             "name": "composer/installers",
@@ -46,7 +46,7 @@
                 {
                     "name": "Kyle Robinson Young",
                     "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama",
+                    "homepage": "http://dontkry.com",
                     "role": "Developer"
                 }
             ],
@@ -138,10 +138,10 @@
         },
         {
             "name": "wpackagist/attachments",
-            "version": "3.5.3",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/attachments.3.5.3.zip",
+                "url": "http://downloads.wordpress.org/plugin/attachments.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -153,10 +153,10 @@
         },
         {
             "name": "wpackagist/enable-media-replace",
-            "version": "trunk",
+            "version": "2.9.3",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.zip",
+                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.2.9.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -168,10 +168,10 @@
         },
         {
             "name": "wpackagist/google-analytics-for-wordpress",
-            "version": "4.3.3",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.4.3.3.zip",
+                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -183,10 +183,10 @@
         },
         {
             "name": "wpackagist/json-rest-api",
-            "version": "0.8",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/json-rest-api.0.8.zip",
+                "url": "http://downloads.wordpress.org/plugin/json-rest-api.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -198,10 +198,10 @@
         },
         {
             "name": "wpackagist/posts-to-posts",
-            "version": "trunk",
+            "version": "1.6.2",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/posts-to-posts.zip",
+                "url": "http://downloads.wordpress.org/plugin/posts-to-posts.1.6.2.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -212,11 +212,26 @@
             "homepage": "http://wordpress.org/extend/plugins/posts-to-posts"
         },
         {
-            "name": "wpackagist/wordpress-seo",
-            "version": "1.4.22",
+            "name": "wpackagist/regenerate-thumbnails",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.1.4.22.zip",
+                "url": "http://downloads.wordpress.org/plugin/regenerate-thumbnails.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "http://wordpress.org/extend/plugins/regenerate-thumbnails"
+        },
+        {
+            "name": "wpackagist/wordpress-seo",
+            "version": "trunk",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.zip",
                 "reference": null,
                 "shasum": null
             },

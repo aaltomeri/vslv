@@ -28,7 +28,8 @@
     	"wpackagist/google-analytics-for-wordpress": "*",
     	"wpackagist/enable-media-replace": "*",
     	"wpackagist/json-rest-api": "*",
-    	"wpackagist/posts-to-posts": "*"
+    	"wpackagist/posts-to-posts": "*",
+    	"wpackagist/regenerate-thumbnails": "*"
 
 	},
 	"config": {
