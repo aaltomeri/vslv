@@ -58,7 +58,7 @@ function _attachments( $attachments )
     'label'         => 'Project Medias',
 
     // all post types to utilize (string|array)
-    'post_type'     => array( 'project' ),
+    'post_type'     => array( 'post', 'page', 'project' ),
 
     // meta box position (string) (normal, side or advanced)
     'position'      => 'normal',
