@@ -22,6 +22,23 @@
 
 
 
+      },
+
+      /**
+       * returns the source of the chosen thumbnail size for the Discovery process
+       * falls back to the original media source if no size exists in config
+       * or size does not exist for media
+       * @param  {object} mediaObject an object describing a media for this model
+       * @return {string} the source (url) for this media used in the Discovery context
+       */
+      getMediaSource: function(mediaObject) {
+
+        var size = VSLV_CONFIG.discovery_wp_image_size || null,
+        thumbnail_o = size? mediaObject.attachment_meta.sizes[size] : undefined,
+        source = (typeof thumbnail_o !== 'undefined')? thumbnail_o.url : mediaObject.source;
+
+        return source;
+
       }
 
     }),
@@ -244,14 +261,12 @@
 
             var _load_queue = new createjs.LoadQueue();
 
-            _load_queue.loadFile({ id: mediaObject.slug, src: mediaObject.attachment_meta.sizes.large.url});
+            _load_queue.loadFile({ id: mediaObject.slug, src: this.model.getMediaSource(mediaObject)});
 
             _load_queue.on('fileload', function(e) {
 
               console.log('fileload: ', e.item.tag);
-
-              mediaObject.preloadItem = e.item;
-
+              
               mediaElement = this.currentMedia.element = e.item.tag;
               this.drawMediaOnCanvas(mediaElement, this.c);
 
@@ -409,12 +424,17 @@
 
             this.collection.map(function(model) {
 
-              var _medias = _.map(model.get('medias'), function(media, index) {
+              var _medias = _.map(model.get('medias'), function(mediaObject, index) {
 
-                if(media.attachment_meta.sizes) { // make sure we are dealing with an image
+                if(mediaObject.is_image) { // make sure we are dealing with an image
+
+                  // get url from the 'discovery' thumbnail ( a VSLV_CONFIG param )
+                  // fall back to original image if it does not exist
+                  url = view.model.getMediaSource(mediaObject);
+
                   return {
-                    id: media.slug,
-                    src: media.attachment_meta.sizes.large.url
+                    id: mediaObject.slug,
+                    src: url
                   };
                 }
                 else {
