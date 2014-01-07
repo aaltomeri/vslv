@@ -25,7 +25,8 @@ $data = array(
 
 	"AppName" => get_bloginfo('name'),
 	"currentPost" => $post_json,
-	"projects" => $projects_json
+	"projects" => $projects_json,
+	"home_page_slug" => get_post(get_option('page_on_front'))->post_name
 
 );
 

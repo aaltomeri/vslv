@@ -48,6 +48,13 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         console.log("page: " + slug);
 
+        // deals with home page as a static page
+        // in our case 'portfolio'
+        // but we retrieve it dynamically in AppData.php
+        if(slug === undefined) {
+          slug = app_data.home_page_slug;
+        }
+
         // activate menu item
         $('#menu-primary-navigation li').removeClass('active');
         $('#menu-primary-navigation li.menu-' + slug).addClass('active');
