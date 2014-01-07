@@ -38,19 +38,18 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
        * @param  media_id
        * @return void
        */
-      project: function(slug, media_id) {
+      project: function(slug, mediaIndex) {
 
         console.log("project: " + slug);
 
-        if(media_id === undefined) {
-          media_id = 1;
+        if(mediaIndex === null) {
+          mediaIndex = 1;
         }
 
-        var d = discoveries.findWhere({slug:slug});
+        // convert to 0 based
+        mediaIndex--;
 
-        discoveries.setCurrentModelBySlug(slug);
-
-        //page_module.currentPageView.render();
+        discoveries.setCurrentModelBySlug(slug, mediaIndex);
 
       },
 
@@ -79,7 +78,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         var newPage = page_module.collection.findWhere({ slug: slug });
 
-        // SPECIAL CASE
+        // SPECIAL CASE for post types other than Page or Project
         // in case requested page is not found in Pages collection ( post type : pages )
         // make page (make Page Model instance and add it to Pages collection) 
         // use currentPage object to make it if it exists
@@ -100,8 +99,15 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         }
 
+        // if no discovery is found -> render page
+        // if it is found the Dsicovery process will take care of displaying page content
+        if(!discoveries.setCurrentModelBySlug(slug)) {
+
+          page_module.currentPageView.render();
+          
+        }
+
         page_module.currentPageView.model = currentPage = newPage;
-        page_module.currentPageView.render();
 
       }
 
@@ -209,13 +215,6 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           page_module.currentPageView.model = discoveryModel;
           page_module.currentPageView.render();
 
-          // update address bar
-          var type = discoveryModel.get('type'),
-              slug = discoveryModel.get('slug'),
-              route = VSLV_CONFIG.modules[type].route;
-
-          Backbone.history.navigate(route + '/' + slug);
-
         });
 
         // before any route
@@ -268,10 +267,6 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
           // remove duplicate
           discovery_module.collection.remove(discoveries_to_be_removed);
-
-          // reset currentModelIndex for Discovery Collection
-          // as it's already moved ahead for displaying first discovery
-          //discovery_module.collection.resetCurrentModelIndex();
 
         }
 

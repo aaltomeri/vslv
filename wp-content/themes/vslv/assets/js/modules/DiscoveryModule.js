@@ -14,13 +14,87 @@
      */
     DiscoveryModel = Backbone.Model.extend({
 
+      currentMedia: null,
+      currentMediaIndex: 0,
+
       initialize: function() {
         
       },
 
+      setCurrentMediaIndex: function(index) {
+
+        this.currentMediaIndex = index;
+
+      },
+
       setCurrentMedia: function(index) {
 
+        var cm;
 
+        cm = this.currentMedia = this.getMediaAt(index);
+
+        if(cm) {
+
+          // update address bar
+          var type = this.get('type'),
+              slug = this.get('slug'),
+              route = VSLV_CONFIG.modules[type].route;
+
+          if(type==="project") {
+            Backbone.history.navigate(route + '/' + slug + '/' + (this.currentMediaIndex+1));
+          }
+
+          this.trigger('Discovery:setCurrentMedia', cm);
+
+        }
+
+        return cm;
+
+      },
+
+      setNextMedia: function() {
+
+        this.currentMediaIndex++;
+
+        return this.setCurrentMedia(this.currentMediaIndex);
+
+      },
+
+      getMediaAt: function(index) {
+
+        if(!this.get('medias') || this.get('medias').length === 0) {
+          throw new Error('There is no media for this Discovery');
+        }
+
+        if(index > this.get('medias').length-1) {
+          return false;
+        }
+
+        return this.get('medias')[index];
+
+      },
+
+      getNextMedia: function() {
+
+        this.currentMediaIndex++;
+
+        if(this.currentMediaIndex > this.get('medias').length-1) {
+
+          return false;
+
+        }
+
+        return this.getMediaAt(this.currentMediaIndex);
+
+      },
+
+      getRandomMedia: function() {
+
+        var rdm;
+
+        rdm = Math.floor(Math.random()*this.model.get('medias').length);
+
+        return this.getMediaAt(rdm);
 
       },
 
@@ -68,7 +142,10 @@
         }
 
         this.currentModelIndex++;
-        this.setCurrenModel(this.currentModelIndex);
+        this.setCurrentModel(this.currentModelIndex);
+
+        // reset media index on current model
+        this.currentModel.setCurrentMediaIndex(0);
 
         console.groupEnd();
 
@@ -76,17 +153,16 @@
 
       },
 
-      setCurrenModel: function(indexOrModel) {
+      setCurrentModel: function(indexOrModel, mediaIndex) {
 
-        if(typeof indexOrModel === 'object') {
+        this.currentModel = (typeof indexOrModel === 'object')? indexOrModel : this.at(indexOrModel);
 
-          this.currentModel = indexOrModel;
-
+        // set Media index on current model
+        if(typeof mediaIndex === 'number') {
+          this.currentModel.setCurrentMediaIndex(mediaIndex);
         }
         else {
-
-          this.currentModel = this.at(indexOrModel);
-
+          mediaIndex = 0;
         }
           
         this.currentModelIndex = this.indexOf(this.currentModel);
@@ -94,17 +170,37 @@
         console.info("Discovery index: ", this.currentModelIndex, "/", this.length, ' - ', this.currentModel.get("slug"));
         console.info("Discovery Medias: ", this.currentModel.get("medias"));
 
+        // update address bar
+        // var type = this.currentModel.get('type'),
+        //     slug = this.currentModel.get('slug'),
+        //     route = VSLV_CONFIG.modules[type].route;
+
+        // if(type==="project") {
+
+        //   Backbone.history.navigate(route + '/' + slug + '/' + (this.currentModel.currentMediaIndex+1));
+
+        // }
+
         this.trigger("Discovery:set", this.currentModel);
 
         return this.currentModel;
 
       },
 
-      setCurrentModelBySlug: function(slug) {
+      setCurrentModelBySlug: function(slug, mediaIndex) {
 
         var model = this.findWhere({slug: slug});
 
-        return this.setCurrenModel(model);
+        if(typeof model === 'object') {
+
+          return this.setCurrentModel(model, mediaIndex);
+          
+        }
+        else {
+
+          return false;
+
+        }
 
       },
 
@@ -168,44 +264,47 @@
           // append first canvas
           this.$el.append(this.$c);
 
-          // there are medias we can work with
-          if(this.model.get('medias') && this.model.get('medias').length !== 0) {
-
-            this.renderFirstMedia();
-
-          }
-          else {
+          // setting first media
+          // setup callback if there are no medias we can work with
+          if(!this.model.setCurrentMedia(0)) {
 
             // wait until medias have been set
             // and hope there is at least one media to be displayed
-            this.model.on('change:medias', function() {
+            this.listenTo(this.model, 'change:medias', function() {
 
-                this.renderFirstMedia();
+                this.model.setCurrentMedia(0);
 
-            },
-            this);
+            });
             
           }
 
+          this.listenTo(this.collection, 'Discovery:set', function(model) {
 
-          this.collection.on('Discovery:set', function() {
+            this.stopListening(this.model);
 
-            this.renderFirstMedia();
+            this.model = model;
 
-          },
-          this);
+            this.listenTo(this.model, 'Discovery:setCurrentMedia', function(mediaObject) {
+
+              this.render();
+
+            });
+
+            this.model.setCurrentMedia(this.collection.currentModel.currentMediaIndex);
+
+          });
 
 
         },
 
         next: function() {
 
-          this.currentMedia = this.getNextMedia();
+          if(!this.model.setNextMedia()) {
 
-          if(this.currentMedia) {
-            this.render();
+            // will trigger the render mechanism for the next Discovery
+            this.collection.next();
+
           }
-
 
         },
 
@@ -218,26 +317,28 @@
 
           console.group('render Discovery Media');
 
-          if(this.currentMedia === null) {
-            console.warn('TRYING TO RENDER DISCOVERY VIEW BUT NO CURRENT MEDIA HAS BEEN SET');
+          var cm = this.model.currentMedia;
+
+          if( cm === null) {
+            console.warn('TRYING TO RENDER DISCOVERY VIEW BUT NO CURRENT MEDIA HAS BEEN SET FOR THE CURRENT DISCOVERY MODEL');
             return;
           }
 
           // is it an image?
-          if(this.currentMedia.attachment_meta.sizes !== undefined) {
+          if(cm.is_image) {
 
-            this.renderImage(this.currentMedia);
+            this.renderImage(cm);
 
           }
           // if not we will be expecting a Video
-          else if (this.currentMedia.attachment_meta.mime_type.match(/video/)) {
+          else if (cm.attachment_meta.mime_type.match(/video/)) {
 
-            this.renderVideo(this.currentMedia);
+            this.renderVideo(cm);
 
           }
           // nothing else
           else {
-            throw new Error("Current Media Type not supported: " + this.currentMedia.attachment_meta.mime_type);
+            throw new Error("Current Media Type not supported: " + cm.attachment_meta.mime_type);
           }
 
         },
@@ -253,7 +354,7 @@
           // we are expecting an HTML Image
           if(this.loadQueue !== null && this.loadQueue.getResult(mediaObject.slug) instanceof HTMLImageElement) { // yep
 
-            mediaElement = this.currentMedia.element = this.loadQueue.getResult(mediaObject.slug);
+            mediaElement = this.loadQueue.getResult(mediaObject.slug);
             this.drawMediaOnCanvas(mediaElement, this.c);
             
           }
@@ -266,8 +367,8 @@
             _load_queue.on('fileload', function(e) {
 
               console.log('fileload: ', e.item.tag);
-              
-              mediaElement = this.currentMedia.element = e.item.tag;
+
+              mediaElement = e.item.tag;
               this.drawMediaOnCanvas(mediaElement, this.c);
 
             },
@@ -287,11 +388,12 @@
             // that will properly create a video element and set the correct source
             // depending on browser
             var view = this,
-                mediaElement = this.currentMedia.element = $('<video></video>').attr('src', mediaObject.source).get(0);
+                mediaElement = $('<video></video>').attr('src', mediaObject.source).get(0);
             
             mediaElement.addEventListener('loadeddata', function() {
-              console.log(view);
+
               view.drawMediaOnCanvas(mediaElement, view.c);
+
             });
 
         },
@@ -308,103 +410,6 @@
           ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, this.w, this.h);
 
         },
-
-        getMediaAt: function(index) {
-
-          if(!this.model.get('medias') || this.model.get('medias').length === 0) {
-
-            throw new Error('There is no media for this Discovery');
-
-          }
-
-          if(index > this.model.get('medias').length-1) {
-            throw new Error('There is no media at index ' + index);
-          }
-
-          return this.model.get('medias')[index];
-
-        },
-
-        getNextMedia: function() {
-
-          if(!this.model.get('medias') || this.model.get('medias').length === 0) {
-
-            throw new Error('There is no media for this Discovery');
-
-          }
-
-          this.currentMediaIndex++;
-
-          if(this.currentMediaIndex > this.model.get('medias').length-1) {
-
-            this.model = this.collection.next();
-            this.currentMediaIndex = 0;
-
-          }
-
-          return this.setCurrentMedia();
-
-        },
-
-        getRandomMedia: function() {
-
-          var rdm;
-
-          if(!this.model.get('medias') || this.model.get('medias').length === 0) {
-
-            throw new Error('There is no media for this Discovery');
-
-          }
-
-          rdm = Math.floor(Math.random()*this.model.get('medias').length);
-
-          return this.model.get('medias')[rdm];
-
-        },
-
-
-        setCurrentMedia: function(index) {
-
-          if(!index) {
-            this.currentMedia = this.getMediaAt(this.currentMediaIndex);
-          }
-          else {
-            this.currentMedia = this.getMediaAt(index);
-            this.currentMediaIndex = index;
-          }
-
-          return this.currentMedia;
-
-        },
-
-        renderFirstMedia: function() {
-
-          this.currentMedia = this.getMediaAt(0);
-
-          if(this.currentMedia === null) {
-            throw new Error('No first media found. Can not render.');
-          }
-
-          if(this.currentMedia !== null) {
-
-            this.render();
-
-          }
-
-        },
-
-        renderRandomMedia: function() {
-
-          this.currentMedia = this.getRandomMedia();
-
-          if(this.currentMedia !== null) {
-
-            this.render();
-
-          }
-
-        },
-
 
         /**
          * Preloads all media for projects
