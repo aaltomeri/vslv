@@ -28,6 +28,16 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       },
 
+      /**
+       * single project route handler
+       * should allow the display of a single project
+       * meaning positionning the Discovery process at the right position
+       * should also address displaying a given media for this project 
+       * if a media id is passed as a second parameter
+       * @param  slug 
+       * @param  media_id
+       * @return void
+       */
       project: function(slug, media_id) {
 
         console.log("project: " + slug);
@@ -44,6 +54,14 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       },
 
+      /**
+       * page route handler
+       * displays the text content for a given page
+       * and setup main menu
+       * might deal with special cases like portoflio page
+       * @param slug
+       * @return void
+       */
       page: function(slug) {
 
         console.log("page: " + slug);
