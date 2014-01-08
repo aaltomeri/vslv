@@ -62,9 +62,16 @@
 
       getMediaAt: function(index) {
 
-        if(!this.get('medias') || this.get('medias').length === 0) {
-          throw new Error('There is no media for this Discovery');
+        try {
+            if(!this.get('medias') || this.get('medias').length === 0) {
+            throw new Error('There is no media for this Discovery');
+          }
         }
+        catch(error) {
+          console.log(error.message, this);
+          return;
+        }
+        
 
         if(index > this.get('medias').length-1) {
           return false;
@@ -142,10 +149,7 @@
         }
 
         this.currentModelIndex++;
-        this.setCurrentModel(this.currentModelIndex);
-
-        // reset media index on current model
-        this.currentModel.setCurrentMediaIndex(0);
+        this.setCurrentModel(this.currentModelIndex, 0);
 
         console.groupEnd();
 
@@ -164,10 +168,13 @@
         else {
           mediaIndex = 0;
         }
+        
+        // reset media index on current model
+        this.currentModel.setCurrentMediaIndex(mediaIndex);
           
         this.currentModelIndex = this.indexOf(this.currentModel);
 
-        console.info("Discovery index: ", this.currentModelIndex, "/", this.length, ' - ', this.currentModel.get("slug"));
+        console.info("Discovery index: ", this.currentModelIndex+1, "/", this.length, ' - ', this.currentModel.get("slug"));
         console.info("Discovery Medias: ", this.currentModel.get("medias"));
 
         // update address bar
