@@ -118,19 +118,47 @@ var PAGE_MODULE = (function() {
 
         show: function() {
 
-          var view = this;
+          var view = this,
+              type = this.model.get('type'),
+              title = this.model.get('title'),
+              slug = this.model.get('slug'),
+              content = this.model.get('content');
 
-          if(this.model.get('content') || this.model.get('title')) {
+          if(content || (title && type === 'project')) {
 
-            this.$el.transition({
+            this.$el.removeClass('center-panel');
 
-              left: 0
+            if(slug ===  "references") {
 
-            }, function() {
+                this.$el.addClass('center-panel');
+                this.$el.css({
+                  opacity: 0
+                });
 
-              view.visible = true;
+                this.$el.transition({
+
+                  opacity: 1
+
+                }, function() {
+
+                  view.visible = true;
+                  
+                });
+
+            }
+            else {
+
+              this.$el.transition({
+
+                left: 0
+
+              }, function() {
+
+                view.visible = true;
+                
+              });
               
-            });
+            }
 
 
           }
@@ -141,12 +169,24 @@ var PAGE_MODULE = (function() {
 
         hide: function() {
 
-          var view = this;
-              
+          var view = this,
+              offsetX = 0,
+              type = this.model.get('type'),
+              title = this.model.get('title'),
+              content = this.model.get('content');
+          
+          // only for projects
+          if(type === 'project') {
+
+            // keep panel visible
+            offsetX = 40;
+
+          }
+
           this.$el
             .transition({
 
-              left: -this.$el.outerWidth() + 40
+              left: -this.$el.outerWidth() + offsetX
 
             },
             function() {

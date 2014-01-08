@@ -101,16 +101,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         }
 
-        switch(slug) {
-
-          case 'portfolio':
-            project_module.portfolioView.show();
-            break;
-
-          case null:
-            this.page('portfolio');
-
-        }
+        page_module.currentPageView.model = currentPage = newPage;
 
         // if no discovery is found -> render page
         // if it is found the Dsicovery process will take care of displaying page content
@@ -120,7 +111,17 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           
         }
 
-        page_module.currentPageView.model = currentPage = newPage;
+        // special operations
+        switch(slug) {
+
+          case 'portfolio':
+            project_module.portfolioView.show();
+            return;
+
+          case null:
+            this.page('portfolio');
+
+        }
 
       }
 
