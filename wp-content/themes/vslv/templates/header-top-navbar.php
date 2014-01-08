@@ -16,6 +16,16 @@
     </div>
 
     <nav class="collapse navbar-collapse width" role="navigation">
+      
+      <?php $languages = icl_get_languages('skip_missing=N&orderby=KEY&order=DIR&link_empty_to=str'); ?>
+      
+      <?php //var_dump($languages); ?>
+
+      <ul class="language-switcher">
+        <?php foreach($languages as $lang): ?>
+          <li class="<?php echo $lang['language_code']; ?>"><a href="<?php echo $lang['url']; ?>" data-bypass><?php echo $lang['language_code']; ?></a> | </li>
+        <?php endforeach; ?>
+      </ul>
 
       <?php
         if (has_nav_menu('primary_navigation')) :

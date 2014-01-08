@@ -10,11 +10,21 @@ global $post;
 
 // current post
 if($post !== null) {
-	$post_json = file_get_contents(home_url() . '/wp-json.php/posts/' . $post->ID);
+
+	// put GET params at the end of the uri
+	// useful for lang param for now
+	preg_match('/^(.*)?\?(.*)?/',home_url() . '&test=test', $matches);
+	$home_url = empty($matches)? home_url() : $matches[1];
+	$query_string = isset($matches[2])? '?' . $matches[2] : '';
+	$request_uri = $home_url . '/wp-json.php/posts/' . $post->ID . $query_string;
+	$post_json = file_get_contents($request_uri);
+	
 }
 else {
 	$post_json = null;
 }
+
+
 
 // projects list
 $projects_params = http_build_query(array('filter' => array('orderby'=>'title', 'order'=>'ASC')));
@@ -26,7 +36,8 @@ $data = array(
 	"AppName" => get_bloginfo('name'),
 	"currentPost" => $post_json,
 	"projects" => $projects_json,
-	"home_page_slug" => get_post(get_option('page_on_front'))->post_name
+	"home_page_slug" => get_post(get_option('page_on_front'))->post_name,
+	"lang" => defined("ICL_LANGUAGE_CODE")? ICL_LANGUAGE_CODE : 'fr'
 
 );
 
