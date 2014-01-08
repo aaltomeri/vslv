@@ -1,6 +1,6 @@
 var VSLV_CONFIG = {
 
-	lang: 'fr',
+	lang: APP_DATA.lang || 'fr',
 	base_url: '/wp-json.php/',
 
 	// the Wordpress image size name used in Discovery process

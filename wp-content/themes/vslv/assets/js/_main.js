@@ -68,13 +68,26 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // deals with home page as a static page
         // in our case 'portfolio'
         // but we retrieve it dynamically in AppData.php
-        if(slug === undefined) {
-          slug = app_data.home_page_slug;
+        if(
+          slug === undefined ||
+          slug === '' ||
+          // in case there is a query string right after the home url
+          slug.match(/^\?(.*)?$/)
+        ) {
+
+            slug = app_data.home_page_slug;
+
         }
+        else {
+           // remove query string
+          // to get clean slug
+          slug = slug.replace(/\?(.*)$/, '');
+        }
+        
 
         // activate menu item
-        $('#menu-primary-navigation li').removeClass('active');
-        $('#menu-primary-navigation li.menu-' + slug).addClass('active');
+        $('body > header .navbar-nav li').removeClass('active');
+        $('body > header .navbar-nav li.menu-' + slug).addClass('active');
 
         var newPage = page_module.collection.findWhere({ slug: slug });
 
@@ -188,7 +201,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         // in case medias infos has not been loaded for currentPage
         // wait until it is and add its medias to the corresponding Discovery Model
-        if(typeof currentPage.get('medias') !== undefined && currentPage.get('medias').length === 0) {
+        if(typeof currentPage.get('medias') !== "undefined" && currentPage.get('medias').length === 0) {
 
           // add 'medias' to Discovery model when they're available for Current Page
           currentPage.on('Page:MediasLoaded', function() {
