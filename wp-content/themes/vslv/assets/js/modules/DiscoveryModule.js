@@ -364,11 +364,6 @@
 
             mediaElement = this.loadQueue.getResult(mediaObject.slug);
             this.drawMediaOnCanvas(mediaElement, this.c);
-
-            $(window).off('resize');
-            $(window).on('resize', function() {
-              view.drawMediaOnCanvas(mediaElement, view.c);
-            });
             
           }
           else { // nope
@@ -388,6 +383,11 @@
             this);
 
           }
+
+          $(window).off('resize');
+          $(window).on('resize', function() {
+            view.drawMediaOnCanvas(mediaElement, view.c);
+          });
 
           console.groupEnd();
 
