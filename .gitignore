@@ -5,6 +5,7 @@ vendor/*
 wp-cli.yml
 wp-content/plugins/*
 !sitepress*
+!video-embed-thumbnail-generator
 wp-core
 !.gitkeep
 node_modules
