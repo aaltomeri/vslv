@@ -32,7 +32,11 @@
         </div>
       </script>
     </div>
-    <ul id="portfolio"></ul>
+    <div id="portfolio" class="swiper-container">
+      <div class="content swiper-wrapper">
+        <ul class="swiper-slide"></ul>
+      </div>
+    </div>
     
   </main><!-- /.main -->
 

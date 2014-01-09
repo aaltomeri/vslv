@@ -103,7 +103,12 @@ var PAGE_MODULE = (function() {
 
         render: function() {
 
-          this.hide();
+          this.listenToOnce(this, 'PageView:is-hidden', function() {
+            this.setText();
+            this.$el.show();
+          });
+
+          this.hide(0);
           this.show();
           
         },
@@ -126,14 +131,7 @@ var PAGE_MODULE = (function() {
 
           if(content || (title && type === 'project')) {
 
-            this.$el.removeClass('center-panel');
-
             if(slug ===  "references") {
-
-                this.$el.addClass('center-panel');
-                this.$el.css({
-                  opacity: 0
-                });
 
                 this.$el.transition({
 
@@ -167,34 +165,77 @@ var PAGE_MODULE = (function() {
 
         },
 
-        hide: function() {
+        hide: function(offsetX) {
 
           var view = this,
-              offsetX = 0,
               type = this.model.get('type'),
+              slug = this.model.get('slug'),
               title = this.model.get('title'),
-              content = this.model.get('content');
-          
+              content = this.model.get('content'),
+              animation_attributes = {};
+
           // only for projects
-          if(type === 'project') {
+          if(type === 'project' && offsetX === undefined) {
 
             // keep panel visible
             offsetX = 40;
 
           }
+          else if(offsetX === undefined) {
+
+            offsetX = 0;
+
+          }
+
+          if(this.$el.hasClass('center-panel')) {
+
+            animation_attributes = { opacity: 0 };
+
+          }
+          else {
+
+            animation_attributes = { left: -this.$el.outerWidth() + offsetX };
+
+          }
 
           this.$el
-            .transition({
+            .transition(animation_attributes,
 
-              left: -this.$el.outerWidth() + offsetX
+              function() {
 
-            },
-            function() {
 
-              view.visible = false;
-              view.setText();
+                if(view.$el.hasClass('center-panel')) {
 
-            });
+                  // hide view so we can click on bg when we've hidden a 'center-panel' view
+                  view.$el.hide();
+
+                }
+
+                // when hiding the panel the model has already been changed 
+                // if slug === 'references' it means we are about to show 'references'
+                if(slug === 'references') {
+                  view.$el.addClass('center-panel');
+                  view.$el.css({
+                    opacity: 0
+                  });
+                }
+                // for other pages
+                // make them visible again
+                else {
+
+                  view.$el.removeClass('center-panel');
+                  view.$el.css({
+                    opacity: 1
+                  });
+
+                }
+
+                view.visible = false;
+                view.trigger('PageView:is-hidden');
+                
+              }
+
+            );
 
           return this.$el;
 

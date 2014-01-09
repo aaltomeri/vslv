@@ -137,7 +137,11 @@ var PROJECT_MODULE = (function(win, $, cjs) {
     PortfolioView = Backbone.View.extend({
 
       id: 'portfolio',
+      project_thumbs_queue: null,
+      project_thumbs_loaded: false,
       items: [],
+      item_animation_delay: 40,
+      item_animation_time: 400,
 
       initialize: function() {
 
@@ -149,8 +153,9 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       preloadThumbs: function() {
         
         var view = this,
-            project_thumbs_queue = new createjs.LoadQueue(),
             project_thumbs_loading_manifest = [];
+
+        this.project_thumbs_queue = new createjs.LoadQueue();
 
         // build load manifest
         this.collection.each(function(model) {
@@ -163,40 +168,171 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             });
           }
         });
-
-        
-        //project_thumbs_queue.on('fileload', function(o) { $('body').append(o.result); console.log(o); });
         
         // render portfolio when all images are preloaded
-        project_thumbs_queue.on('complete', this.render, this);
+        this.project_thumbs_queue.on('complete', function() {
+          this.project_thumbs_loaded = true;
+          this.render();
+
+          // notify we're ready
+          module.trigger('PortfolioView:thumbs-loaded');
+
+        },
+        this);
         
-        project_thumbs_queue.loadManifest(project_thumbs_loading_manifest);
+        this.project_thumbs_queue.loadManifest(project_thumbs_loading_manifest);
 
       },
 
       render: function() {
 
-        this.collection.each(function(model) {
-          
-          // create single items
-          var item = new PortofolioItemView({ model: model });
-          item.render();
-          // add them to the portfolio dom element
-          this.$el.append(item.$el);
+        this.listenToOnce(this, 'PortfolioView:is-open', function() {
 
+          this.collection.each(function(model, index) {
+            
+            // create single items
+            var item = new PortofolioItemView({ model: model });
+            this.items.push(item);
+            item.render();
+            // add them to the portfolio dom element
+            this.$el.find('ul').append(item.$el);
 
-        }, this);
+          }, this);
+
+        });
+
       },
 
       show: function() {
 
-        this.$el.show();
+        console.log('show portfolio');
+
+        this.$el.stop();
+        this.stopListening(this, 'PortfolioView:items-hidden');
+
+        this.$el.transition({
+
+          left: 0,
+          duration: 400
+
+        });
+
+        if(this.project_thumbs_loaded) {
+
+          this.open();
+
+        }
 
       },
 
       hide: function() {
 
-        this.$el.hide();
+        console.log('hide portfolio');
+
+        this.$el.stop();
+
+        this.stopListening(this, 'PortfolioView:items-hidden');
+
+        this.hideItems();
+
+        this.listenTo(this, 'PortfolioView:items-hidden', function() {
+
+            this.close();
+
+            this.$el.transition({
+
+              left: "100%",
+              duration: 1000
+
+            });
+
+        });
+
+      },
+
+      open: function() {
+
+        var view = this;
+
+        this.$el.transition({
+
+          height: "33%",
+          duration: 600
+
+        }, function() {
+
+          view.trigger('PortfolioView:is-open');
+
+          view.$el.addClass('is-open');
+
+          view.showItems();
+
+        });
+
+      },
+
+      close: function() {
+
+        var view = this;
+
+        this.$el.removeClass('is-open');
+
+        this.$el.transition({
+
+          height: "1px",
+          duration: 200
+
+        }, function() {
+
+          view.trigger('PortfolioView:is-closed');
+
+        });
+
+      },
+
+      showItems: function() {
+
+        var view = this,
+            delay = 0,
+            timeout = 0;
+
+        _.each(this.items, function(item, index) {
+
+          delay = index*view.item_animation_delay;
+          item.show(delay, this.item_animation_time);
+
+        });
+
+        timeout = delay + this.item_animation_time;
+
+        setTimeout(function() {
+            view.trigger('PortfolioView:items-shown');
+          },
+          timeout
+        );
+
+      },
+
+      hideItems: function() {
+
+        var view = this,
+            delay = 0,
+            timeout = 0;
+
+        _.each(this.items, function(item, index) {
+
+          delay = index*view.item_animation_delay/2;
+          item.hide(delay, this.item_animation_time/2);
+
+        });
+
+        timeout = delay + this.item_animation_time/2;
+
+        setTimeout(function() {
+            view.trigger('PortfolioView:items-hidden');
+          },
+          timeout
+        );
 
       }
 
@@ -209,6 +345,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
     PortofolioItemView = Backbone.View.extend({
 
         tagName: 'li',
+        animation_duration: 400,
 
         events: {
 
@@ -229,6 +366,32 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             this.$el.html($link.append($image));
 
             return this;
+
+        },
+
+        show: function(delay, duration) {
+
+          var _delay = delay? delay : 0,
+              _duration = duration? duration : this.animation_duration;
+
+          this.$el.transition({
+            opacity: 1,
+            delay: _delay,
+            duration: _duration
+          });
+
+        },
+
+        hide: function(delay, duration) {
+
+          var _delay = delay? delay : 0,
+              _duration = duration? duration : this.animation_duration;
+
+          this.$el.transition({
+            opacity: 0,
+            delay: _delay,
+            duration: _duration
+          });
 
         },
 

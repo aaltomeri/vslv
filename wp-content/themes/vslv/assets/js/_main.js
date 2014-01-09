@@ -1,6 +1,3 @@
-// Modified http://paulirish.com/2009/markup-based-unobtrusive-comprehensive-dom-ready-execution/
-// Only fires on body class (working off strictly WordPress body_class)
-
 // Application
 // we pass the required modules to be used
 var VSLV_APP = (function(page_module, project_module, discovery_module, app_data) {
@@ -42,6 +39,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         console.log("project: " + slug);
 
+        this.activateMenuItem(slug);
+
         if(mediaIndex === null) {
           mediaIndex = 1;
         }
@@ -49,7 +48,25 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // convert to 0 based
         mediaIndex--;
 
-        discoveries.setCurrentModelBySlug(slug, mediaIndex);
+        if(page_module.currentPageView.model.get('slug') === 'portfolio') {
+
+          this.listenToOnce(project_module.portfolioView, 'PortfolioView:items-hidden',
+
+            function() {
+
+              discoveries.setCurrentModelBySlug(slug, mediaIndex);
+
+            }
+
+          );
+
+
+        }
+        else {
+
+          discoveries.setCurrentModelBySlug(slug, mediaIndex);
+
+        }
 
       },
 
@@ -64,6 +81,81 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
       page: function(slug) {
 
         console.log("page: " + slug);
+
+        var router = this;
+
+        slug = this.cleanSlug(slug);
+        
+        this.activateMenuItem(slug);
+
+        // special operations
+        switch(slug) {
+
+          case 'portfolio':
+
+            // will hide text panel
+            // and set cureentPageView model to be portfolio page model
+            this.renderPage(slug);
+
+            project_module.portfolioView.show();
+
+            break;
+
+          default:
+
+            if(page_module.currentPageView.model.get('slug') === 'portfolio') {
+
+              // make Router listen to the PortfolioView item-hidden event
+              // to trigger page rendering only then
+              this.listenToOnce(project_module.portfolioView, 'PortfolioView:items-hidden',
+
+                function() {
+                  
+                  this.renderPage(slug);
+
+                }
+
+              );
+
+
+            }
+            else {
+
+              this.renderPage(slug);
+
+            }
+            
+        }
+
+      },
+
+      renderPage: function(slug) {
+
+        var newPage = page_module.collection.findWhere({ slug: slug });
+
+        // SPECIAL CASE for post types other than Page or Project
+        // in case requested page is not found in Pages collection ( post type : pages )
+        // make page (make Page Model instance and add it to Pages collection) 
+        // use currentPage object to make it if it exists
+        if(!newPage && currentPage) {
+          
+          newPage = page_module.make_page(currentPage.attributes);
+
+        }
+
+        page_module.currentPageView.model = currentPage = newPage;
+
+        // if no discovery is found -> render page
+        // if it is found the Discovery process will take care of displaying page content
+        if(!discoveries.setCurrentModelBySlug(slug)) {
+
+          page_module.currentPageView.render();
+          
+        }
+
+      },
+
+      cleanSlug: function(slug) {
 
         // deals with home page as a static page
         // in our case 'portfolio'
@@ -83,45 +175,16 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           // to get clean slug
           slug = slug.replace(/\?(.*)$/, '');
         }
-        
+
+        return slug;
+
+      },
+    
+      activateMenuItem: function(slug) {
 
         // activate menu item
         $('body > header .navbar-nav li').removeClass('active');
         $('body > header .navbar-nav li.menu-' + slug).addClass('active');
-
-        var newPage = page_module.collection.findWhere({ slug: slug });
-
-        // SPECIAL CASE for post types other than Page or Project
-        // in case requested page is not found in Pages collection ( post type : pages )
-        // make page (make Page Model instance and add it to Pages collection) 
-        // use currentPage object to make it if it exists
-        if(!newPage && currentPage) {
-          
-          newPage = page_module.make_page(currentPage.attributes);
-
-        }
-
-        page_module.currentPageView.model = currentPage = newPage;
-
-        // if no discovery is found -> render page
-        // if it is found the Dsicovery process will take care of displaying page content
-        if(!discoveries.setCurrentModelBySlug(slug)) {
-
-          page_module.currentPageView.render();
-          
-        }
-
-        // special operations
-        switch(slug) {
-
-          case 'portfolio':
-            project_module.portfolioView.show();
-            return;
-
-          case null:
-            this.page('portfolio');
-
-        }
 
       }
 
@@ -193,7 +256,10 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         
         project_module.init(app_data.projects);
 
-        
+        if(currentPage.get('slug') === 'portfolio') {
+          project_module.portfolioView.listenTo(project_module, 'PortfolioView:thumbs-loaded', project_module.portfolioView.show);
+        }
+
         /**
          * DISCOVERIES
          */
@@ -230,6 +296,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           page_module.currentPageView.render();
 
         });
+
+
 
         // before any route
         VSLV_APP.router.on('beforeroute', function() {
@@ -373,6 +441,9 @@ $(document).on("click", "a:not([data-bypass])", function(evt) {
   }
 
 });
+
+// Modified http://paulirish.com/2009/markup-based-unobtrusive-comprehensive-dom-ready-execution/
+// Only fires on body class (working off strictly WordPress body_class)
 
 var UTIL = {
   fire: function(func, funcname, args) {
