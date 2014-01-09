@@ -352,7 +352,8 @@
 
         renderImage: function(mediaObject) {
 
-          var mediaElement;
+          var mediaElement,
+              view = this;
 
           console.log('img: ', mediaObject.source);
 
@@ -363,6 +364,11 @@
 
             mediaElement = this.loadQueue.getResult(mediaObject.slug);
             this.drawMediaOnCanvas(mediaElement, this.c);
+
+            $(window).off('resize');
+            $(window).on('resize', function() {
+              view.drawMediaOnCanvas(mediaElement, view.c);
+            });
             
           }
           else { // nope
@@ -409,12 +415,26 @@
 
           var m = mediaElement,
               c = canvasElement,
-              ctx = c.getContext('2d'),
-              sw = mediaElement instanceof HTMLVideoElement? mediaElement.videoWidth : mediaElement.width,
-              sh = mediaElement instanceof HTMLVideoElement? mediaElement.videoHeight : mediaElement.height;
-
+              ctx = c.getContext("2d"),
+              sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
+              sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
+              scale_h = this.$el.width() / sw,
+              scale_v = this.$el.height() / sh,
+              scale = scale_h > scale_v ? scale_h : scale_v,
+              dw = sw*scale,
+              dh = sh*scale;
+          
           c.width = c.width;
-          ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, this.w, this.h);
+
+          c.width = dw;
+          c.height = dh;
+
+          ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
+          
+          this.$el.scrollLeft(dw/2);
+          this.$el.scrollTop(dh/2);
+          
+          //ctx.drawImage(mediaElement, 0, 0);
 
         },
 
