@@ -465,4 +465,9 @@ var UTIL = {
   }
 };
 
+// prevent viewport to move on touch
+$('body').on('touchmove',function(e) {
+  e.preventDefault();
+});
+
 $(document).ready(UTIL.loadEvents);
