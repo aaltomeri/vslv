@@ -418,25 +418,32 @@
               ctx = c.getContext("2d"),
               sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
               sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
+
+              // get scale factors for both dimensions from the viewport and media properties
               scale_h = this.$el.width() / sw,
               scale_v = this.$el.height() / sh,
+              
+              // choose the biggest to keep proportions
               scale = scale_h > scale_v ? scale_h : scale_v,
+              
+              // set the scaled the destination dimensions for the drawImage call
+              // using he chosen scale factor
               dw = sw*scale,
               dh = sh*scale;
           
+          // reset canvas
           c.width = c.width;
 
+          // size canvas with scaled dimensions
           c.width = dw;
           c.height = dh;
 
-          console.log(sw, sh, dw, dh, this.$el.width(), this.$el.height());
-
+          // draw image on canvas
           ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
           
+          // center in viewport
           this.$el.scrollLeft((dw - this.$el.width())/2);
           this.$el.scrollTop((dh - this.$el.height())/2);
-          
-          //ctx.drawImage(mediaElement, 0, 0);
 
         },
 
