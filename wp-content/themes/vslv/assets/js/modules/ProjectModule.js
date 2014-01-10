@@ -142,6 +142,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       items: [],
       item_animation_delay: 40,
       item_animation_time: 400,
+      swiper: null,
 
       initialize: function() {
 
@@ -198,6 +199,9 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             this.$el.find('ul').append(item.$el);
 
           }, this);
+
+          // init Swiper
+          this.swiper = this.$el.swiper({scrollContainer: true});
 
         });
 
@@ -256,7 +260,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.$el.transition({
 
-          height: "33%",
+          height: "36%",
           duration: 600
 
         }, function() {
@@ -306,7 +310,13 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         timeout = delay + this.item_animation_time;
 
         setTimeout(function() {
+
             view.trigger('PortfolioView:items-shown');
+
+            // slide to random position
+            view.swiper.setWrapperTransition(1000);
+            view.swiper.setWrapperTranslate(-(Math.random()*view.swiper.width),0,0);
+
           },
           timeout
         );
@@ -348,8 +358,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         animation_duration: 400,
 
         events: {
-
-          'click': 'launchProject'
 
         },
 

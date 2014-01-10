@@ -17,11 +17,12 @@ module.exports = function(grunt) {
       dist: {
         files: {
           'assets/css/main.min.css': [
-            'assets/less/app.less'
+            'assets/less/app.less',
+            'assets/js/bower_components/swiper/dev/idangerous.swiper.css'
           ]
         },
         options: {
-          compress: true,
+          compress: false,
           // LESS source map
           // To enable, set sourceMap to true and update sourceMapRootpath based on your install
           sourceMap: false,
@@ -50,14 +51,15 @@ module.exports = function(grunt) {
             'assets/js/plugins/*.js',
             'assets/js/bower_components/PreloadJS/lib/preloadjs-0.4.1.min.js',
             'assets/js/bower_components/jquery.transit/jquery.transit.js',
+            'assets/js/bower_components/swiper/dev/idangerous.swiper.js',
             'assets/js/modules/*.js',
             'assets/js/_*.js'
           ]
         },
         options: {
           // JS source map: to enable, uncomment the lines below and update sourceMappingURL based on your install
-          sourceMap: 'assets/js/scripts.min.js.map',
-          sourceMappingURL: '/Users/thomasmery/Documents/WebDev/Clients/Mister Brown/Vue Sur La Ville/application/www/wp-content/themes/vslv/assets/js/scripts.min.js.map',
+          // sourceMap: 'assets/js/scripts.min.js.map',
+          // sourceMappingURL: '/Users/thomasmery/Documents/WebDev/Clients/Mister Brown/Vue Sur La Ville/application/www/wp-content/themes/vslv/assets/js/scripts.min.js.map',
           beautify: true,
           mangle: false,
           compress: false

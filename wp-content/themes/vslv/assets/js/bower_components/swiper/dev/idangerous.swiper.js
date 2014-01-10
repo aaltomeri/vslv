@@ -1197,6 +1197,7 @@ var Swiper = function (selector, params) {
         if (!_this.allowLinks) {
             if(e.preventDefault) e.preventDefault();
             else e.returnValue = false;
+            e.stopPropagation();
             return false;
         }
     }
