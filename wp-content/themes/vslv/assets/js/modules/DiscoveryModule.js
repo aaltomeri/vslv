@@ -429,10 +429,12 @@
           c.width = dw;
           c.height = dh;
 
+          console.log(sw, sh, dw, dh, this.$el.width(), this.$el.height());
+
           ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
           
-          this.$el.scrollLeft(dw/2);
-          this.$el.scrollTop(dh/2);
+          this.$el.scrollLeft((dw - this.$el.width())/2);
+          this.$el.scrollTop((dh - this.$el.height())/2);
           
           //ctx.drawImage(mediaElement, 0, 0);
 
