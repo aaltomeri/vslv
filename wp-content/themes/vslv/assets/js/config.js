@@ -5,6 +5,7 @@ var VSLV_CONFIG = {
 
 	// the Wordpress image size name used in Discovery process
 	discovery_wp_image_size: 'discovery',
+	discovery_hide_content_delay: 5000, //ms
 
 	modules: {
 		page: {

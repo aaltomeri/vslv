@@ -295,6 +295,17 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           page_module.currentPageView.model = discoveryModel;
           page_module.currentPageView.render();
 
+          // if Discovery is a Project
+          // we hide the Discovery after a short delay
+          if(discoveryModel.get('type') === 'project') {
+
+            setTimeout(function() {
+              page_module.currentPageView.hide();
+            },
+            VSLV_CONFIG.discovery_hide_content_delay);
+            
+          }
+
         });
 
 
