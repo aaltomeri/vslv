@@ -177,17 +177,6 @@
         console.info("Discovery index: ", this.currentModelIndex+1, "/", this.length, ' - ', this.currentModel.get("slug"));
         console.info("Discovery Medias: ", this.currentModel.get("medias"));
 
-        // update address bar
-        // var type = this.currentModel.get('type'),
-        //     slug = this.currentModel.get('slug'),
-        //     route = VSLV_CONFIG.modules[type].route;
-
-        // if(type==="project") {
-
-        //   Backbone.history.navigate(route + '/' + slug + '/' + (this.currentModel.currentMediaIndex+1));
-
-        // }
-
         this.trigger("Discovery:set", this.currentModel);
 
         return this.currentModel;
