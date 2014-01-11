@@ -16,6 +16,10 @@ var PAGE_MODULE = (function() {
 
           // this.getMediasInfos();
 
+          var panel_type = this.get('post_meta')['panel-type']? this.get('post_meta')['panel-type'][0] : 'left';
+
+          this.set('panel-type', panel_type);
+
         },
 
         /**
@@ -127,11 +131,12 @@ var PAGE_MODULE = (function() {
               type = this.model.get('type'),
               title = this.model.get('title'),
               slug = this.model.get('slug'),
-              content = this.model.get('content');
+              content = this.model.get('content'),
+              panel_type = this.model.get('panel-type');
 
           if(content || (title && type === 'project')) {
 
-            if(slug ===  "references") {
+            if(panel_type ===  "center") {
 
                 this.$el.transition({
 
@@ -172,6 +177,7 @@ var PAGE_MODULE = (function() {
               slug = this.model.get('slug'),
               title = this.model.get('title'),
               content = this.model.get('content'),
+              panel_type = this.model.get('panel-type'),
               animation_attributes = {};
 
           // only for projects
@@ -212,8 +218,8 @@ var PAGE_MODULE = (function() {
                 }
 
                 // when hiding the panel the model has already been changed 
-                // if slug === 'references' it means we are about to show 'references'
-                if(slug === 'references') {
+                // if panel_type === 'center' it means we are about to show a page that disaplays its content in the center
+                if(panel_type === 'center') {
                   view.$el.addClass('center-panel');
                   view.$el.css({
                     opacity: 0
@@ -232,7 +238,7 @@ var PAGE_MODULE = (function() {
 
                 view.visible = false;
                 view.trigger('PageView:is-hidden');
-                
+
               }
 
             );

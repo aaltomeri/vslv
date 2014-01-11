@@ -30,6 +30,10 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             );
           }
 
+          var panel_type = this.get('post_meta')['panel-type']? this.get('post_meta')['panel-type'][0] : 'left';
+
+          this.set('panel-type', panel_type);
+
         },
 
         /**

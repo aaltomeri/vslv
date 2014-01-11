@@ -543,7 +543,8 @@
         title: model.get('title') || '',
         slug: model.get('slug')  || '',
         content: model.get('content')  || '',
-        medias: model.get('medias') || []
+        medias: model.get('medias') || [],
+        'panel-type': model.get('panel-type')  || 'left'
       });
 
       return d;
@@ -564,7 +565,8 @@
           title: model.get('title'),
           slug: model.get('slug'),
           content: model.get('content'),
-          medias : model.get('medias') || []
+          medias : model.get('medias') || [],
+          'panel-type': model.get('panel-type')  || 'left'
         };
 
       });
