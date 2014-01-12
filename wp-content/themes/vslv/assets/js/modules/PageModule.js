@@ -158,6 +158,8 @@ var PAGE_MODULE = (function() {
               }, function() {
 
                 view.visible = true;
+                console.log('PageView:is-shown');
+                view.trigger('PageView:is-shown');
                 
               });
               
@@ -237,6 +239,7 @@ var PAGE_MODULE = (function() {
                 }
 
                 view.visible = false;
+                console.log('PageView:is-hidden');
                 view.trigger('PageView:is-hidden');
 
               }

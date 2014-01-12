@@ -213,7 +213,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       show: function() {
 
-        console.log('show portfolio');
+        this.trigger('PortfolioView:show');
 
         this.$el.stop();
         this.stopListening(this, 'PortfolioView:items-hidden');
@@ -235,7 +235,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       hide: function() {
 
-        console.log('hide portfolio');
+        this.trigger('PortfolioView:hide');
 
         this.$el.stop();
 
@@ -262,6 +262,8 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         var view = this;
 
+        this.trigger('PortfolioView:open');
+
         this.$el.transition({
 
           height: "36%",
@@ -282,6 +284,8 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       close: function() {
 
         var view = this;
+
+         this.trigger('PortfolioView:close');
 
         this.$el.removeClass('is-open');
 

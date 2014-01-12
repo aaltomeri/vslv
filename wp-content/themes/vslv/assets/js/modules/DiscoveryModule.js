@@ -3,7 +3,8 @@
   var module = _.extend({
 
       collection: null,
-      discoveryView: null
+      discoveryView: null,
+      discoveryHintView: null,
 
     }, Backbone.Events),
 
@@ -284,6 +285,9 @@
 
               this.render();
 
+              // proxy for use outside of module
+              this.trigger('Discovery:setCurrentMedia');
+
             });
 
             this.model.setCurrentMedia(this.collection.currentModel.currentMediaIndex);
@@ -508,6 +512,136 @@
 
     }),
 
+    DiscoveryHintView = Backbone.View.extend({
+
+      className: 'discovery-hint',
+
+      started: false,
+      discoveryHintViewTimeout: null,
+
+      initialize: function() {},
+
+      start: function() {
+
+        var view = this;
+
+        if(this.started) {
+          return;
+        }
+
+        console.log('DiscoveryHintView', 'START', this.started);
+
+        this.setPosition();
+        this.show();
+
+        this.started = true;
+
+      },
+
+      stop: function() {
+
+        console.log('DiscoveryHintView', 'STOP', this.started);
+
+        if(!this.started) {
+          return;
+        }
+
+        this.started = false;
+
+        this.hide();
+
+      },
+
+      show: function() {
+
+        var view = this;
+
+        console.group('DiscoveryHintView SHOW');
+
+        console.log('DiscoveryHintView', 'SHOW');
+
+        this.$el.stop(true);
+
+        this.$el.transition({
+          opacity: 1,
+          duration: VSLV_CONFIG.discovery_hint_show_duration
+        }, function() {
+          if(view.started) {
+            console.log('DiscoveryHintView', 'END OF SHOW');
+            view.hide(VSLV_CONFIG.discovery_hint_interval);
+          }
+        });
+
+      },
+
+      hide: function(_delay) {
+
+        var view = this;
+        
+        console.log('DiscoveryHintView', 'HIDE');
+
+        this.$el.stop(true);
+
+        this.$el.transition({
+          opacity: 0,
+          delay: _delay,
+          duration: VSLV_CONFIG.discovery_hint_hide_duration
+        }, function() {
+
+          console.log('DiscoveryHintView', 'HIDDEN');
+
+          if(view.started) {
+            view.setPosition().show();
+          }
+
+          console.groupEnd();
+
+        });
+
+      },
+
+      setPosition: function() {
+
+        var $parent = this.$el.parent(),
+            pw = $parent.width(),
+            ph = $parent.height(),
+            w = this.$el.width(),
+            h = this.$el.height(),
+            // set x & y - account for the fact that the paret container might have been scrolled to center the media
+            x = Math.random()*pw + $parent.scrollLeft(),
+            y = Math.random()*ph + $parent.scrollTop();
+
+        // offset back into container if overshoots
+        if(x+w>pw+$parent.scrollLeft()) {
+          x -= w*1.5;
+        }
+
+        if(y+h>ph+$parent.scrollTop()) {
+          y -= h*1.5;
+        }
+
+        this.$el.css({
+          top: Math.round(y),
+          left: Math.round(x)
+        });
+
+        return this;
+
+      },
+
+      render: function() {
+
+        var msg = APP_DATA.discovery_hint_message;
+
+        this.$el.html(msg);
+
+        $('#discovery').append(this.$el);
+
+      }
+
+    }),
+
+
     init = function(model) {
 
       module.collection = new DiscoveryCollection();
@@ -519,6 +653,10 @@
 
         // Discovery View
         module.discoveryView = new DiscoveryView( { el: "#discovery", model: model, collection: module.collection });
+
+        // Discovery Hint View
+        module.discoveryHintView = new DiscoveryHintView();
+        module.discoveryHintView.render();
 
       }
 

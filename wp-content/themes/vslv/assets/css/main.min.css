@@ -5960,6 +5960,7 @@ body,
   height: 100%;
   overflow: hidden;
   font-family: 'Merriweather', serif;
+  -webkit-font-smoothing: antialiased;
 }
 h1,
 h2,
@@ -6061,7 +6062,7 @@ h6 {
    Discovery
    ========================================================================== */
 #discovery {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: auto;
@@ -6081,6 +6082,17 @@ h6 {
   position: absolute;
   top: 0;
   left: 0;
+}
+.discovery-hint {
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  opacity: 0;
+  cursor: pointer;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0);
 }
 /* ==========================================================================
    Portfolio

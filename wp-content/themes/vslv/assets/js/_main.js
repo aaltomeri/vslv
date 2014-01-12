@@ -220,11 +220,16 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // when Pages are ready
         page_module.on('Pages:loaded', function() {
 
-          // START ROUTING
-          // should trigger route
-          Backbone.history.start({pushState: true, root: VSLV_APP.root });
-          
-        });
+            // START ROUTING
+            // should trigger route
+            Backbone.history.start({pushState: true, root: VSLV_APP.root });
+
+            // do this only after route has been triggered to avoid displaying hint too soon
+            this.initHintDisplay();
+            
+          },
+          this
+        );
 
 
         /**
@@ -232,11 +237,12 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
          */
         project_module.on('Projects:loaded', function() {
 
-          // init discovery process
-          this.initDiscoveryProcess(project_module.collection);
+            // init discovery process
+            this.initDiscoveryProcess(project_module.collection);
 
-        },
-        this);
+          },
+          this
+        );
 
         /**
          * INIT PAGES
@@ -308,8 +314,6 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
-
-
         // before any route
         VSLV_APP.router.on('beforeroute', function() {
 
@@ -363,6 +367,64 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         }
 
+
+      },
+
+      /**
+       * Discovery process hint display
+       *
+       * we only want to display the hint when the content panel is hidden
+       * so we start the hint display on PageView:is-hidden and stop it when PageView:is-shown
+       */
+      initHintDisplay: function() {
+        
+        // start displaying hint when page is hidden
+        discovery_module.discoveryHintView.listenTo(page_module.currentPageView, 'PageView:is-hidden', function() {
+
+          // portfolio page is empty and is not shown
+          // so the hint display won't be stopped after the initial hiding of the previous page
+          // thus we do not start when page is portoflio
+          if(page_module.currentPageView.model.get('slug') === 'portfolio') {
+            return;
+          }
+
+          //clearTimeout(this.discoveryHintViewTimeout);
+          
+          this.start();
+          
+        });
+
+        // stop displaying hint when page is shown
+        discovery_module.discoveryHintView.listenTo(page_module.currentPageView, 'PageView:is-shown', function() {
+          
+          //clearTimeout(this.discoveryHintViewTimeout);
+          
+          this.stop();
+
+        });
+        // or when we show the portfolio
+        discovery_module.discoveryHintView.listenTo(project_module.portfolioView, 'PortfolioView:show', function() {
+          
+          //clearTimeout(this.discoveryHintViewTimeout);
+
+          this.stop();
+
+        });
+        // or when we show a new media in Discovery
+        discovery_module.discoveryHintView.listenTo(discovery_module.discoveryView, 'Discovery:setCurrentMedia', function() {
+          
+          //clearTimeout(this.discoveryHintViewTimeout);
+
+          if(this.started) {
+
+            console.log('ON Discovery:setCurrentMedia');
+            this.stop();
+            // reactivate after a while
+            //this.discoveryHintViewTimeout = setTimeout(function() {discovery_module.discoveryHintView.start();}, 4000);
+          
+          }
+
+        });
 
       },
 

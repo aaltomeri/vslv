@@ -19,6 +19,7 @@ html, body, #main {
     overflow: hidden;
 
     font-family: 'Merriweather', serif;
+    -webkit-font-smoothing: antialiased;
 
 }
 
@@ -161,7 +162,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #discovery {
 
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: auto;
@@ -187,6 +188,25 @@ h1, h2, h3, h4, h5, h6 {
       left: 0;
 
     }
+
+}
+
+.discovery-hint {
+  
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+
+  // hide by default
+  opacity: 0;
+
+  cursor: pointer;
+
+  padding: 10px;
+
+  background-color: rgba(255,255,255, 0);
 
 }
 
