@@ -22,9 +22,10 @@
     <?php //var_dump(roots_template_path()); ?>
 
     <div id="discovery"></div>
-    <div id="content">
+    <div id="content" class="is-hidden">
       <script type="text/template" id="content-template">
-        <div class="">
+        <div class="content">
+          <span class="glyphicon glyphicon-remove toggle"></span>
           <% if(data.type == 'project') { %>
             <h1><%= data.title %></h1>
           <% } %>

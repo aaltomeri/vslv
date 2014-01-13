@@ -226,6 +226,9 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
             // do this only after route has been triggered to avoid displaying hint too soon
             this.initHintDisplay();
+
+            // Main Menu
+            this.initMainMenu();
             
           },
           this
@@ -327,9 +330,6 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           }
 
         });
-
-
-        this.initMainMenu();
 
         console.groupEnd();
 
@@ -441,27 +441,31 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         console.log('initMainMenu');
 
-        $('.navbar-collapse').on('show.bs.collapse', function() {
+        function changeLogo(type) {
 
           var logo_src = $('.navbar .navbar-brand img').attr('src'),
-              new_logo_filename = "logo-vslv-color.svg",
-              new_logo_src = logo_src.replace(/[^\/?]*\.[^\/?]*(\?.*)?$/, new_logo_filename);
+            new_logo_filename = "logo-vslv-"+type+".svg",
+            new_logo_src = logo_src.replace(/[^\/?]*\.[^\/?]*(\?.*)?$/, new_logo_filename);
+
+          $('.navbar .navbar-brand img').attr('src', new_logo_src);
+
+        }
+
+        changeLogo("white");
+
+        $('.navbar-collapse').on('show.bs.collapse', function() {
 
           $('.navbar').removeClass('collapsed');
           
-          $('.navbar .navbar-brand img').attr('src', new_logo_src);
+          changeLogo("color");
 
         });
 
         $('.navbar-collapse').on('hide.bs.collapse', function() {
 
-          var logo_src = $('.navbar .navbar-brand img').attr('src'),
-              new_logo_filename = "logo-vslv-white.svg",
-              new_logo_src = logo_src.replace(/[^\/?]*\.[^\/?]*(\?.*)?$/, new_logo_filename);
-
           $('.navbar').addClass('collapsed');
           
-          $('.navbar .navbar-brand img').attr('src', new_logo_src);
+          changeLogo("white");
 
         });
 
