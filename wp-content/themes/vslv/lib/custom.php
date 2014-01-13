@@ -102,7 +102,8 @@ function vslv_connection_types() {
   p2p_register_connection_type( array(
     'name' => 'clients_to_projects',
     'from' => 'client',
-    'to' => 'project'
+    'to' => 'project',
+    'sortable' => 'any'
   ) );
 }
 add_action( 'p2p_init', 'vslv_connection_types' );
