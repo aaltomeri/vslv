@@ -109,16 +109,23 @@ function vslv_connection_types() {
 add_action( 'p2p_init', 'vslv_connection_types' );
 
 
-function populate_posts_with_connected_posts( $posts ) {
+function populate_posts_with_connected_posts( $posts, $query ) {
 
   global $wp_query;
 
+  if(!$query) {
+    $query = $wp_query;
+  }
+
+
   // populate clients with connected projects
-  if($wp_query->query_vars['post_type'] == 'client') {
+  if($query->query_vars['post_type'] == 'client' || 
+    $query->query_vars['post_type'] == 'project') 
+  {
 
     if(function_exists('p2p_type')) {
 
-      p2p_type('clients_to_projects')->each_connected( $wp_query );
+      p2p_type('clients_to_projects')->each_connected($query);
 
     }
 
@@ -127,7 +134,7 @@ function populate_posts_with_connected_posts( $posts ) {
   return $posts;
 
 }
-add_action('wp_head', 'populate_posts_with_connected_posts');
+add_action('the_posts', 'populate_posts_with_connected_posts', 10, 2);
 
 /**
  * shortcode to display a list of VSLV clients
