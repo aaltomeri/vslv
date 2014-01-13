@@ -92,7 +92,7 @@ var PAGE_MODULE = (function() {
 
         events: {
 
-          'click a.toggle': 'toggle'
+          'click .toggle': 'toggle'
 
         },
 
@@ -107,13 +107,22 @@ var PAGE_MODULE = (function() {
 
         render: function() {
 
+          console.log('PageView:render');
+
           this.listenToOnce(this, 'PageView:is-hidden', function() {
+            
             this.setText();
+            
             // show element (display: block)
             this.$el.show();
+
+            this.$el.removeClass('is-hidden');
+            
           });
 
+          // first hide
           this.hide(0);
+
           // show view
           this.show();
           
@@ -136,13 +145,24 @@ var PAGE_MODULE = (function() {
               content = this.model.get('content'),
               panel_type = this.model.get('panel-type');
 
+          console.log('PageView:show');
+
+          this.$el.removeClass('is-hidden');
+
           var onShown = function() {
 
             view.visible = true;
+            
             console.log('PageView:is-shown');
+            
+            view.$el.removeClass('is-hidden');
+
             view.trigger('PageView:is-shown');
             
+            
           };
+
+          this.$el.removeClass('is-hidden');
 
           if(content || (title && type === 'project')) {
 
@@ -185,6 +205,8 @@ var PAGE_MODULE = (function() {
               content = this.model.get('content'),
               panel_type = this.model.get('panel-type'),
               animation_attributes = {};
+
+          console.log('PageView:hide');
 
           // only for projects
           if(type === 'project' && offsetX === undefined) {
@@ -241,6 +263,8 @@ var PAGE_MODULE = (function() {
                   });
 
                 }
+
+                view.$el.addClass('is-hidden');
 
                 view.visible = false;
                 console.log('PageView:is-hidden');

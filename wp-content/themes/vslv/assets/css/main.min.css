@@ -6162,6 +6162,14 @@ h6 {
   bottom: 0;
   right: 0;
 }
+#content .toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+#content.is-hidden .toggle:before {
+  content: "\e077";
+}
 .seo-content {
   display: none;
 }

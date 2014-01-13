@@ -12,7 +12,7 @@
       </button>
 
       <a class="navbar-brand" href="/">
-        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/logo-vslv-white.svg" alt="<?php bloginfo('name'); ?>" />
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/logo-vslv-color.svg" alt="<?php bloginfo('name'); ?>" />
       </a>
 
     </div>
