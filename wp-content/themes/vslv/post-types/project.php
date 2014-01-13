@@ -6,7 +6,7 @@ function project_init() {
 		'public'            => true,
 		'show_in_nav_menus' => true,
 		'show_ui'           => true,
-		'supports'          => array( 'title', 'editor', 'thumbnail' ),
+		'supports'          => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 		'has_archive'       => true,
 		'query_var'         => true,
 		'rewrite'           => array('slug' => 'projects'),
