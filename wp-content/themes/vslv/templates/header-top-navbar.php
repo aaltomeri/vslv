@@ -5,10 +5,11 @@
     <div class="navbar-header">
 
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+
+        <span class="hi-response hi-response-menu"></span>
+
       </button>
 
       <a class="navbar-brand" href="/">
@@ -19,13 +20,13 @@
 
     <nav class="collapse navbar-collapse width" role="navigation">
       
-      <?php $languages = icl_get_languages('skip_missing=N&orderby=KEY&order=DIR&link_empty_to=str'); ?>
+      <?php $languages = icl_get_languages('skip_missing=0&orderby=name&order=DESC&link_empty_to=""'); ?>
       
       <?php //var_dump($languages); ?>
 
       <ul class="language-switcher">
         <?php foreach($languages as $lang): ?>
-          <li class="<?php echo $lang['language_code']; ?>"><a href="<?php echo $lang['url']; ?>" data-bypass><?php echo $lang['language_code']; ?></a> | </li>
+          <li class="<?php echo $lang['language_code']; ?><?php echo ($lang['language_code'] == ICL_LANGUAGE_CODE)? ' active' : ''; ?>"><a href="<?php echo $lang['url']; ?>" data-bypass><?php echo $lang['language_code']; ?></a></li>
         <?php endforeach; ?>
       </ul>
 

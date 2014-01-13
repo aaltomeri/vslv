@@ -25,7 +25,7 @@
     <div id="content" class="is-hidden">
       <script type="text/template" id="content-template">
         <div class="content">
-          <span class="glyphicon glyphicon-remove toggle"></span>
+          <span class="hi-response hi-response-remove toggle"></span>
           <% if(data.type == 'project') { %>
             <h1><%= data.title %></h1>
           <% } %>

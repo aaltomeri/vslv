@@ -1,0 +1,44 @@
+//
+// Hi-response icons
+//
+// Since icons are fonts, they can be placed anywhere text is placed and are
+// thus automatically sized to match the surrounding child. To use, create an
+// inline element with the appropriate classes, like so:
+//
+// <a href="#"><span class="hi-response hi-response-star"></span> Star</a>
+
+// Import the fonts
+@font-face {
+    font-family: 'hi-response_webiconsregular';
+    src: url('@{icon-font-path}hi-responsewebicons-regular-webfont-webfont.eot');
+    src: url('@{icon-font-path}hi-responsewebicons-regular-webfont-webfont.eot?#iefix') format('embedded-opentype'),
+         url('@{icon-font-path}hi-responsewebicons-regular-webfont-webfont.woff') format('woff'),
+         url('@{icon-font-path}hi-responsewebicons-regular-webfont-webfont.ttf') format('truetype'),
+         url('@{icon-font-path}hi-responsewebicons-regular-webfont-webfont.svg#hi-response_webiconsregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Catchall baseclass
+.hi-response {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'hi-response_webiconsregular';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 24px;
+
+  &:empty {
+    width: auto;
+  }
+}
+
+// Individual icons
+.hi-response-menu               { &:before { content: "j"; } }
+.hi-response-remove               { &:before { content: "g"; } }
+.hi-response-left-arrow               { &:before { content: "K"; } -webkit-transform: rotate(90deg); }
