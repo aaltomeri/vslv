@@ -1,6 +1,6 @@
 <header class="banner navbar navbar-default navbar-static-top collapsed" role="banner">
 
-  <div>
+  <div class="header-inner-wrap">
 
     <div class="navbar-header">
 
@@ -11,7 +11,9 @@
         <span class="icon-bar"></span>
       </button>
 
-      <a class="navbar-brand" href="/"><?php bloginfo('name'); ?></a>
+      <a class="navbar-brand" href="/">
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/logo-vslv-white.svg" alt="<?php bloginfo('name'); ?>" />
+      </a>
 
     </div>
 

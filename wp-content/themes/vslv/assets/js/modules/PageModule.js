@@ -134,6 +134,14 @@ var PAGE_MODULE = (function() {
               content = this.model.get('content'),
               panel_type = this.model.get('panel-type');
 
+          var onShown = function() {
+
+            view.visible = true;
+            console.log('PageView:is-shown');
+            view.trigger('PageView:is-shown');
+            
+          };
+
           if(content || (title && type === 'project')) {
 
             if(panel_type ===  "center") {
@@ -142,11 +150,9 @@ var PAGE_MODULE = (function() {
 
                   opacity: 1
 
-                }, function() {
-
-                  view.visible = true;
-                  
-                });
+                },
+                onShown
+              );
 
             }
             else {
@@ -155,13 +161,9 @@ var PAGE_MODULE = (function() {
 
                 left: 0
 
-              }, function() {
-
-                view.visible = true;
-                console.log('PageView:is-shown');
-                view.trigger('PageView:is-shown');
-                
-              });
+              },
+              onShown
+            );
               
             }
 

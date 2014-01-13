@@ -319,7 +319,13 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
           // hide portfolio
           project_module.portfolioView.hide();
-    
+
+          // hide menu
+          // only if it's been initialized as a collapsible
+          if($('.navbar-collapse').data("bs.collapse")) {
+            $( '.navbar-collapse').collapse('hide');
+          }
+
         });
 
 
@@ -433,18 +439,31 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
        */
       initMainMenu: function() {
 
+        console.log('initMainMenu');
+
         $('.navbar-collapse').on('show.bs.collapse', function() {
 
-            $('.banner').removeClass('collapsed');
+          var logo_src = $('.navbar .navbar-brand img').attr('src'),
+              new_logo_filename = "logo-vslv-color.svg",
+              new_logo_src = logo_src.replace(/[^\/?]*\.[^\/?]*(\?.*)?$/, new_logo_filename);
+
+          $('.navbar').removeClass('collapsed');
+          
+          $('.navbar .navbar-brand img').attr('src', new_logo_src);
 
         });
 
         $('.navbar-collapse').on('hide.bs.collapse', function() {
 
-            $('.banner').addClass('collapsed');
+          var logo_src = $('.navbar .navbar-brand img').attr('src'),
+              new_logo_filename = "logo-vslv-white.svg",
+              new_logo_src = logo_src.replace(/[^\/?]*\.[^\/?]*(\?.*)?$/, new_logo_filename);
+
+          $('.navbar').addClass('collapsed');
+          
+          $('.navbar .navbar-brand img').attr('src', new_logo_src);
 
         });
-
 
       },
 

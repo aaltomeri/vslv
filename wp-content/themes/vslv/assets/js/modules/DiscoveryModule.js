@@ -608,16 +608,16 @@
             w = this.$el.width(),
             h = this.$el.height(),
             // set x & y - account for the fact that the paret container might have been scrolled to center the media
-            x = Math.random()*pw + $parent.scrollLeft(),
-            y = Math.random()*ph + $parent.scrollTop();
+            x = (Math.random()*pw) + $parent.scrollLeft(),
+            y = (Math.random()*ph) + $parent.scrollTop();
 
         // offset back into container if overshoots
-        if(x+w>pw+$parent.scrollLeft()) {
-          x -= w*1.5;
+        if((x+w)>(pw+$parent.scrollLeft())) {
+          x -= (w*2);
         }
 
-        if(y+h>ph+$parent.scrollTop()) {
-          y -= h*1.5;
+        if((y+h)>(ph+$parent.scrollTop())) {
+          y -= (h*2);
         }
 
         this.$el.css({
