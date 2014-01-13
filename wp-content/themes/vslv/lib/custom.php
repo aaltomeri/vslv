@@ -154,9 +154,28 @@ function vslvs_clients_list_sc( $atts ) {
   $clients = $wp_q->get_posts();
 
   foreach ($clients as $key => $client) {
+
     $output .= '<li>';    
-    $output .= $client->post_title;    
-    $output .= '</li>';    
+
+    // get first project
+    // connected posts are connected in @see populate_posts_with_connected_posts
+    if($client->connected) {
+
+      $project = $client->connected[0];
+      $project_link = get_permalink($project->ID);
+
+      $output .= "<a href='$project_link'>{$client->post_title}</a>";
+
+    }
+    else {
+
+      $output .= $client->post_title;
+
+    }
+    
+    
+    $output .= '</li>';  
+
   }
 
   $output .= '<ul>';

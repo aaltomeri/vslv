@@ -92,7 +92,7 @@ var PAGE_MODULE = (function() {
 
         events: {
 
-          'click': 'toggle'
+          'click a.toggle': 'toggle'
 
         },
 
@@ -109,10 +109,12 @@ var PAGE_MODULE = (function() {
 
           this.listenToOnce(this, 'PageView:is-hidden', function() {
             this.setText();
+            // show element (display: block)
             this.$el.show();
           });
 
           this.hide(0);
+          // show view
           this.show();
           
         },

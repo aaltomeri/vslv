@@ -69,7 +69,7 @@
           }
         }
         catch(error) {
-          console.log(error.message, this);
+          //console.log(error.message, this);
           return;
         }
         
@@ -529,7 +529,7 @@
           return;
         }
 
-        console.log('DiscoveryHintView', 'START', this.started);
+        //console.log('DiscoveryHintView', 'START', this.started);
 
         this.setPosition();
         this.show();
@@ -540,7 +540,7 @@
 
       stop: function() {
 
-        console.log('DiscoveryHintView', 'STOP', this.started);
+        //console.log('DiscoveryHintView', 'STOP', this.started);
 
         if(!this.started) {
           return;
@@ -556,9 +556,9 @@
 
         var view = this;
 
-        console.group('DiscoveryHintView SHOW');
+        //console.group('DiscoveryHintView SHOW');
 
-        console.log('DiscoveryHintView', 'SHOW');
+        //console.log('DiscoveryHintView', 'SHOW');
 
         this.$el.stop(true);
 
@@ -567,7 +567,7 @@
           duration: VSLV_CONFIG.discovery_hint_show_duration
         }, function() {
           if(view.started) {
-            console.log('DiscoveryHintView', 'END OF SHOW');
+            //console.log('DiscoveryHintView', 'END OF SHOW');
             view.hide(VSLV_CONFIG.discovery_hint_interval);
           }
         });
@@ -578,7 +578,7 @@
 
         var view = this;
         
-        console.log('DiscoveryHintView', 'HIDE');
+        //console.log('DiscoveryHintView', 'HIDE');
 
         this.$el.stop(true);
 
@@ -588,13 +588,13 @@
           duration: VSLV_CONFIG.discovery_hint_hide_duration
         }, function() {
 
-          console.log('DiscoveryHintView', 'HIDDEN');
+          //console.log('DiscoveryHintView', 'HIDDEN');
 
           if(view.started) {
             view.setPosition().show();
           }
 
-          console.groupEnd();
+          //console.groupEnd();
 
         });
 
