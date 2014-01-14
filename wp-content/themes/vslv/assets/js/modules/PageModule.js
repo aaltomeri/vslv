@@ -158,6 +158,9 @@ var PAGE_MODULE = (function() {
             view.$el.removeClass('is-hidden');
 
             view.trigger('PageView:is-shown');
+
+            // make scroll-hint appear
+            $('.scroll-hint').transition({opacity: 1});
             
             
           };
@@ -248,7 +251,9 @@ var PAGE_MODULE = (function() {
                 // when hiding the panel the model has already been changed 
                 // if panel_type === 'center' it means we are about to show a page that disaplays its content in the center
                 if(panel_type === 'center') {
+
                   view.$el.addClass('center-panel');
+
                   view.$el.css({
                     opacity: 0
                   });
@@ -265,9 +270,12 @@ var PAGE_MODULE = (function() {
                   view.$el.css({
                     opacity: 1
                   });
-                  
+
                   // reset translate
-                  view.$el.css({x:-view.$el.outerWidth()});
+                  view.$el.css({x:-view.$el.outerWidth() + offsetX });
+
+                  // make scroll-hint disappear
+                  $('.scroll-hint').transition({opacity: 0});
 
                 }
 
