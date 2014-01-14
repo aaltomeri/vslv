@@ -49,6 +49,7 @@ module.exports = function(grunt) {
             'assets/js/plugins/bootstrap/tab.js',
             'assets/js/plugins/bootstrap/affix.js',
             'assets/js/plugins/*.js',
+            'assets/js/bower_components/console-polyfill/index.js',
             'assets/js/bower_components/PreloadJS/lib/preloadjs-0.4.1.min.js',
             'assets/js/bower_components/jquery.transit/jquery.transit.js',
             'assets/js/bower_components/swiper/dev/idangerous.swiper.js',
