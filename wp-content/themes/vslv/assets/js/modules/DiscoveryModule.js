@@ -608,17 +608,15 @@
             w = this.$el.width(),
             h = this.$el.height(),
             // set x & y - account for the fact that the paret container might have been scrolled to center the media
-            x = (Math.random()*pw) + $parent.scrollLeft(),
-            y = (Math.random()*ph) + $parent.scrollTop();
-
-        // offset back into container if overshoots
-        if((x+w)>(pw+$parent.scrollLeft())) {
-          x -= (w*2);
-        }
-
-        if((y+h)>(ph+$parent.scrollTop())) {
-          y -= (h*2);
-        }
+            // and we also don't want the hint to appear beneath the menu even if it's collased
+            x_min = $parent.scrollLeft()+w,
+            x_max = pw+$parent.scrollLeft()-(w*2),
+            x_range = x_max - x_min,
+            y_min = $parent.scrollTop() + $('header').outerHeight()+(h*4),
+            y_max = ph+$parent.scrollTop()-$('header').outerHeight()-(h*4),
+            y_range = y_max - y_min,
+            x = Math.min(Math.max(Math.random()*x_range, x_min), x_max),
+            y = Math.min(Math.max(Math.random()*y_range, y_min), y_max);
 
         this.$el.css({
           top: Math.round(y),
