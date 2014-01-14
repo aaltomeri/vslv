@@ -181,7 +181,7 @@ var PAGE_MODULE = (function() {
 
               this.$el.transition({
 
-                left: 0
+                x: 0
 
               },
               onShown
@@ -228,7 +228,7 @@ var PAGE_MODULE = (function() {
           }
           else {
 
-            animation_attributes = { left: -this.$el.outerWidth() + offsetX };
+            animation_attributes = { x: -this.$el.outerWidth() + offsetX };
 
           }
 
