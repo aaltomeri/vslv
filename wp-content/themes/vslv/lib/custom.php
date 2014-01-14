@@ -148,7 +148,7 @@ function vslvs_clients_list_sc( $atts ) {
   $atts = shortcode_atts( array(
     ), $atts );
 
-  $output = '<ul>';
+  $output = '<ul class="clients-list">';
   
   $wp_q = new WP_Query(array('post_type' => 'client', 'posts_per_page' => -1));
   $clients = $wp_q->get_posts();

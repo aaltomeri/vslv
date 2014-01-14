@@ -6323,6 +6323,34 @@ h6 {
   top: auto;
   color: #555555;
 }
+#content ul.clients-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+#content ul.clients-list li {
+  font-family: 'Merriweather', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.563rem;
+  color: #8d7d74;
+  text-transform: uppercase;
+}
+#content ul.clients-list li a {
+  font-family: 'Maven Pro', sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.563rem;
+  text-transform: uppercase;
+  color: #6d4523;
+  text-decoration: none;
+}
+#content ul.clients-list li a:hover {
+  color: #8d7d74;
+}
+#content ul.clients-list li a:visited {
+  color: #333333;
+}
 .seo-content {
   display: none;
 }

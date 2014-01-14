@@ -419,7 +419,7 @@ h1, h2, h3, h4, h5, h6 {
    Content
    ========================================================================== */
 
-#content { 
+#content {
 
     position: absolute;
     top: 20%;
@@ -515,8 +515,6 @@ h1, h2, h3, h4, h5, h6 {
       bottom: 0; 
       right: 0;
 
-      
-
     }
 
     .toggle {
@@ -551,6 +549,48 @@ h1, h2, h3, h4, h5, h6 {
       top: auto;
 
       color: @icon-color;
+
+    }
+
+    ul.clients-list {
+
+      margin:0;
+      padding: 0;
+      list-style: none;
+
+      text-align: center;
+
+      li {
+
+        font-family: 'Merriweather', sans-serif;
+        font-size: 0.875rem;
+        line-height: 1.563rem;
+
+        color: @text-color-003;
+        text-transform: uppercase;
+
+        a {
+          
+          font-family: 'Maven Pro', sans-serif;
+          font-weight: bold;
+          font-size: 1rem;
+          line-height: 1.563rem;
+          text-transform: uppercase;
+          color: @text-color-002;
+
+          text-decoration: none;
+
+          &:hover {
+            color: @text-color-003;
+          }
+
+          &:visited {
+            color: @text-color-001;
+          }
+
+        }
+
+      }
 
     }
 
