@@ -5978,6 +5978,8 @@ td.visible-print {
 }
 .hi-response-left-arrow-stop {
   -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 .hi-response-left-arrow-stop:before {
   content: "K";
@@ -6308,6 +6310,8 @@ h6 {
 }
 #content.is-hidden .toggle {
   -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 #content.is-hidden .toggle:before {
   content: "K";
