@@ -252,6 +252,10 @@ var PAGE_MODULE = (function() {
                   view.$el.css({
                     opacity: 0
                   });
+
+                  // reset translate
+                  view.$el.css({x:0});
+
                 }
                 // for other pages
                 // make them visible again
@@ -261,6 +265,9 @@ var PAGE_MODULE = (function() {
                   view.$el.css({
                     opacity: 1
                   });
+                  
+                  // reset translate
+                  view.$el.css({x:-view.$el.outerWidth()});
 
                 }
 
