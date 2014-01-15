@@ -396,9 +396,29 @@
             var view = this,
                 mediaElement = $('<video></video>').attr('src', mediaObject.source).get(0);
             
+            this.$el.append($(mediaElement));
+
             mediaElement.addEventListener('loadeddata', function() {
 
               view.drawMediaOnCanvas(mediaElement, view.c);
+
+              setTimeout(function() {
+
+                view.$c.hide();
+                mediaElement.play();
+
+              },
+              500);
+
+            });
+
+            mediaElement.addEventListener('ended', function() {
+
+              console.log('VIDEO ENDED');
+
+              view.drawMediaOnCanvas(mediaElement, view.c);
+              view.$c.show();
+              $(mediaElement).remove();
 
             });
 
