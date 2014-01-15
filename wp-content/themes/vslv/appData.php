@@ -16,7 +16,7 @@ if($post !== null) {
 	preg_match('/^(.*)?\?(.*)?/',home_url() . '&test=test', $matches);
 	$home_url = empty($matches)? home_url() : $matches[1];
 	$query_string = isset($matches[2])? '?' . $matches[2] : '';
-	$request_uri = $home_url . '/wp-json.php/posts/' . $post->ID . $query_string;
+	$request_uri = $home_url . '/wp-json.php/posts/' . $post->ID . $query_string; 
 	$post_json = file_get_contents($request_uri);
 	
 }
@@ -38,8 +38,7 @@ $data = array(
 	"projects" => $projects_json,
 	"home_page_slug" => get_post(get_option('page_on_front'))->post_name,
 	"lang" => defined("ICL_LANGUAGE_CODE")? ICL_LANGUAGE_CODE : 'fr',
-	"discovery_hint_message" => __('Suivez-moi >', 'vslv'),
-	"discovery_hint_video_message" => __('Jouez-moi >', 'vslv')
+	"discovery_hint_message" => __('Suivez-moi >', 'vslv')
 
 );
 
