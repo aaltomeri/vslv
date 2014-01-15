@@ -315,6 +315,8 @@ h1, h2, h3, h4, h5, h6 {
       position: absolute;
       top: 0;
       left: 0;
+
+      z-index: 10;
       
     }
 
@@ -328,6 +330,8 @@ h1, h2, h3, h4, h5, h6 {
       min-width: 100%;
       min-height: 100%;
 
+      z-index: 20;
+
     }
 
 }
@@ -339,6 +343,8 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
   letter-spacing: 3.2px;
   text-transform: uppercase;
+
+  z-index: 500;
 
   // hide by default
   opacity: 0;
@@ -361,6 +367,8 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   top: 0;
   bottom: 0;
+
+  z-index: 100;
 
   // hide by default
   left: 100%;
@@ -431,6 +439,8 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
     width: 50%;
     max-height: 60%;
+    
+    z-index: 100;
 
     background: rgba(255,255,255,0.9);
     color: @text-color-001;

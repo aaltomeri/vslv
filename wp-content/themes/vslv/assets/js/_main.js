@@ -423,8 +423,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
           if(this.started) {
 
-            console.log('ON Discovery:setCurrentMedia');
-            this.stop();
+            //this.stop();
             // reactivate after a while
             //this.discoveryHintViewTimeout = setTimeout(function() {discovery_module.discoveryHintView.start();}, 4000);
           

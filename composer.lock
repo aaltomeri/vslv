@@ -46,7 +46,7 @@
                 {
                     "name": "Kyle Robinson Young",
                     "email": "kyle@dontkry.com",
-                    "homepage": "http://dontkry.com",
+                    "homepage": "https://github.com/shama",
                     "role": "Developer"
                 }
             ],
@@ -153,10 +153,10 @@
         },
         {
             "name": "wpackagist/enable-media-replace",
-            "version": "2.9.3",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.2.9.3.zip",
+                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -198,10 +198,10 @@
         },
         {
             "name": "wpackagist/posts-to-posts",
-            "version": "1.6.2",
+            "version": "trunk",
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/posts-to-posts.1.6.2.zip",
+                "url": "http://downloads.wordpress.org/plugin/posts-to-posts.zip",
                 "reference": null,
                 "shasum": null
             },

@@ -394,31 +394,57 @@
             // that will properly create a video element and set the correct source
             // depending on browser
             var view = this,
-                mediaElement = $('<video></video>').attr('src', mediaObject.source).get(0);
+                mediaElement = $('<video muted></video>').attr('src', mediaObject.source).get(0);
             
-            this.$el.append($(mediaElement));
+            if(this.$el.find('video').length) {
 
-            mediaElement.addEventListener('loadeddata', function() {
+              this.$el.find('video').attr('src', mediaObject.source);
+              mediaElement = this.$el.find('video').get(0);
+
+            }
+            else {
+
+              this.$el.append($(mediaElement));
+
+            }
+
+
+            $(mediaElement).on('loadeddata', function() {
+
+              console.log('VIDEO DATA LOADED');
+
+              module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
 
               view.drawMediaOnCanvas(mediaElement, view.c);
 
               setTimeout(function() {
 
                 view.$c.hide();
-                mediaElement.play();
+
+                view.undelegateEvents();
+                view.$el.on('click', function(e) {
+
+                  e.stopPropagation();
+                  mediaElement.play();
+                  module.discoveryHintView.stop();
+
+                });
 
               },
               500);
 
             });
 
-            mediaElement.addEventListener('ended', function() {
+             $(mediaElement).on('ended', function() {
 
               console.log('VIDEO ENDED');
 
               view.drawMediaOnCanvas(mediaElement, view.c);
               view.$c.show();
+              view.$el.off('click');
+              view.delegateEvents();
               $(mediaElement).remove();
+              module.discoveryHintView.start(APP_DATA.discovery_hint_message);
 
             });
 
@@ -541,9 +567,13 @@
 
       initialize: function() {},
 
-      start: function() {
+      start: function(msg) {
 
         var view = this;
+
+        if(typeof msg === 'string') {
+          this.$el.html(msg);
+        }
 
         if(this.started) {
           return;

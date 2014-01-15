@@ -38,7 +38,8 @@ $data = array(
 	"projects" => $projects_json,
 	"home_page_slug" => get_post(get_option('page_on_front'))->post_name,
 	"lang" => defined("ICL_LANGUAGE_CODE")? ICL_LANGUAGE_CODE : 'fr',
-	"discovery_hint_message" => __('Suivez-moi >', 'vslv')
+	"discovery_hint_message" => __('Suivez-moi >', 'vslv'),
+	"discovery_hint_video_message" => __('Jouez-moi >', 'vslv')
 
 );
 
