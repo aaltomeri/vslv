@@ -408,30 +408,35 @@
 
             }
 
-
             $(mediaElement).on('loadeddata', function() {
 
               console.log('VIDEO DATA LOADED');
+
+              view.setVideoDimensions(mediaElement);
 
               module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
 
               view.drawMediaOnCanvas(mediaElement, view.c);
 
-              setTimeout(function() {
+              $(window).off('resize');
+              $(window).on('resize', function() {
+                view.drawMediaOnCanvas(mediaElement, view.c);
+                view.setVideoDimensions(mediaElement);
+              });
 
-                view.$c.hide();
+              //view.$c.hide();
 
-                view.undelegateEvents();
-                view.$el.on('click', function(e) {
+              // unbind all normal events for this view
+              view.undelegateEvents();
 
-                  e.stopPropagation();
-                  mediaElement.play();
-                  module.discoveryHintView.stop();
+              // make video play on click
+              view.$el.on('click', function(e) {
 
-                });
+                e.stopPropagation();
+                mediaElement.play();
+                module.discoveryHintView.stop();
 
-              },
-              500);
+              });
 
             });
 
@@ -442,7 +447,10 @@
               view.drawMediaOnCanvas(mediaElement, view.c);
               view.$c.show();
               view.$el.off('click');
+
+              // rebind all events
               view.delegateEvents();
+              
               $(mediaElement).remove();
               module.discoveryHintView.start(APP_DATA.discovery_hint_message);
 
@@ -483,6 +491,19 @@
           // center in viewport
           this.$el.scrollLeft((dw - this.$el.width())/2);
           this.$el.scrollTop((dh - this.$el.height())/2);
+
+        },
+
+        setVideoDimensions: function(videoElement) {
+
+          var master_dimension = this.c.width > this.c.height? 'width':'height',
+              other_dimension = (master_dimension === 'width')? 'height' : 'width',
+              md_value = this.c[master_dimension];
+
+          $(videoElement)[master_dimension](md_value);
+          $(videoElement).css(other_dimension, 'auto');
+
+          return videoElement;
 
         },
 

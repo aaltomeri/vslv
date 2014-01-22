@@ -6164,7 +6164,7 @@ h6 {
   min-height: 100%;
   background-size: cover;
   background-position: center center;
-  overflow: hidden;
+  overflow: auto;
 }
 #discovery canvas {
   position: absolute;
@@ -6178,8 +6178,6 @@ h6 {
   left: 0;
   width: auto;
   height: auto;
-  min-width: 100%;
-  min-height: 100%;
   z-index: 20;
 }
 .discovery-hint {
@@ -6188,7 +6186,7 @@ h6 {
   font-size: 12px;
   letter-spacing: 3.2px;
   text-transform: uppercase;
-  z-index: 500;
+  z-index: 30;
   opacity: 0;
   cursor: pointer;
   padding: 10px;
@@ -6205,7 +6203,6 @@ h6 {
   left: 100%;
   width: 100%;
   height: 1px;
-  z-index: 10;
   margin: auto;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.9);
