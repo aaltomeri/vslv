@@ -234,8 +234,20 @@
         c3: null,
         ctx3: null,
 
+        clientX: null,
+        clientY: null,
+
         events: {
-          'click': 'next'
+          'click': 'onClickhandler'
+        },
+
+        onClickhandler: function(e) {
+
+          this.clientX = e.clientX;
+          this.clientY = e.clientY;
+
+          this.next();
+
         },
 
         initialize: function() {
@@ -246,17 +258,14 @@
           this.$c  = $('<canvas></canvas>').attr('width',this.w).attr('height',this.h);
           this.c   = this.$c.get(0);
           this.ctx = this.c.getContext('2d');
-          this.ctx.globalCompositeOperation = "destination-atop";
 
           this.$c2 = $('<canvas></canvas>').attr('width',this.w).attr('height',this.h);
           this.c2  = this.$c2.get(0);
           this.ctx2 = this.c2.getContext('2d');
-          this.ctx2.globalCompositeOperation = "destination-atop";
           
           this.$c3 = $('<canvas></canvas>').attr('width',this.w).attr('height',this.h);
           this.c3  = this.$c3.get(0);
           this.ctx3 = this.c3.getContext('2d');
-          this.ctx3.globalCompositeOperation = "copy";
 
           // append first canvas
           this.$el.append(this.$c);
@@ -356,7 +365,7 @@
           if(this.loadQueue !== null && this.loadQueue.getResult(mediaObject.slug) instanceof HTMLImageElement) { // yep
 
             mediaElement = this.loadQueue.getResult(mediaObject.slug);
-            this.drawMediaOnCanvas(mediaElement, this.c);
+            this.drawMediaOnCanvasAnimate(mediaElement, this.c);
             
           }
           else { // nope
@@ -370,7 +379,7 @@
               console.log('fileload: ', e.item.tag);
 
               mediaElement = e.item.tag;
-              this.drawMediaOnCanvas(mediaElement, this.c);
+              this.drawMediaOnCanvasAnimate(mediaElement, this.c);
 
             },
             this);
@@ -416,7 +425,7 @@
 
               module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
 
-              view.drawMediaOnCanvas(mediaElement, view.c);
+              view.drawMediaOnCanvasAnimate(mediaElement, view.c);
 
               $(window).off('resize');
               $(window).on('resize', function() {
@@ -491,6 +500,116 @@
           // center in viewport
           this.$el.scrollLeft((dw - this.$el.width())/2);
           this.$el.scrollTop((dh - this.$el.height())/2);
+
+        },
+
+        /**
+         * this method implements the swiping effect where a media is gradually discovered
+         * while the previous one is swept away
+         * @param  HTMLImage or Video Element mediaElement
+         * @param  HTMLCanvasElement canvasElement the main canvas to be drawn upon
+         * @return {[type]}               [description]
+         */
+        drawMediaOnCanvasAnimate: function(mediaElement, canvasElement) {
+
+          var view = this,
+              m = mediaElement,
+              c = canvasElement,
+              ctx = c.getContext("2d"),
+              c2 = this.c2,
+              ctx2 = this.ctx2,
+              c3 = this.c3,
+              ctx3 = this.ctx3,
+              sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
+              sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
+              // coordinates have been stored in onClickHandler
+              mouse_x = this.clientX,
+              mouse_y = this.clientY,
+              radius = 0,
+              _grd_x = 0,
+              _grd_y = 0,
+              _step = 80,
+              $this = $(this),
+
+              // get scale factors for both dimensions from the viewport and media properties
+              scale_h = this.$el.width() / sw,
+              scale_v = this.$el.height() / sh,
+              
+              // choose the biggest to keep proportions
+              scale = scale_h > scale_v ? scale_h : scale_v,
+              
+              // set the scaled the destination dimensions for the drawImage call
+              // using he chosen scale factor
+              dw = sw*scale,
+              dh = sh*scale;
+          
+          // size temp canvas with scaled dimensions
+          // temp canvas will be drawn onto main canvas
+          c2.width = c3.width = dw;
+          c2.height = c3.height = dh;
+
+          // set temp canvas context globalCompositeOperation to 'destination-atop' here as the context has been reset
+          // by setting the canvas dimensions
+          this.ctx2.globalCompositeOperation = "destination-atop";
+
+          /**
+           * the draw function
+           * will make a shape grow
+           * composite it with the new mediaElement
+           * and draw the result onto the previous media
+           * @return void
+           */
+          function draw_next() {
+
+            radius += _step;
+
+            _grd_x += _step;
+            _grd_y += _step;
+
+            // reset shape canvas
+            c3.width = c3.width;
+
+            //draw element on temp canvas
+            ctx2.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
+
+            // make shape - gradient
+            var grd = ctx3.createRadialGradient(mouse_x, mouse_y, 0, mouse_x, mouse_y, radius);
+            grd.addColorStop(0, "rgba(255,255,255,0.7)");
+            grd.addColorStop(1, "transparent");
+            ctx3.fillStyle = grd;
+            ctx3.beginPath();
+            ctx3.arc(mouse_x,mouse_y,radius, 0,Math.PI*2,true);
+            ctx3.fill();
+            ctx3.closePath();
+            
+            // draw shape on element canvas
+            ctx2.drawImage(c3, 0, 0);
+            
+            // draw temp media element canvas with shape on main canvas
+            ctx.drawImage(c2, 0, 0);
+
+            // make the loop run until we consider the whole media has been discovered
+            if(radius < sw) {
+              
+              this.main_animation_loop = requestAnimationFrame(function() { draw_next(); });
+
+            }
+            else {
+
+              cancelAnimationFrame(this.main_animation_loop);
+
+              // draw image on canvas
+              // to complete the loop task 
+              // and make things clean
+              // it will also set the main canvas size to the correct dimensions
+              view.drawMediaOnCanvas(mediaElement, canvasElement);
+
+            }
+
+          }
+
+          requestAnimationFrame(function() { draw_next(); });
+
 
         },
 
