@@ -317,6 +317,31 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
+        // disable Discovery View when Portoflio is open
+        // hide portfolio and show text panel again
+        project_module.portfolioView.on('PortfolioView:is-open', function() {
+
+          //discovery_module.discoveryView.undelegateEvents();
+
+          // because if a Video Element is active the View has been bound with a click
+          // to trigger the video play
+          discovery_module.discoveryView.$el.off('click');
+
+          // go back and unbind
+          discovery_module.discoveryView.$el.one('click', function() {
+
+            window.history.back();
+
+          });
+
+
+        });
+        // re-enable when Portoflio is closed
+        project_module.portfolioView.on('PortfolioView:is-closed', function() {
+          discovery_module.discoveryView.delegateEvents();
+        });
+
+
         // before any route
         VSLV_APP.router.on('beforeroute', function() {
 
