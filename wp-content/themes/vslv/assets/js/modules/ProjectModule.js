@@ -205,7 +205,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           }, this);
 
           // init Swiper
-          this.swiper = this.$el.swiper({scrollContainer: true});
+          this.swiper = this.$el.swiper({scrollContainer: true, preventLinksPropagation: true});
 
         });
 
