@@ -198,6 +198,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
     root: "/",
 
+    history_length: 0,
+
     router: new Router(),
 
     firstDiscovery: null,
@@ -330,7 +332,12 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           // go back and unbind
           discovery_module.discoveryView.$el.one('click', function() {
 
-            window.history.back();
+            // unless we have just landed
+            if(VSLV_APP.history_length > 1) {
+
+              window.history.back();
+              
+            }
 
           });
 
@@ -353,6 +360,14 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           if($('.navbar-collapse').data("bs.collapse")) {
             $( '.navbar-collapse').collapse('hide');
           }
+
+        });
+
+        VSLV_APP.router.on('route', function() {
+
+          // track navigation length
+          // useful to know whether user has started navigating
+          VSLV_APP.history_length++;
 
         });
 
