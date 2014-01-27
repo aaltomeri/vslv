@@ -341,11 +341,17 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
           });
 
-
         });
-        // re-enable when Portoflio is closed
+        
         project_module.portfolioView.on('PortfolioView:is-closed', function() {
+          
+          // unbind click on Discovery View
+          discovery_module.discoveryView.$el.off('click');
+          
+          // re-enable default behaviour when Portoflio is closed
           discovery_module.discoveryView.delegateEvents();
+
+
         });
 
 
