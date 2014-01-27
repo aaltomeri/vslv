@@ -234,8 +234,8 @@
         c3: null,
         ctx3: null,
 
-        clientX: null,
-        clientY: null,
+        mouseX: null,
+        mouseY: null,
 
         events: {
           'click': 'onClickhandler'
@@ -524,9 +524,6 @@
               ctx3 = this.ctx3,
               sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
               sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
-              // coordinates have been stored in onClickHandler
-              mouse_x = this.mouseX,
-              mouse_y = this.mouseY,
               radius = 0,
               _grd_x = 0,
               _grd_y = 0,
@@ -543,7 +540,12 @@
               // set the scaled the destination dimensions for the drawImage call
               // using he chosen scale factor
               dw = sw*scale,
-              dh = sh*scale;
+              dh = sh*scale,
+
+              // coordinates have been stored in onClickHandler
+              // pick a random point if mouse coordinates have not been set yet (at site init for instance)
+              mouse_x = this.mouseX? this.mouseX : Math.random()*dw,
+              mouse_y = this.mouseY? this.mouseY : Math.random()*dh;
           
           // size temp canvas with scaled dimensions
           // temp canvas will be drawn onto main canvas
