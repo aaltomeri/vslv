@@ -370,6 +370,11 @@
           // is it an image?
           if(cm.is_image) {
 
+            // always remove video layer if it's present
+            if(this.$el.find('video').length) {
+              this.$el.find('video').remove();
+            }
+
             this.renderImage(cm);
 
           }
