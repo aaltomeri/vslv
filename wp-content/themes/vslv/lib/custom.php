@@ -150,7 +150,7 @@ function vslvs_clients_list_sc( $atts ) {
 
   $output = '<ul class="clients-list">';
   
-  $wp_q = new WP_Query(array('post_type' => 'client', 'posts_per_page' => -1));
+  $wp_q = new WP_Query(array('post_type' => 'client', 'posts_per_page' => -1, 'orderby' => 'name', 'order' => 'ASC'));
   $clients = $wp_q->get_posts();
 
   foreach ($clients as $key => $client) {
