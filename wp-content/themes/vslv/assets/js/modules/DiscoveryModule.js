@@ -359,6 +359,14 @@
 
           });
 
+          // we want to notify when the transition has ended
+          // this is the end of render for us
+          this.listenToOnce(this, 'DiscoveryView:end_transition', function() {
+
+              this.trigger('DiscoveryView:end_render');
+
+          });
+
           // is it an image?
           if(cm.is_image) {
 
@@ -384,12 +392,6 @@
               view = this;
 
           console.log('img: ', mediaObject.source);
-
-          this.listenToOnce(this, 'DiscoveryView:end_transition', function() {
-
-              this.trigger('DiscoveryView:end_render');
-
-          });
 
           // has it been preloaded yet?
           // we check if a result is returned from the loadQueue for this media
@@ -449,13 +451,23 @@
 
             }
 
+            // hide video to be able to see canvas 
+            // and the gradient effect
+            $(mediaElement).hide();
+
             $(mediaElement).on('loadeddata', function() {
 
               console.log('VIDEO DATA LOADED');
 
               view.setVideoDimensions(mediaElement);
 
-              module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
+              //module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
+
+              // show video at the end of the transition
+              view.listenToOnce(view, 'DiscoveryView:end_render', function() {
+                console.log('SHOW VIDEO');
+                $(mediaElement).show();
+              });
 
               view.drawMediaOnCanvasAnimate(mediaElement, view.c);
 
