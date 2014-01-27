@@ -2462,9 +2462,9 @@ Swiper.prototype = {
 
         // passed all coordinates
         if (arguments.length == 3) {
-            coords.x = x;
-            coords.y = y;
-            coords.z = z;
+            coords.x = Math.round(x);
+            coords.y = Math.round(y);
+            coords.z = Math.round(z);
         }
         
         // passed one coordinate and optional axis
@@ -2472,7 +2472,7 @@ Swiper.prototype = {
             if (typeof y == 'undefined') {
                 y = this.params.mode == 'horizontal' ? 'x' : 'y';
             }
-            coords[y] = x;
+            coords[y] = Math.round(x);
         }
 
         if (this.support.transforms && this.params.useCSS3Transforms) {
@@ -2596,9 +2596,9 @@ Swiper.prototype = {
     setTranslate : function (el, translate) {
         var es = el.style
         var pos = {
-            x : translate.x || 0,
-            y : translate.y || 0,
-            z : translate.z || 0
+            x : Math.round(translate.x) || 0,
+            y : Math.round(translate.y) || 0,
+            z : Math.round(translate.z) || 0
         };
         var transformString = this.support.transforms3d ? 'translate3d('+(pos.x)+'px,'+(pos.y)+'px,'+(pos.z)+'px)' : 'translate('+(pos.x)+'px,'+(pos.y)+'px)';
         es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = transformString;

@@ -89,6 +89,7 @@ var PAGE_MODULE = (function() {
 
         visible: false,
         content_template: null,
+        swiper: null,
 
         events: {
 
@@ -130,9 +131,23 @@ var PAGE_MODULE = (function() {
 
         setText: function() {
 
+          var view = this;
+
           this.$el.html(
             this.content_template( this.model.attributes )
           );
+
+          if(this.swiper instanceof Swiper) {
+
+            this.swiper.destroy();
+            this.swiper = null;
+
+          }
+
+          this.swiper = this.$el.swiper({scrollContainer: true, mode:'vertical'});
+
+          setTimeout(function() {view.swiper.reInit();}, 20);
+          
 
         },
 

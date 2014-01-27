@@ -72,7 +72,7 @@ add_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10,
  */
 function roots_scripts() {
 
-  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '22d899885c6fd53bf0789381f27f7e19');
+  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, 'b6336a84d8bb7cf3a4bdf0c727dd130f');
 
   // jQuery is loaded using the same method from HTML5 Boilerplate:
   // Grab Google CDN's latest jQuery with a protocol relative URL; fallback to local if offline
@@ -88,7 +88,7 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'd3114cb6ba2bc006efd106ba83ac2cd5', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '9fa4a3ce12ed2e062c9533bffcbcfa26', true);
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');
   wp_enqueue_script('backbone');

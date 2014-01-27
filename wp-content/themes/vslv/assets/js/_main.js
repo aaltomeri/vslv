@@ -1,4 +1,4 @@
-// Application
+// Application 
 // we pass the required modules to be used
 var VSLV_APP = (function(page_module, project_module, discovery_module, app_data) {
 

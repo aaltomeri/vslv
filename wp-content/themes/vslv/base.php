@@ -22,20 +22,25 @@
     <?php //var_dump(roots_template_path()); ?>
 
     <div id="discovery"></div>
-    <div id="content" class="is-hidden">
+    <div id="content" class="is-hidden swiper-container">
       <script type="text/template" id="content-template">
-        <div class="content <%= data.type %>">
-          <span class="hi-response hi-response-remove toggle"></span>
-          <span class="hi-response hi-response-down-arrow scroll-hint"></span>
-          <% if(data.type == 'project') { %>
-            <h1><%= data.title %></h1>
-          <% } %>
-          <% if(data.content !== '') { %>
-            <%= data.content %>
-          <% } else { %>
-            <h3>Cras mattis consectetur purus sit amet fermentum. Maecenas sed diam eget risus varius blandit sit amet non magna.</h3>
-            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean lacinia bibendum nulla sed consectetur.</p>
-          <% } %>
+        
+        <!-- icons -->
+        <span class="hi-response hi-response-remove toggle"></span>
+        <span class="hi-response hi-response-down-arrow scroll-hint"></span>
+        
+        <div class="swiper-wrapper content <%= data.type %>">
+          <div class="swiper-slide inner-content">
+            <% if(data.type == 'project') { %>
+              <h1><%= data.title %></h1>
+            <% } %>
+            <% if(data.content !== '') { %>
+              <%= data.content %>
+            <% } else { %>
+              <h3>Cras mattis consectetur purus sit amet fermentum. Maecenas sed diam eget risus varius blandit sit amet non magna.</h3>
+              <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean lacinia bibendum nulla sed consectetur.</p>
+            <% } %>
+            </div>
         </div>
       </script>
     </div>

@@ -6240,22 +6240,28 @@ h6 {
   -webkit-transform: translate(-999px, 0);
   -ms-transform: translate(-999px, 0);
   transform: translate(-999px, 0);
+  padding: 0;
   width: 50%;
   max-height: 60%;
   z-index: 100;
   background: rgba(255, 255, 255, 0.9);
   color: #333333;
-  padding: 0;
+  padding: 0 50px;
 }
 #content .content {
-  padding: 60px 50px 60px 50px;
   font-size: .938rem;
   line-height: 1.375rem;
+  cursor: ns-resize;
+}
+#content .content .inner-content {
+  padding: 50px 0px;
 }
 #content .content.project {
   font-size: .875rem;
   line-height: 1.313rem;
-  padding: 50px 50px 50px 50px;
+}
+#content .content.project .inner-content {
+  padding: 60px 0px;
 }
 #content h1,
 #content h2,
@@ -6307,12 +6313,16 @@ h6 {
   bottom: 0;
   right: 0;
 }
+#content.center-panel .content .inner-content {
+  padding: 25px 0px;
+}
 #content .toggle {
   position: absolute;
   top: 15px;
   right: 15px;
   cursor: pointer;
   color: #555555;
+  z-index: 10;
 }
 #content.is-hidden .toggle {
   -webkit-transform: rotate(90deg);
@@ -6328,6 +6338,7 @@ h6 {
   right: 15px;
   top: auto;
   color: #555555;
+  z-index: 10;
 }
 #content ul.clients-list {
   margin: 0;

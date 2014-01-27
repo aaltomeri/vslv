@@ -446,21 +446,34 @@ h1, h2, h3, h4, h5, h6 {
     background: rgba(255,255,255,0.9);
     color: @text-color-001;
 
-    padding: 0;
+    padding: 0 50px;
 
     .content {
 
-      padding: 60px 50px 60px 50px;
+      //padding: 60px 50px 60px 50px;
 
       font-size: .938rem;
       line-height: 1.375rem;
+
+      cursor: ns-resize;
+
+      .inner-content {
+
+        padding: 50px 0px;
+        
+      }
 
       &.project {
 
         font-size: .875rem;
         line-height: 1.313rem;
 
-        padding: 50px 50px 50px 50px;
+        .inner-content {
+
+          padding: 60px 0px;
+          
+        }
+
 
       }
 
@@ -530,6 +543,16 @@ h1, h2, h3, h4, h5, h6 {
       bottom: 0; 
       right: 0;
 
+      .content {
+
+        .inner-content {
+
+          padding: 25px 0px;
+          
+        }
+
+      }
+
     }
 
     .toggle {
@@ -541,6 +564,8 @@ h1, h2, h3, h4, h5, h6 {
       cursor: pointer;
 
       color: @icon-color;
+
+      z-index: 10;
 
     }
 
@@ -564,6 +589,8 @@ h1, h2, h3, h4, h5, h6 {
       top: auto;
 
       color: @icon-color;
+
+      z-index: 10;
 
     }
 
