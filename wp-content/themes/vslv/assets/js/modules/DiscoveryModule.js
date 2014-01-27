@@ -243,8 +243,10 @@
 
         onClickhandler: function(e) {
 
-          this.clientX = e.clientX;
-          this.clientY = e.clientY;
+          // get mouse coordinates
+          // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
+          this.mouseX = e.screenX;
+          this.mouseY = e.screenY;
 
           this.next();
 
@@ -523,8 +525,8 @@
               sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
               sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
               // coordinates have been stored in onClickHandler
-              mouse_x = this.clientX,
-              mouse_y = this.clientY,
+              mouse_x = this.mouseX,
+              mouse_y = this.mouseY,
               radius = 0,
               _grd_x = 0,
               _grd_y = 0,
