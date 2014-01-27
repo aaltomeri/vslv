@@ -552,6 +552,9 @@
           // by setting the canvas dimensions
           this.ctx2.globalCompositeOperation = "destination-atop";
 
+          // stop hint display
+          module.discoveryHintView.stop();
+
           /**
            * the draw function
            * will make a shape grow
@@ -591,12 +594,10 @@
             // make the loop run until we consider the whole media has been discovered
             if(radius < sw) {
               
-              this.main_animation_loop = requestAnimationFrame(function() { draw_next(); });
+              requestAnimationFrame(draw_next);
 
             }
             else {
-
-              cancelAnimationFrame(this.main_animation_loop);
 
               // draw image on canvas
               // to complete the loop task 
@@ -604,11 +605,14 @@
               // it will also set the main canvas size to the correct dimensions
               view.drawMediaOnCanvas(mediaElement, canvasElement);
 
+              // start hint display
+              module.discoveryHintView.stop();
+
             }
 
           }
 
-          requestAnimationFrame(function() { draw_next(); });
+          requestAnimationFrame(draw_next);
 
 
         },
