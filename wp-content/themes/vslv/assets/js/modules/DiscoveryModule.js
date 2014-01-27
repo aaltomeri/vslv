@@ -237,6 +237,8 @@
         mouseX: null,
         mouseY: null,
 
+        rendering: false,
+
         events: {
           'click': 'onClickhandler'
         },
@@ -310,6 +312,15 @@
 
         next: function() {
 
+          // prevent switching to next media
+          // if we are in the middle of rendering
+          // we mainly want to prevent multiple clicks to trigger too many transitions too fast
+          if(this.rendering) {
+            return;
+          }
+
+          console.log('NEXT');
+
           if(!this.model.setNextMedia()) {
 
             // will trigger the render mechanism for the next Discovery
@@ -334,6 +345,15 @@
             console.warn('TRYING TO RENDER DISCOVERY VIEW BUT NO CURRENT MEDIA HAS BEEN SET FOR THE CURRENT DISCOVERY MODEL');
             return;
           }
+
+          // notify we're beginning to render
+          this.rendering = true;
+          this.trigger('DiscoveryView:start_render');
+          this.listenToOnce(this, 'DiscoveryView:end_render',function() {
+
+            this.rendering = false;
+
+          });
 
           // is it an image?
           if(cm.is_image) {
@@ -360,6 +380,12 @@
               view = this;
 
           console.log('img: ', mediaObject.source);
+
+          this.listenToOnce(this, 'DiscoveryView:end_transition', function() {
+
+              this.trigger('DiscoveryView:end_render');
+
+          });
 
           // has it been preloaded yet?
           // we check if a result is returned from the loadQueue for this media
@@ -464,6 +490,9 @@
               
               $(mediaElement).remove();
               module.discoveryHintView.start(APP_DATA.discovery_hint_message);
+
+              // notify we have finished to render
+              view.trigger('DiscoveryView:end_render');
 
             });
 
@@ -611,6 +640,9 @@
 
               // start hint display
               module.discoveryHintView.start();
+
+              // notify we have finished tthe transition effect
+              view.trigger('DiscoveryView:end_transition');
 
             }
 
