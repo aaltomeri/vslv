@@ -300,7 +300,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         // make page_module display the Discovery infos
         // when new Discovery is set
-        discovery_module.collection.on('Discovery:set', function(discoveryModel) {
+        discovery_module.collection.on('Discovery:setAndRenderEnded', function(discoveryModel) {
 
           // content
           page_module.currentPageView.model = discoveryModel;
