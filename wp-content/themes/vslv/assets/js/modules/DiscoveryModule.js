@@ -608,7 +608,7 @@
               view.drawMediaOnCanvas(mediaElement, canvasElement);
 
               // start hint display
-              module.discoveryHintView.stop();
+              module.discoveryHintView.start();
 
             }
 
