@@ -231,6 +231,10 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
             // Main Menu
             this.initMainMenu();
+
+            // hide main preloader
+            $('main > .preloader').transition({opacity: 0});
+
             
           },
           this

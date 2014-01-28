@@ -277,7 +277,7 @@
           this.$el.append(this.$c);
 
           // assign dom element to view var
-          this.$preloader = $('.preloader');
+          this.$preloader = this.$('.preloader');
 
           // setting first media
           // setup callback if there are no medias we can work with
