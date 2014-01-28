@@ -6180,6 +6180,25 @@ h6 {
   height: auto;
   z-index: 20;
 }
+#discovery .preloader {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background-image: -webkit-linear-gradient(left, color-stop(#c7b29b 50%), color-stop(transparent 100%));
+  background-image: linear-gradient(to right, #c7b29b 50%, transparent 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc7b29b', endColorstr='#00000000', GradientType=1);
+  opacity: .6;
+  -webkit-transform-origin: 0px 0px;
+  -moz-transform-origin: 0px 0px;
+  transform-origin: 0px 0px;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+}
 .discovery-hint {
   position: absolute;
   color: white;

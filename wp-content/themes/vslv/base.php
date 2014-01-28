@@ -21,7 +21,9 @@
 
     <?php //var_dump(roots_template_path()); ?>
 
-    <div id="discovery"></div>
+    <div id="discovery">
+      <div class="preloader"></div>
+    </div>
     <div id="content" class="is-hidden swiper-container">
       <script type="text/template" id="content-template">
         

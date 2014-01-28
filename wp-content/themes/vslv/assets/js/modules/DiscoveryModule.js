@@ -239,6 +239,8 @@
 
         rendering: false,
 
+        $preloader: null,
+
         events: {
           'click': 'onClickhandler'
         },
@@ -273,6 +275,9 @@
 
           // append first canvas
           this.$el.append(this.$c);
+
+          // assign dom element to view var
+          this.$preloader = $('.preloader');
 
           // setting first media
           // setup callback if there are no medias we can work with
@@ -411,17 +416,37 @@
 
             var _load_queue = new createjs.LoadQueue();
 
-            _load_queue.loadFile({ id: mediaObject.slug, src: this.model.getMediaSource(mediaObject)});
+            console.log("LOAD MEDIA NOT ALREADY LOADED BY MAIN QUEUE", mediaObject.slug);
 
+            // progress
+            _load_queue.on('fileprogress', function(e) {
+
+              //console.log(e.progress);
+              this.$preloader.css({scale: [e.progress, 1]});
+              if(e.progress === 1) {
+                console.log('END PROGRESS');
+                console.time('DELAY PROGRESS<->FILELOAD');
+              }
+
+            },
+            this);
+
+            // complete
             _load_queue.on('fileload', function(e) {
 
               console.log('fileload: ', e.item.tag);
+              console.timeEnd('DELAY PROGRESS<->FILELOAD');
+
+              // reset preloader
+              this.$preloader.css({scale: [0, 1]});
 
               mediaElement = e.item.tag;
               this.drawMediaOnCanvasAnimate(mediaElement, this.c);
 
             },
             this);
+            
+            _load_queue.loadFile({ id: mediaObject.slug, src: this.model.getMediaSource(mediaObject)});
 
           }
 
