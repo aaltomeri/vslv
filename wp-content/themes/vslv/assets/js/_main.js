@@ -225,13 +225,6 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
             // START ROUTING
             // should trigger route
             Backbone.history.start({pushState: true, root: VSLV_APP.root });
-
-            // do this only after route has been triggered to avoid displaying hint too soon
-            this.initHintDisplay();
-
-            // Main Menu
-            this.initMainMenu();
-
             
           },
           this
@@ -300,15 +293,22 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         discoveries = discovery_module.init(firstDiscovery);
 
         // listen to media_loaded on DiscoveryView to make preloader disappear after first media has been loaded
-        discovery_module.discoveryView.listenToOnce(discovery_module.discoveryView, 'DiscoveryView:media_loaded',function() {
+        discovery_module.discoveryView.on('DiscoveryView:media_loaded', function() {
 
           console.log('FIRST MEDIA LOADED');
 
           // hide main preloader
           $('main > .preloader').transition({opacity: 0});
 
+          // do this only after route has been triggered to avoid displaying hint too soon
+          this.initHintDisplay();
 
-        });
+          // Main Menu
+          this.initMainMenu();
+
+
+        },
+        this);
 
         // make page_module display the Discovery infos
         // when new Discovery is set
