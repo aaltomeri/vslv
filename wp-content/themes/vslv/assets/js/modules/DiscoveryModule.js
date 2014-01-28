@@ -437,11 +437,15 @@
               console.log('fileload: ', e.item.tag);
               console.timeEnd('DELAY PROGRESS<->FILELOAD');
 
+
               // reset preloader
               this.$preloader.css({scale: [0, 1]});
 
               mediaElement = e.item.tag;
               this.drawMediaOnCanvasAnimate(mediaElement, this.c);
+              
+              // notify appplication media has finished loading
+              this.trigger('DiscoveryView:media_loaded', mediaElement, mediaObject);
 
             },
             this);

@@ -232,9 +232,6 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
             // Main Menu
             this.initMainMenu();
 
-            // hide main preloader
-            $('main > .preloader').transition({opacity: 0});
-
             
           },
           this
@@ -301,6 +298,17 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // INIT DISCOVERIES and CREATE DISCOVERY COLLECTION
         // also creates Discovery View which will rule the Discovery process (cycling through projects)
         discoveries = discovery_module.init(firstDiscovery);
+
+        // listen to media_loaded on DiscoveryView to make preloader disappear after first media has been loaded
+        discovery_module.discoveryView.listenToOnce(discovery_module.discoveryView, 'DiscoveryView:media_loaded',function() {
+
+          console.log('FIRST MEDIA LOADED');
+
+          // hide main preloader
+          $('main > .preloader').transition({opacity: 0});
+
+
+        });
 
         // make page_module display the Discovery infos
         // when new Discovery is set
