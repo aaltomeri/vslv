@@ -625,29 +625,28 @@
               mouse_x = this.mouseX? this.mouseX : Math.random()*dw,
               mouse_y = this.mouseY? this.mouseY : Math.random()*dh;
 
-          // size temp canvas with scaled dimensions
-          // temp canvas will be drawn onto main canvas
-          c2.width = c3.width = dw;
-          c2.height = c3.height = dh;
-
           var $temp_c = $(c).clone(),
               temp_c = $temp_c.get(0),
               temp_ctx = temp_c.getContext('2d');
-          temp_c.width = dw;
-          temp_c.height = dh;
-          //temp_ctx.drawImage(c, 0, 0);
-          this.$el.append($temp_c);
+          temp_c.width = c.width;
+          temp_c.height = c.height;
+          temp_ctx.drawImage(c, 0, 0);
+          //this.$el.append($temp_c);
 
-          if(c.width !== Math.floor(dw)) {
-            c.width = Math.floor(dw);
-          }
-          if(c.height !== Math.floor(dh)) {
-            c.height = Math.floor(dh);
-          }
-
-          // ctx.drawImage(temp_c, 0, 0, temp_c.width, temp_c.height, 0, 0, dw, dh);
+          // size temp canvas with scaled dimensions
+          // temp canvas will be drawn onto main canvas
+          c.width = c2.width = c3.width = dw;
+          c.height = c2.height = c3.height = dh;
 
 
+          // if(c.width !== Math.floor(dw)) {
+          //   c.width = Math.floor(dw);
+          // }
+          // if(c.height !== Math.floor(dh)) {
+          //   c.height = Math.floor(dh);
+          // }
+
+          ctx.drawImage(temp_c, 0, 0, temp_c.width, temp_c.height, 0, 0, dw, dh);
 
           // // center in viewport
           this.$el.scrollLeft((dw - this.$el.width())/2);
