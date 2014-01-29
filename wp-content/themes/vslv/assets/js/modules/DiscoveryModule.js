@@ -437,7 +437,6 @@
               console.log('fileload: ', e.item.tag);
               console.timeEnd('DELAY PROGRESS<->FILELOAD');
 
-
               // reset preloader
               this.$preloader.css({scale: [0, 1]});
 
@@ -609,14 +608,14 @@
               _step = 80,
               $this = $(this),
 
-              // get scale factors for both dimensions from the viewport and media properties
+              // get scale factors for both dimensions from the viewport and media dimensions
               scale_h = this.$el.width() / sw,
               scale_v = this.$el.height() / sh,
               
               // choose the biggest to keep proportions
               scale = scale_h > scale_v ? scale_h : scale_v,
               
-              // set the scaled the destination dimensions for the drawImage call
+              // set the scaled destination dimensions for the drawImage call
               // using he chosen scale factor
               dw = sw*scale,
               dh = sh*scale,
@@ -625,11 +624,34 @@
               // pick a random point if mouse coordinates have not been set yet (at site init for instance)
               mouse_x = this.mouseX? this.mouseX : Math.random()*dw,
               mouse_y = this.mouseY? this.mouseY : Math.random()*dh;
-          
+
           // size temp canvas with scaled dimensions
           // temp canvas will be drawn onto main canvas
           c2.width = c3.width = dw;
           c2.height = c3.height = dh;
+
+          var $temp_c = $(c).clone(),
+              temp_c = $temp_c.get(0),
+              temp_ctx = temp_c.getContext('2d');
+          temp_c.width = dw;
+          temp_c.height = dh;
+          //temp_ctx.drawImage(c, 0, 0);
+          this.$el.append($temp_c);
+
+          if(c.width !== Math.floor(dw)) {
+            c.width = Math.floor(dw);
+          }
+          if(c.height !== Math.floor(dh)) {
+            c.height = Math.floor(dh);
+          }
+
+          // ctx.drawImage(temp_c, 0, 0, temp_c.width, temp_c.height, 0, 0, dw, dh);
+
+
+
+          // // center in viewport
+          this.$el.scrollLeft((dw - this.$el.width())/2);
+          this.$el.scrollTop((dh - this.$el.height())/2);
 
           // set temp canvas context globalCompositeOperation to 'destination-atop' here as the context has been reset
           // by setting the canvas dimensions
@@ -675,8 +697,13 @@
             ctx.drawImage(c2, 0, 0);
 
             // make the loop run until we consider the whole media has been discovered
-            if(radius < sw) {
+            if(radius <= sw) {
               
+              //view.$el.scrollLeft(((dw*radius/sw) - view.$el.width()) / 2);
+              //view.$el.scrollTop(((dh*radius/sw) - view.$el.height()) / 2);
+              // $(c).width(c.width + (c.width/dw * (radius / sw)));
+              // $(c).height(c.height + (c.height/dh * (radius / sw)));
+
               requestAnimationFrame(draw_next);
 
             }
@@ -699,6 +726,8 @@
           }
 
           requestAnimationFrame(draw_next);
+
+          //$temp_c.remove();
 
 
         },
