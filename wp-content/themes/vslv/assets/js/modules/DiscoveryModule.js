@@ -84,15 +84,15 @@
 
       getNextMedia: function() {
 
-        this.currentMediaIndex++;
+        var index = this.currentMediaIndex + 1;
 
-        if(this.currentMediaIndex > this.get('medias').length-1) {
+        if(index > this.get('medias').length-1) {
 
           return false;
 
         }
 
-        return this.getMediaAt(this.currentMediaIndex);
+        return this.getMediaAt(index);
 
       },
 
@@ -234,27 +234,80 @@
         c3: null,
         ctx3: null,
 
-        mouseX: null,
-        mouseY: null,
+        pointer_x: null,
+        pointer_y: null,
+        pointer_radius: 100,
 
         rendering: false,
 
         $preloader: null,
 
         events: {
-          'click': 'onClickhandler'
+          //'click': 'onClickHandler',
+          'mousedown': 'onMousedownHandler',
+          'touchstart': 'onMousedownHandler',
+          'mouseup': 'onMouseupHandler',
+          'touchend': 'onMouseupHandler'
         },
 
-        onClickhandler: function(e) {
+        onClickHandler: function(e) {
 
           // get mouse coordinates
           // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
-          this.mouseX = e.offsetX;
-          this.mouseY = e.offsetY;
+          this.pointer_x = e.offsetX;
+          this.pointer_y = e.offsetY;
 
           this.next();
 
         },
+
+        onMousedownHandler: function(e) {
+
+          var view = this,
+              pointer_x = e.offsetX || e.originalEvent.pageX,
+              pointer_y = e.offsetY || e.originalEvent.pageY,
+              pointer_radius = this.pointer_radius,
+              c = this.c;
+
+          // get mouse coordinates
+          // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
+          this.pointer_x = pointer_x;
+          this.pointer_y = pointer_y;
+
+          var mediaObject = this.model.getNextMedia(),
+              mediaElement;
+
+          if(this.loadQueue !== null && this.loadQueue.getResult(mediaObject.slug) instanceof HTMLImageElement) {
+
+            mediaElement = this.loadQueue.getResult(mediaObject.slug);
+            this.gradient_draw(mediaElement, pointer_x, pointer_y, pointer_radius, c);
+
+            this.$el.on('mousemove touchmove', function(e) {
+
+              var pointer_x = e.offsetX || e.originalEvent.pageX,
+                  pointer_y = e.offsetY || e.originalEvent.pageY;
+
+              view.pointer_x = pointer_x;
+              view.pointer_y = pointer_y;
+              view.gradient_draw(mediaElement, pointer_x, pointer_y, pointer_radius, c);
+
+            });
+            
+          }
+
+
+
+        },
+
+        onMouseupHandler: function(e) {
+
+          this.$el.off('mousemove');
+          this.$el.off('touchmove');
+
+          this.next();
+
+        },
+
 
         initialize: function() {
 
@@ -330,9 +383,12 @@
 
           console.log('NEXT');
 
+          // setting the next media on the current model
+          // will trigger render
           if(!this.model.setNextMedia()) {
 
-            // will trigger the render mechanism for the next Discovery
+            // if there are no next media for the current model
+            // we pass to the next Discovery which will in turn trigger the render mechanism
             this.collection.next();
 
           }
@@ -602,9 +658,7 @@
               ctx3 = this.ctx3,
               sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
               sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
-              radius = 0,
-              _grd_x = 0,
-              _grd_y = 0,
+              radius = view.pointer_radius,
               _step = 80,
               $this = $(this),
 
@@ -622,8 +676,8 @@
 
               // coordinates have been stored in onClickHandler
               // pick a random point if mouse coordinates have not been set yet (at site init for instance)
-              mouse_x = this.mouseX? this.mouseX : Math.random()*dw,
-              mouse_y = this.mouseY? this.mouseY : Math.random()*dh;
+              pointer_x = this.pointer_x? this.pointer_x : Math.random()*dw,
+              pointer_y = this.pointer_y? this.pointer_y : Math.random()*dh;
 
           var $temp_c = $(c).clone(),
               temp_c = $temp_c.get(0),
@@ -665,41 +719,13 @@
           // stop hint display
           module.discoveryHintView.stop();
 
-          /**
-           * the draw function
-           * will make a shape grow
-           * composite it with the new mediaElement
-           * and draw the result onto the previous media
-           * @return void
-           */
+
+
           function draw_next() {
 
             radius += _step;
 
-            _grd_x += _step;
-            _grd_y += _step;
-
-            // reset shape canvas
-            c3.width = c3.width;
-
-            //draw element on temp canvas
-            ctx2.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
-
-            // make shape - gradient
-            var grd = ctx3.createRadialGradient(mouse_x, mouse_y, 0, mouse_x, mouse_y, radius);
-            grd.addColorStop(0, "rgba(255,255,255,0.7)");
-            grd.addColorStop(1, "transparent");
-            ctx3.fillStyle = grd;
-            ctx3.beginPath();
-            ctx3.arc(mouse_x,mouse_y,radius, 0,Math.PI*2,true);
-            ctx3.fill();
-            ctx3.closePath();
-            
-            // draw shape on element canvas
-            ctx2.drawImage(c3, 0, 0);
-            
-            // draw temp media element canvas with shape on main canvas
-            ctx.drawImage(c2, 0, 0);
+            view.gradient_draw(mediaElement, pointer_x, pointer_y, radius*1.05, canvasElement);
 
             // make the loop run until we consider the whole media has been discovered
             if(radius <= sw) {
@@ -726,6 +752,65 @@
           }
 
           requestAnimationFrame(draw_next);
+
+        },
+
+        /**
+         * the draw function
+         * will make a shape grow
+         * composite it with the new mediaElement
+         * and draw the result onto the previous media
+         * @return void
+         */
+        gradient_draw: function(mediaElement, x, y, radius, canvasElement) {
+
+          var view = this,
+              m = mediaElement,
+              c = canvasElement? canvasElement : this.c,
+              ctx = c.getContext("2d"),
+              c2 = this.c2,
+              ctx2 = this.ctx2,
+              c3 = this.c3,
+              ctx3 = this.ctx3,
+              sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
+              sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
+              _grd_x = 0,
+              _grd_y = 0,
+              $this = $(this),
+
+              // get scale factors for both dimensions from the viewport and media dimensions
+              scale_h = this.$el.width() / sw,
+              scale_v = this.$el.height() / sh,
+              
+              // choose the biggest to keep proportions
+              scale = scale_h > scale_v ? scale_h : scale_v,
+              
+              // set the scaled destination dimensions for the drawImage call
+              // using he chosen scale factor
+              dw = sw*scale,
+              dh = sh*scale;
+
+          // reset shape canvas
+          c3.width = c3.width;
+
+          //draw element on temp canvas
+          ctx2.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
+
+          // make shape - gradient
+          var grd = ctx3.createRadialGradient(x, y, 0, x, y, radius);
+          grd.addColorStop(0, "rgba(255,255,255,0.7)");
+          grd.addColorStop(1, "transparent");
+          ctx3.fillStyle = grd;
+          ctx3.beginPath();
+          ctx3.arc(x, y, radius, 0,Math.PI*2,true);
+          ctx3.fill();
+          ctx3.closePath();
+          
+          // draw shape on element canvas
+          ctx2.drawImage(c3, 0, 0);
+          
+          // draw temp media element canvas with shape on main canvas
+          ctx.drawImage(c2, 0, 0);
 
         },
 
