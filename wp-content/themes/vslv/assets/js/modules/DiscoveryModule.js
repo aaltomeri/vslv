@@ -249,8 +249,8 @@
 
           // get mouse coordinates
           // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
-          this.mouseX = e.screenX;
-          this.mouseY = e.screenY;
+          this.mouseX = e.offsetX;
+          this.mouseY = e.offsetY;
 
           this.next();
 
