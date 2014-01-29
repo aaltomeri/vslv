@@ -6172,6 +6172,8 @@ main > .preloader {
   height: 66px;
   background: url('../img/icon-preloader-main.png') no-repeat;
   z-index: 200;
+}
+main > .preloader.animate {
   -webkit-animation: rotate-preloader 2s infinite step-start;
   animation: rotate-preloader 2s infinite step-start;
 }

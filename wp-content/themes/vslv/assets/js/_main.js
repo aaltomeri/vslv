@@ -298,7 +298,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           console.log('FIRST MEDIA LOADED');
 
           // hide main preloader
-          $('main > .preloader').transition({opacity: 0});
+          $('main > .preloader').transition({opacity: 0}).removeClass('animate');
 
           // do this only after route has been triggered to avoid displaying hint too soon
           this.initHintDisplay();

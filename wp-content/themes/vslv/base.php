@@ -19,7 +19,7 @@
   
   <main class="main" role="main">
 
-    <div class="preloader"></div>
+    <div class="preloader animate"></div>
 
     <?php //var_dump(roots_template_path()); ?>
 
