@@ -108,7 +108,7 @@ var PAGE_MODULE = (function() {
 
         render: function() {
 
-          console.log('PageView:render');
+          //console.log('PageView:render');
 
           this.listenToOnce(this, 'PageView:is-hidden', function() {
             
@@ -160,7 +160,7 @@ var PAGE_MODULE = (function() {
               content = this.model.get('content'),
               panel_type = this.model.get('panel-type');
 
-          console.log('PageView:show');
+          //console.log('PageView:show');
 
           this.$el.removeClass('is-hidden');
 
@@ -168,7 +168,7 @@ var PAGE_MODULE = (function() {
 
             view.visible = true;
             
-            console.log('PageView:is-shown');
+            //console.log('PageView:is-shown');
             
             view.$el.removeClass('is-hidden');
 
@@ -224,7 +224,7 @@ var PAGE_MODULE = (function() {
               panel_type = this.model.get('panel-type'),
               animation_attributes = {};
 
-          console.log('PageView:hide');
+          //console.log('PageView:hide');
 
           // only for projects
           if(type === 'project' && offsetX === undefined) {
@@ -297,7 +297,7 @@ var PAGE_MODULE = (function() {
                 view.$el.addClass('is-hidden');
 
                 view.visible = false;
-                console.log('PageView:is-hidden');
+                //console.log('PageView:is-hidden');
                 view.trigger('PageView:is-hidden');
 
               }
