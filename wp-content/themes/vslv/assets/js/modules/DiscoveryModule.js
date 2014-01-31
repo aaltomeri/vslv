@@ -282,15 +282,24 @@
             mediaElement = this.loadQueue.getResult(mediaObject.slug);
             this.gradient_draw(mediaElement, pointer_x, pointer_y, pointer_radius, c);
 
-            this.$el.on('mousemove touchmove', function(e) {
+            /**
+             * on mouse or touch move behaviour
+             * 
+             */
+            this.$el.on("mousemove touchmove", function(e) {
+              
+                var pointer_x = e.clientX || e.originalEvent.touches[0].clientX || e.originalEvent.pageX,
+                    pointer_y = e.clientY || e.originalEvent.touches[0].clientY || e.originalEvent.pageY;
 
-              var pointer_x = e.offsetX || e.originalEvent.pageX,
-                  pointer_y = e.offsetY || e.originalEvent.pageY;
+                // prevent native behaviour on some devices
+                // like cancelling custom touch events on Chrome for Android
+                e.preventDefault();
 
-              view.pointer_x = pointer_x;
-              view.pointer_y = pointer_y;
-              view.gradient_draw(mediaElement, pointer_x, pointer_y, pointer_radius, c);
+                view.pointer_x = pointer_x;
+                view.pointer_y = pointer_y;
 
+                view.gradient_draw(mediaElement, pointer_x + view.el.scrollLeft, pointer_y + view.el.scrollTop, pointer_radius, c);
+            
             });
             
           }
