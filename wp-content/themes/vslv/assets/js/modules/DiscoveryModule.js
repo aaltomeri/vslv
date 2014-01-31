@@ -295,10 +295,16 @@
                 // like cancelling custom touch events on Chrome for Android
                 e.preventDefault();
 
+                // account for main canvas parent div having been scrolled to center it
+                pointer_x += view.el.scrollLeft;
+                pointer_y += view.el.scrollTop;
+
+                // record coordinates
+                // they will be used on release
                 view.pointer_x = pointer_x;
                 view.pointer_y = pointer_y;
 
-                view.gradient_draw(mediaElement, pointer_x + view.el.scrollLeft, pointer_y + view.el.scrollTop, pointer_radius, c);
+                view.gradient_draw(mediaElement, pointer_x, pointer_y, pointer_radius, c);
             
             });
             
