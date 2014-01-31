@@ -674,7 +674,7 @@
               sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
               sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
               radius = view.pointer_radius,
-              _step = 80,
+              _step = 40,
               $this = $(this),
 
               // get scale factors for both dimensions from the viewport and media dimensions
@@ -734,13 +734,34 @@
           // stop hint display
           module.discoveryHintView.stop();
 
+          var _now, _then, _draw_time;
 
+          function draw_next(timestamp) {
 
-          function draw_next() {
+            var __step = _step;
 
-            radius += _step;
+            console.time('Draw');
+
+            _now = timestamp;
+
+            if(_then) {
+              _draw_time = _now - _then;
+              console.log('_draw_time: ', _draw_time);
+            }
+
+            if(_draw_time > 32) {
+              __step = _step * Math.round(_draw_time)/32;
+            }
+
+            console.log('__step: ', __step);
+
+            radius += __step;
 
             view.gradient_draw(mediaElement, pointer_x, pointer_y, radius*1.05, canvasElement);
+
+            _then = timestamp;
+
+            console.timeEnd('Draw');
 
             // make the loop run until we consider the whole media has been discovered
             if(radius <= sw) {
@@ -763,6 +784,8 @@
               view.trigger('DiscoveryView:end_transition');
 
             }
+
+             
 
           }
 
@@ -826,6 +849,7 @@
           
           // draw temp media element canvas with shape on main canvas
           ctx.drawImage(c2, 0, 0);
+          
 
         },
 
