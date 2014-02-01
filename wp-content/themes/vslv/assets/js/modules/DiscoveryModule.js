@@ -526,11 +526,13 @@
             // that will properly create a video element and set the correct source
             // depending on browser
             var view = this,
-                mediaElement = $('<video muted></video>').attr('src', mediaObject.source).get(0);
-            
+                mediaElement = $('<video muted></video>').get(0),
+                sources_html;
+
+            console.log("MEDIA OBJECT", mediaObject);
+
             if(this.$el.find('video').length) {
 
-              this.$el.find('video').attr('src', mediaObject.source);
               mediaElement = this.$el.find('video').get(0);
 
             }
@@ -539,10 +541,15 @@
               this.$el.append($(mediaElement));
 
             }
+            
+            // set SOURCES
+            sources_html = mediaObject.video_formats_tags.join('\n');
+            console.log(sources_html);
+            $(mediaElement).html(sources_html);
 
             // hide video to be able to see canvas 
             // and the gradient effect
-            $(mediaElement).hide();
+            //$(mediaElement).hide();
 
             $(mediaElement).on('loadeddata', function() {
 
@@ -558,7 +565,7 @@
                 $(mediaElement).show();
               });
 
-              view.drawMediaOnCanvasAnimate(mediaElement, view.c);
+              //view.drawMediaOnCanvasAnimate(mediaElement, view.c);
 
               $(window).off('resize');
               $(window).on('resize', function() {
@@ -600,6 +607,19 @@
               view.trigger('DiscoveryView:end_render');
 
             });
+
+        },
+
+        setVideoDimensions: function(videoElement) {
+
+          var master_dimension = this.c.width > this.c.height? 'width':'height',
+              other_dimension = (master_dimension === 'width')? 'height' : 'width',
+              md_value = this.c[master_dimension];
+
+          $(videoElement)[master_dimension](md_value);
+          $(videoElement).css(other_dimension, 'auto');
+
+          return videoElement;
 
         },
 
@@ -811,19 +831,6 @@
           
           // draw temp media element canvas with shape on main canvas
           ctx.drawImage(c2, 0, 0);
-
-        },
-
-        setVideoDimensions: function(videoElement) {
-
-          var master_dimension = this.c.width > this.c.height? 'width':'height',
-              other_dimension = (master_dimension === 'width')? 'height' : 'width',
-              md_value = this.c[master_dimension];
-
-          $(videoElement)[master_dimension](md_value);
-          $(videoElement).css(other_dimension, 'auto');
-
-          return videoElement;
 
         },
 
