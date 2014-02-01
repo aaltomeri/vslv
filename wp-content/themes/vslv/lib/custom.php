@@ -185,6 +185,126 @@ function vslvs_clients_list_sc( $atts ) {
 }
 add_shortcode("vslv-clients", 'vslvs_clients_list_sc');
 
+function VSLV_get_Media_formats($post_ID) {
+
+  $args = array(
+          'post_mime_type' => 'video',
+          'post_parent' => $post_ID,
+          'post_status' => null,
+          'post_type' => 'attachment',
+        );
+
+  $video_attachments = get_posts($args);
+  echo 'hi';
+  foreach ($video_attachments as $k => $v) {
+    var_dump($v);
+  }
+
+  return $video_attachments;
+
+}
+
+/**
+ * Get all available additional video formats for a video given its id
+ *
+ * @param $attachment_id
+ * @param $format_as_source_tags
+ * @return an array of urls or of already formatted source tags depending on second parameter
+ * 
+ * @param [type] $attachment_id [description]
+ */
+function VSLV_get_video_formats($attachment_id, $format_as_source_tags = false) {
+
+  $sources = array();
+
+  // get attachment
+  $original_url = wp_get_attachment_url($attachment_id);
+
+  // make sure it's a video
+  if(!strstr(get_post_mime_type($attachment_id), 'video')) {
+    return false;
+  }
+
+  // get file type
+  $moviefiletype = pathinfo($original_url, PATHINFO_EXTENSION);
+  
+  $encodevideo_info = kgvid_encodevideo_info($original_url, $attachment_id);
+
+  $order = 0;
+
+  // Original
+  $sources[$order] = array(
+    'url' => $original_url, 
+    'type' => $moviefiletype,
+    'order' => $order,
+    'media-query' => 'min-device-width: 1280px'
+  );
+  
+  // hard coded KGVID plugin video formats
+  // those need to be exactky as they are here
+  // since they are used in video info
+  $video_formats = array(
+    '1080' => array('type' => 'mp4', 'media-query' => 'min-device-width: 1280px'),
+    '720' => array('type' => 'mp4', 'media-query' => 'min-device-width: 768px'),
+    'mobile' => array('type' => 'mp4', 'media-query' => 'min-device-width: 320px'),
+    'webm' => array('type' => 'webm', 'media-query' => 'min-device-width: 320px'),
+    'ogg' => array('type' => 'ogg', 'media-query' => 'min-device-width: 320px')
+  );
+
+  foreach ($video_formats as $name => $infos) {
+
+    if ($encodevideo_info[$name."_exists"]) { 
+    
+      $order++;
+
+      $url = $encodevideo_info[$name."url"];
+        
+      $sources[$order] = array(
+        'url' => $url, 
+        'order' => $order,
+        'type' => $infos['type'],
+        'media-query' => $infos['media-query']
+      );
+
+    }
+    
+
+  }
+  
+  if(!$format_as_source_tags) {
+
+    return $sources;
+
+  }
+  else {
+
+    return VSLV_make_video_formats_tags($sources);
+    
+  }
+
+  return $sources;
+
+}
+
+function VSLV_make_video_formats_tags($sources) {
+
+  $source_tags = array();
+
+  foreach ($sources as $name => $infos) {
+
+    $source_tags[$name] = sprintf('<source src="%s" type="video/%s" media="(%s)">',
+      $infos['url'],
+      $infos['type'],
+      $infos['media-query']
+    );
+
+  }
+
+  return $source_tags;
+
+}
+
+
 
 
 

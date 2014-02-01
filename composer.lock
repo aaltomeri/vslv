@@ -7,16 +7,16 @@
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "c87cfc35882eb50df3eef1734bfa52fbcd6c782c"
+                "reference": "8e3e734c50b8f60228baf439d5ab16c57d67f6ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/c87cfc35882eb50df3eef1734bfa52fbcd6c782c",
-                "reference": "c87cfc35882eb50df3eef1734bfa52fbcd6c782c",
+                "url": "https://api.github.com/repos/composer/installers/zipball/8e3e734c50b8f60228baf439d5ab16c57d67f6ce",
+                "reference": "8e3e734c50b8f60228baf439d5ab16c57d67f6ce",
                 "shasum": ""
             },
             "replace": {
@@ -53,13 +53,15 @@
             "description": "A multi-framework Composer library installer",
             "homepage": "http://composer.github.com/installers/",
             "keywords": [
-                "TYPO3 CMS",
-                "TYPO3 Flow",
-                "TYPO3 Neos",
+                "Hurad",
+                "MODX Evo",
+                "OXID",
                 "agl",
+                "annotatecms",
                 "cakephp",
                 "codeigniter",
                 "concrete5",
+                "croogo",
                 "drupal",
                 "elgg",
                 "fuelphp",
@@ -67,18 +69,23 @@
                 "joomla",
                 "kohana",
                 "laravel",
-                "li3",
                 "lithium",
+                "magento",
                 "mako",
+                "mediawiki",
                 "modulework",
                 "phpbb",
+                "piwik",
                 "ppi",
+                "shopware",
                 "silverstripe",
                 "symfony",
+                "typo3",
                 "wordpress",
-                "zend"
+                "zend",
+                "zikula"
             ],
-            "time": "2013-12-24 18:04:46"
+            "time": "2014-01-27 03:45:57"
         },
         {
             "name": "fancyguy/webroot-installer",
@@ -138,10 +145,15 @@
         },
         {
             "name": "wpackagist/attachments",
-            "version": "trunk",
+            "version": "3.5.3",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/attachments/",
+                "reference": "tags/3.5.3"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/attachments.zip",
+                "url": "http://downloads.wordpress.org/plugin/attachments.3.5.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -153,10 +165,15 @@
         },
         {
             "name": "wpackagist/enable-media-replace",
-            "version": "trunk",
+            "version": "2.9.3",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/enable-media-replace/",
+                "reference": "tags/2.9.3"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.zip",
+                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.2.9.3.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -168,10 +185,15 @@
         },
         {
             "name": "wpackagist/google-analytics-for-wordpress",
-            "version": "trunk",
+            "version": "4.3.4",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/google-analytics-for-wordpress/",
+                "reference": "tags/4.3.4"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.zip",
+                "url": "http://downloads.wordpress.org/plugin/google-analytics-for-wordpress.4.3.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -183,10 +205,15 @@
         },
         {
             "name": "wpackagist/json-rest-api",
-            "version": "trunk",
+            "version": "0.8",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/json-rest-api/",
+                "reference": "tags/0.8"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/json-rest-api.zip",
+                "url": "http://downloads.wordpress.org/plugin/json-rest-api.0.8.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -198,10 +225,15 @@
         },
         {
             "name": "wpackagist/posts-to-posts",
-            "version": "trunk",
+            "version": "1.6.2",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/posts-to-posts/",
+                "reference": "tags/1.6.2"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/posts-to-posts.zip",
+                "url": "http://downloads.wordpress.org/plugin/posts-to-posts.1.6.2.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -213,10 +245,15 @@
         },
         {
             "name": "wpackagist/regenerate-thumbnails",
-            "version": "trunk",
+            "version": "2.2.4",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/regenerate-thumbnails/",
+                "reference": "tags/2.2.4"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/regenerate-thumbnails.zip",
+                "url": "http://downloads.wordpress.org/plugin/regenerate-thumbnails.2.2.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -228,10 +265,15 @@
         },
         {
             "name": "wpackagist/wordpress-seo",
-            "version": "trunk",
+            "version": "1.4.24",
+            "source": {
+                "type": "svn",
+                "url": "http://plugins.svn.wordpress.org/wordpress-seo/",
+                "reference": "tags/1.4.24"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.zip",
+                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.1.4.24.zip",
                 "reference": null,
                 "shasum": null
             },

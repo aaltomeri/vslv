@@ -31,14 +31,17 @@ function vslv_augment_posts_json_with_attachments($_post, $post, $context) {
         );
       }
 
-
       // as prepare_post is common to all Post Types 
       // we remove the filter here to avoid it being called recursively
       // as $wp_json_media->getPosts will use it as well
       remove_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
 
       $wp_json_media = new WP_JSON_Media($wp_json_server);
-      $attachments = $wp_json_media->getPosts(array('post__in' => $attachments_ids, 'orderby' => 'post__in'), 'single');
+      $attachments = $wp_json_media->getPosts(array(
+        'post__in' => $attachments_ids, 
+        'orderby' => 'post__in'
+        ), 
+      'single');
 
       // re-add action for following requests
       add_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
@@ -58,6 +61,21 @@ function vslv_augment_posts_json_with_attachments($_post, $post, $context) {
 
 }
 add_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
+
+function vslv_augment_videos_json_with_additional_formats($data, $post, $context) {
+
+  $video_formats = VSLV_get_video_formats($data['ID']);
+  
+  $data['video_formats'] = $video_formats;
+
+  if($video_formats) {
+    $data['video_formats_tags'] = VSLV_make_video_formats_tags($video_formats);
+  }
+
+  return $data;
+  
+}
+add_action( 'json_prepare_attachment', 'vslv_augment_videos_json_with_additional_formats', 10, 3 );
 
 /**
  * Enqueue scripts and stylesheets
@@ -88,7 +106,7 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '3f5b4c6e6570197ccc674b3a40ca2bf8', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '85165e49a2aa1b08e3f3b08d9dfd615b', true);
 
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');
