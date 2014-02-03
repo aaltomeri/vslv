@@ -542,7 +542,8 @@
             // depending on browser
             var view = this,
                 mediaElement = $('<video muted></video>').get(0),
-                sources_html;
+                sources_html,
+                source_to_draw_on_canvas;
 
             console.log("MEDIA OBJECT", mediaObject);
 
@@ -556,66 +557,115 @@
               this.$el.append($(mediaElement));
 
             }
-            
-            // set SOURCES
-            sources_html = mediaObject.video_formats_tags.join('\n');
-            console.log(sources_html);
-            $(mediaElement).html(sources_html);
 
-            // hide video to be able to see canvas 
-            // and the gradient effect
-            //$(mediaElement).hide();
+            // set poster for video
+            // necessary as some browser/devices do not want to show first frame (chrome on Android)
+            $(mediaElement).attr('poster', mediaObject.poster);
 
-            $(mediaElement).on('loadeddata', function() {
-
-              console.log('VIDEO DATA LOADED');
-
+            /*
+              On certain devices - namely iPhone - actual video preloading does not start unless the user press the play button
+              we thus need to act on the loadstart event if we want to do anything
+              as loadeddata event is only triggered when some data has been preloaded
+             */
+            $(mediaElement).on('loadstart', function() {
+              
+              console.log('LOADSTART');
+              
               view.setVideoDimensions(mediaElement);
 
-              //module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
+              // for iOS and Android
+              // draw poster image on the canvas
+              if(device.ios() || device.android()) {
 
-              // show video at the end of the transition
-              view.listenToOnce(view, 'DiscoveryView:end_render', function() {
-                console.log('SHOW VIDEO');
-                $(mediaElement).show();
-              });
+                source_to_draw_on_canvas = new Image();
+                source_to_draw_on_canvas.src = mediaObject.poster;
+                source_to_draw_on_canvas.addEventListener('load', function() {
+                  view.drawMediaOnCanvasAnimate(source_to_draw_on_canvas, view.c);
+                });
 
-              //view.drawMediaOnCanvasAnimate(mediaElement, view.c);
+              }
 
-              $(window).off('resize');
-              $(window).on('resize', function() {
-                view.drawMediaOnCanvas(mediaElement, view.c);
-                view.setVideoDimensions(mediaElement);
-              });
+              // for everyone
 
-              //view.$c.hide();
-
+              // HIDE VIDEO
+              // showing canvas with first frame or poster drawn onto it
+              // 
+              // this is done here, as the video element has been setup, 
+              // because if we hide 'too soon', i.e. before or just after sources have been set
+              // the video can be considered has 'hidden', i.e. absent from the DOM
+              // and thus not load (as video hidden in the DOM do not start loading )
+              $(mediaElement).hide();
+              
               // unbind all normal events for this view
+              // !!!!!!!! this does not seem to be working here
+              // so we repeat in loadeddata handler
               view.undelegateEvents();
 
-              // make video play on click
-              view.$el.on('click', function(e) {
-
+              // make video play on touch
+              view.$el.on('mouseup touchend', function(e) {
+                console.log('ABOUT TO PLAY');
                 e.stopPropagation();
                 mediaElement.play();
                 module.discoveryHintView.stop();
-
               });
 
             });
 
-             $(mediaElement).on('ended', function() {
+
+            // as data is available
+            $(mediaElement).on('loadeddata', function() {
+
+              console.log('LOADEDDATA');
+
+              //module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
+
+              // draw first frame on canvas
+              // but not on iOS or Android 
+              // as it is not possible (iOS) or first frame migh be missing (Android chrome 32)
+              // for these 2 oss we have drawn the poster image in the loadstart handler
+              if(!device.ios() && !device.android()) {
+
+                view.drawMediaOnCanvasAnimate(mediaElement, view.c);
+                
+                $(window).off('resize');
+                $(window).on('resize', function() {
+                  view.drawMediaOnCanvas(mediaElement, view.c);
+                  view.setVideoDimensions(mediaElement);
+                });
+
+              }
+
+              // unbind all normal events for this view
+              // !!!!!!!!! this should not be here as it is already has been done in loadstart handler
+              // but for some reason and ** only when video is first media in project ** it does not work in loadstart handler
+              view.undelegateEvents();
+
+            });
+
+
+            // AT THE END OF THE VIDEO
+            $(mediaElement).on('ended', function() {
 
               console.log('VIDEO ENDED');
 
-              view.drawMediaOnCanvas(mediaElement, view.c);
-              view.$c.show();
-              view.$el.off('click');
+              // at then end of the video
+              // draw last frame on canvas
+              if(!device.android() && !device.ios()) { // but not for those who behave badly
+                
+                console.log('DRAW LAST FRAME');
+                view.drawMediaOnCanvas(mediaElement, view.c);
+                view.$c.show();
+
+              }
+
+              // unbind events set for playing the video
+              view.$el.off('mouseup touchend');
 
               // rebind all events
               view.delegateEvents();
               
               $(mediaElement).remove();
+
               module.discoveryHintView.start(APP_DATA.discovery_hint_message);
 
               // notify we have finished to render
@@ -623,16 +673,65 @@
 
             });
 
+            // show video at the end of the transition
+            this.listenToOnce(this, 'DiscoveryView:end_render', function() {
+
+              console.log('TRANSITION END');
+
+              if(!device.android()) {
+
+                $(mediaElement).show();
+
+              }
+
+              $(mediaElement).one('playing', function() {
+
+                console.log('PLAYING');
+
+                if(device.android()) {
+
+                  $(mediaElement).show();
+
+                }
+
+              });
+
+            });
+
+            // set SOURCES
+            // make sure this is dine before hiding the video
+            // otherwise loading is not started
+            sources_html = mediaObject.video_formats_tags.join('\n');
+            $(mediaElement).html(sources_html);
+            
+            // hide video to be able to see canvas 
+            // and the gradient effect
+            // everything else is done in the loadeddata handler
+            if(!device.ios()) { // but not on iOS as it can not draw video frame on canvas
+
+              //$(mediaElement).hide();
+
+            }
+
         },
 
         setVideoDimensions: function(videoElement) {
 
           var master_dimension = this.c.width > this.c.height? 'width':'height',
               other_dimension = (master_dimension === 'width')? 'height' : 'width',
-              md_value = this.c[master_dimension];
+              md_value = this.c[master_dimension],
+              od_value = 'auto';
+
+          // changes based on devices
+          if(device.ios()) {
+
+            od_value = '100%';
+            $(videoElement).css('top', this.el.scrollTop);
+
+          }
 
           $(videoElement)[master_dimension](md_value);
-          $(videoElement).css(other_dimension, 'auto');
+          $(videoElement).css(other_dimension, od_value);
 
           return videoElement;
 
