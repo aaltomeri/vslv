@@ -72,6 +72,10 @@ function vslv_augment_videos_json_with_additional_formats($data, $post, $context
     $data['video_formats_tags'] = VSLV_make_video_formats_tags($video_formats);
   }
 
+  $poster_infos = wp_get_attachment_image_src( get_post_thumbnail_id($post['ID']), 'discovery');
+  $poster_src = $poster_infos[0];
+  $data['poster'] = $poster_src;
+
   return $data;
   
 }
@@ -106,7 +110,7 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '85165e49a2aa1b08e3f3b08d9dfd615b', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '70e49b4a774865d4042a565bc88c0501', true);
 
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');
