@@ -361,12 +361,16 @@
             
           }
 
+          // As we are changing model
           this.listenTo(this.collection, 'Discovery:set', function(model) {
 
+            // reset
             this.stopListening(this.model);
 
+            // change model
             this.model = model;
 
+            // make view listen to model
             this.listenTo(this.model, 'Discovery:setCurrentMedia', function(mediaObject) {
 
               this.render();
@@ -379,7 +383,7 @@
             this.model.setCurrentMedia(this.collection.currentModel.currentMediaIndex);
 
             this.listenToOnce(this, 'DiscoveryView:end_render', function() {
-              this.collection.trigger('Discovery:setAndRenderEnded', this.collection.currentModel);
+              this.trigger('Discovery:setAndRenderEnded', this.model);
             });
 
           });
@@ -859,20 +863,20 @@
 
             var __step = _step;
 
-            console.time('Draw');
+            // console.time('Draw');
 
             _now = timestamp;
 
             if(_then) {
               _draw_time = _now - _then;
-              console.log('_draw_time: ', _draw_time);
+              // console.log('_draw_time: ', _draw_time);
             }
 
             if(_draw_time > 32) {
               __step = _step * Math.round(_draw_time)/32;
             }
 
-            console.log('__step: ', __step);
+            // console.log('__step: ', __step);
 
             radius += __step;
 
@@ -880,7 +884,7 @@
 
             _then = timestamp;
 
-            console.timeEnd('Draw');
+            // console.timeEnd('Draw');
 
             // make the loop run until we consider the whole media has been discovered
             if(radius <= sw) {
