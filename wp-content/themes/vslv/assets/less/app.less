@@ -27,6 +27,12 @@
    Base
    ========================================================================== */
 
+* {
+
+  .box-sizing(content-box);
+
+}
+
 html, body, #main {
 
     font-size: 100%;
@@ -488,6 +494,13 @@ main {
   margin: auto;
   overflow: hidden;
 
+  .swiper-wrapper {
+
+    // fix for height not being properly computed by swiper plugin on FF for instance
+    height: 100% ! important;
+
+  }
+
   &.is-open {
 
     padding: 20px 0; 
@@ -518,12 +531,13 @@ main {
         // hide by default
         opacity: 0;
 
-        display: inline-block;
+        display: inline;
         list-style: none;
 
         height: 100%;
 
         margin-left: 20px;
+        overflow-x: auto;
 
         img {
           height: 100%;

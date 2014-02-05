@@ -5996,6 +5996,11 @@ td.visible-print {
 /* ==========================================================================
    Base
    ========================================================================== */
+* {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
 html,
 body,
 #main {
@@ -6308,6 +6313,9 @@ main > .preloader.animate {
   background: rgba(255, 255, 255, 0.9);
   cursor: ew-resize;
 }
+#portfolio .swiper-wrapper {
+  height: 100% ! important;
+}
 #portfolio.is-open {
   padding: 20px 0;
 }
@@ -6323,10 +6331,11 @@ main > .preloader.animate {
 }
 #portfolio ul li {
   opacity: 0;
-  display: inline-block;
+  display: inline;
   list-style: none;
   height: 100%;
   margin-left: 20px;
+  overflow-x: auto;
 }
 #portfolio ul li img {
   height: 100%;
