@@ -10,3 +10,4 @@ wp-core
 !.gitkeep
 node_modules
 *.sql
+test_*
