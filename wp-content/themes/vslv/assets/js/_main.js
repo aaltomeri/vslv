@@ -338,7 +338,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // hide portfolio and show text panel again
         project_module.portfolioView.on('PortfolioView:is-open', function() {
 
-          //discovery_module.discoveryView.undelegateEvents();
+          discovery_module.discoveryView.undelegateEvents();
 
           // because if a Video Element is active the View has been bound with a click
           // to trigger the video play
