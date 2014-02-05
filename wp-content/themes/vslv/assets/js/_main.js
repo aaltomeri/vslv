@@ -334,6 +334,13 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
+        discovery_module.discoveryView.on('Discovery:setCurrentMedia', function() {
+          
+          console.log('Discovery:setCurrentMedia in Main');
+          page_module.currentPageView.hide();
+
+        });
+
         // disable Discovery View when Portoflio is open
         // hide portfolio and show text panel again
         project_module.portfolioView.on('PortfolioView:is-open', function() {
