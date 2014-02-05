@@ -6251,6 +6251,7 @@ main > .preloader.animate {
   top: 0;
   left: 0;
   z-index: 10;
+  cursor: pointer;
 }
 #discovery video {
   position: absolute;
