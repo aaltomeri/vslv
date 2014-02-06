@@ -159,7 +159,7 @@ var PAGE_MODULE = (function() {
           this.$el.html(
             this.content_template( this.model.attributes )
           );
-          
+
           setTimeout(function() {
 
               view.swiper = view.$el.swiper({scrollContainer: true, mode:'vertical'});
@@ -181,15 +181,11 @@ var PAGE_MODULE = (function() {
 
           //console.log('PageView:show');
 
-          this.$el.removeClass('is-hidden');
-
           var onShown = function() {
 
             view.visible = true;
             
             //console.log('PageView:is-shown');
-            
-            view.$el.removeClass('is-hidden');
 
             view.trigger('PageView:is-shown');
 
@@ -199,6 +195,7 @@ var PAGE_MODULE = (function() {
             
           };
 
+          this.$el.show();
           this.$el.removeClass('is-hidden');
 
           if(content || (title && type === 'project')) {

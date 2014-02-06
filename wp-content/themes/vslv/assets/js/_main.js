@@ -538,6 +538,18 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
+        $('#menu-primary-navigation li a').on('click', function() {
+
+
+          if($(this).attr('href') === '/' + Backbone.history.fragment) {
+
+            page_module.currentPageView.show();
+
+          }
+
+
+        });
+
       },
 
       /**
