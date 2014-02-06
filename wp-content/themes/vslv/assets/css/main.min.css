@@ -6003,7 +6003,7 @@ td.visible-print {
 }
 html,
 body,
-#main {
+main {
   font-size: 100%;
   height: 100%;
   overflow: hidden;
@@ -6347,9 +6347,9 @@ main > .preloader.animate {
 #content {
   position: absolute;
   top: 20%;
-  -webkit-transform: translate(-999px, 0);
-  -ms-transform: translate(-999px, 0);
-  transform: translate(-999px, 0);
+  -webkit-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
   padding: 0;
   width: 50%;
   max-height: 60%;

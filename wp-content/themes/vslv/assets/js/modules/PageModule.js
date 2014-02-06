@@ -99,10 +99,25 @@ var PAGE_MODULE = (function() {
 
         initialize: function() {
 
+          var view = this;
+
           _.templateSettings.variable = 'data';
 
           // make content template
           this.content_template = _.template($('#content-template').html());
+
+
+          $(window).on('resize', function() {
+
+            var type = view.model.get('type');
+
+            if(view.$el.hasClass('is-hidden') && type==='project') {
+
+              view.$el.css({ x : -view.$el.outerWidth() + 40 });
+
+            }
+
+          });
 
         },
 

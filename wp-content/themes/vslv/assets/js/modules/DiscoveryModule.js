@@ -478,13 +478,20 @@
 
           console.log('img: ', mediaObject.source);
 
+          $(window).off('resize', this.windowResizeHandlerForImage);
+
           // has it been preloaded yet?
           // we check if a result is returned from the loadQueue for this media
           // we are expecting an HTML Image
           if(this.loadQueue !== null && this.loadQueue.getResult(mediaObject.slug) instanceof HTMLImageElement) { // yep
 
+            //window.addEventListener('resize', function() { console.log('resize'); });
+
             mediaElement = this.loadQueue.getResult(mediaObject.slug);
             this.drawMediaOnCanvasAnimate(mediaElement, this.c);
+
+
+            $(window).on('resize', { view: view, mediaElement: mediaElement}, this.windowResizeHandlerForImage);
             
           }
           else { // nope
@@ -521,6 +528,8 @@
               // notify appplication media has finished loading
               this.trigger('DiscoveryView:media_loaded', mediaElement, mediaObject);
 
+              $(window).on('resize', { view: view, mediaElement: mediaElement}, this.windowResizeHandlerForImage);
+
             },
             this);
             
@@ -528,12 +537,20 @@
 
           }
 
-          $(window).off('resize');
-          $(window).on('resize', function() {
-            view.drawMediaOnCanvas(mediaElement, view.c);
-          });
-
+         
+          console.log('mediaElement', mediaElement);
           console.groupEnd();
+
+        },
+
+        windowResizeHandlerForImage: function(e) {
+
+          var view = e.data.view,
+              mediaElement = e.data.mediaElement;
+
+          view.drawMediaOnCanvas(mediaElement, view.c);
+
+          console.log('resize 2');
 
         },
 
@@ -631,11 +648,8 @@
 
                 view.drawMediaOnCanvasAnimate(mediaElement, view.c);
                 
-                $(window).off('resize');
-                $(window).on('resize', function() {
-                  view.drawMediaOnCanvas(mediaElement, view.c);
-                  view.setVideoDimensions(mediaElement);
-                });
+                $(window).off('resize', view.windowResizeHandlerForVideo);
+                //$(window).on('resize', { view: view, mediaElement: mediaElement}, view.windowResizeHandlerForVideo);
 
               }
 
@@ -716,6 +730,16 @@
               //$(mediaElement).hide();
 
             }
+
+        },
+
+         windowResizeHandlerForVideo: function(e) {
+
+          var view = e.data.view,
+              mediaElement = e.data.mediaElement;
+
+          view.drawMediaOnCanvas(mediaElement, view.c);
+          view.setVideoDimensions(mediaElement);
 
         },
 
