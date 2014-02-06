@@ -148,21 +148,25 @@ var PAGE_MODULE = (function() {
 
           var view = this;
 
-          this.$el.html(
-            this.content_template( this.model.attributes )
-          );
-
           if(this.swiper instanceof Swiper) {
 
             this.swiper.destroy();
             this.swiper = null;
+            this.$el.removeClass('swiper-free-mode');
 
           }
 
-          this.swiper = this.$el.swiper({scrollContainer: true, mode:'vertical'});
-
-          setTimeout(function() {view.swiper.reInit();}, 20);
+          this.$el.html(
+            this.content_template( this.model.attributes )
+          );
           
+          setTimeout(function() {
+
+              view.swiper = view.$el.swiper({scrollContainer: true, mode:'vertical'});
+              
+            },
+            50
+          );
 
         },
 
