@@ -878,9 +878,6 @@
           // by setting the canvas dimensions
           this.ctx2.globalCompositeOperation = "destination-atop";
 
-          // stop hint display
-          module.discoveryHintView.stop();
-
           var _now, _then, _draw_time;
 
           function draw_next(timestamp) {
@@ -923,9 +920,6 @@
               // and make things clean
               // it will also set the main canvas size to the correct dimensions
               view.drawMediaOnCanvas(mediaElement, canvasElement);
-
-              // start hint display
-              module.discoveryHintView.start();
 
               // notify we have finished tthe transition effect
               view.trigger('DiscoveryView:end_transition');
@@ -1077,9 +1071,31 @@
       className: 'discovery-hint',
 
       started: false,
-      discoveryHintViewTimeout: null,
+      hideDelayTimeout: null,
 
-      initialize: function() {},
+      initialize: function() {
+
+        this.listenTo(module.discoveryView, 'DiscoveryView:start_render', function() {
+
+          console.log('STOP hint display in start_render handler');
+
+          // stop hint display
+          this.stop();
+
+
+        });
+
+        this.listenTo(module.discoveryView, 'DiscoveryView:end_render', function() {
+
+          console.log('START hint display in end_render handler');
+
+          // start hint display
+          this.start();
+
+        });
+
+
+      },
 
       start: function(msg) {
 
@@ -1093,7 +1109,7 @@
           return;
         }
 
-        //console.log('DiscoveryHintView', 'START', this.started);
+        console.log('DiscoveryHintView', 'START', 'is started:', this.started);
 
         this.setPosition();
         this.show();
@@ -1104,7 +1120,7 @@
 
       stop: function() {
 
-        //console.log('DiscoveryHintView', 'STOP', this.started);
+        console.log('DiscoveryHintView', 'STOP', 'is started:', this.started);
 
         if(!this.started) {
           return;
@@ -1122,43 +1138,51 @@
 
         //console.group('DiscoveryHintView SHOW');
 
-        //console.log('DiscoveryHintView', 'SHOW');
+        console.log('DiscoveryHintView', 'SHOW');
 
-        this.$el.stop(true);
+        clearTimeout(view.hideDelayTimeout);
 
         this.$el.transition({
           opacity: 1,
           duration: VSLV_CONFIG.discovery_hint_show_duration
         }, function() {
           if(view.started) {
-            //console.log('DiscoveryHintView', 'END OF SHOW');
-            view.hide(VSLV_CONFIG.discovery_hint_interval);
+
+            console.log('DiscoveryHintView', 'END OF SHOW');
+
+            view.hideDelayTimeout = setTimeout(function() {
+
+                view.hide();
+
+              },
+              VSLV_CONFIG.discovery_hint_interval
+            );
+
           }
         });
 
       },
 
-      hide: function(_delay) {
+      hide: function() {
 
         var view = this;
         
-        //console.log('DiscoveryHintView', 'HIDE');
+        console.log('DiscoveryHintView', 'HIDE');
 
-        this.$el.stop(true);
+        clearTimeout(view.hideDelayTimeout);
+
+        this.$el.transitionStop();
 
         this.$el.transition({
           opacity: 0,
-          delay: _delay,
           duration: VSLV_CONFIG.discovery_hint_hide_duration
         }, function() {
 
-          //console.log('DiscoveryHintView', 'HIDDEN');
+          console.log('DiscoveryHintView', 'HIDDEN');
 
           if(view.started) {
             view.setPosition().show();
           }
-
-          //console.groupEnd();
 
         });
 

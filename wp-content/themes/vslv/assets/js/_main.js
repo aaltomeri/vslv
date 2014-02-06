@@ -462,8 +462,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
             return;
           }
 
-          //clearTimeout(this.discoveryHintViewTimeout);
-          
+          console.log('PageView:is-hidden in  MAIN');
+
           this.start();
           
         });
@@ -471,27 +471,29 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // stop displaying hint when page is shown
         discovery_module.discoveryHintView.listenTo(page_module.currentPageView, 'PageView:is-shown', function() {
           
-          //clearTimeout(this.discoveryHintViewTimeout);
-          
+          console.log('PageView:is-shown in  MAIN');
+
           this.stop();
 
         });
+
         // or when we show the portfolio
         discovery_module.discoveryHintView.listenTo(project_module.portfolioView, 'PortfolioView:show', function() {
           
-          //clearTimeout(this.discoveryHintViewTimeout);
-
+          console.log('PortfolioView:show in  MAIN');
+          
           this.stop();
 
         });
+
         // or when we show a new media in Discovery
         discovery_module.discoveryHintView.listenTo(discovery_module.discoveryView, 'Discovery:setCurrentMedia', function() {
           
-          //clearTimeout(this.discoveryHintViewTimeout);
 
           if(this.started) {
 
             //this.stop();
+
             // reactivate after a while
             //this.discoveryHintViewTimeout = setTimeout(function() {discovery_module.discoveryHintView.start();}, 4000);
           
