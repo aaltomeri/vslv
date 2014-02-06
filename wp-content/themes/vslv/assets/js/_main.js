@@ -525,6 +525,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         $('.navbar-collapse').on('show.bs.collapse', function() {
 
           $('.navbar').removeClass('collapsed');
+          $('.navbar-toggle').removeClass('collapsed');
           
           changeLogo("color");
 
@@ -533,6 +534,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         $('.navbar-collapse').on('hide.bs.collapse', function() {
 
           $('.navbar').addClass('collapsed');
+          $('.navbar-toggle').addClass('collapsed');
           
           changeLogo("white");
 
