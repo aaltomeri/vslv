@@ -525,7 +525,7 @@
               mediaElement = e.item.tag;
               this.drawMediaOnCanvasAnimate(mediaElement, this.c);
               
-              // notify appplication media has finished loading
+              // notify media has finished loading
               this.trigger('DiscoveryView:media_loaded', mediaElement, mediaObject);
 
               $(window).on('resize', { view: view, mediaElement: mediaElement}, this.windowResizeHandlerForImage);
@@ -630,6 +630,9 @@
                 module.discoveryHintView.stop();
               });
 
+              // notify media has finished loading
+              view.trigger('DiscoveryView:media_loaded', mediaElement, mediaObject);
+
             });
 
 
@@ -637,8 +640,6 @@
             $(mediaElement).on('loadeddata', function() {
 
               console.log('LOADEDDATA');
-
-              //module.discoveryHintView.start(APP_DATA.discovery_hint_video_message);
 
               // draw first frame on canvas
               // but not on iOS or Android 
