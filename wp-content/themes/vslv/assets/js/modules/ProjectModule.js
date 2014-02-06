@@ -230,6 +230,11 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           this.open();
 
         }
+        else {
+             
+          this.listenTo(module, 'PortfolioView:thumbs-loaded', this.open);
+            
+        }
 
       },
 
