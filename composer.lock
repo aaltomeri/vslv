@@ -7,16 +7,16 @@
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.9",
+            "version": "v1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "8e3e734c50b8f60228baf439d5ab16c57d67f6ce"
+                "reference": "35a07647186a910b725fca9290b13ca2e265491a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/8e3e734c50b8f60228baf439d5ab16c57d67f6ce",
-                "reference": "8e3e734c50b8f60228baf439d5ab16c57d67f6ce",
+                "url": "https://api.github.com/repos/composer/installers/zipball/35a07647186a910b725fca9290b13ca2e265491a",
+                "reference": "35a07647186a910b725fca9290b13ca2e265491a",
                 "shasum": ""
             },
             "replace": {
@@ -53,6 +53,7 @@
             "description": "A multi-framework Composer library installer",
             "homepage": "http://composer.github.com/installers/",
             "keywords": [
+                "Craft",
                 "Hurad",
                 "MODX Evo",
                 "OXID",
@@ -85,7 +86,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-01-27 03:45:57"
+            "time": "2014-01-31 16:53:31"
         },
         {
             "name": "fancyguy/webroot-installer",
@@ -165,15 +166,15 @@
         },
         {
             "name": "wpackagist/enable-media-replace",
-            "version": "2.9.3",
+            "version": "2.9.4",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/enable-media-replace/",
-                "reference": "tags/2.9.3"
+                "reference": "tags/2.9.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.2.9.3.zip",
+                "url": "http://downloads.wordpress.org/plugin/enable-media-replace.2.9.4.zip",
                 "reference": null,
                 "shasum": null
             },
