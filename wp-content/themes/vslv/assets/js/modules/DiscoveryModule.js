@@ -1078,7 +1078,7 @@
 
         this.listenTo(module.discoveryView, 'DiscoveryView:start_render', function() {
 
-          console.log('STOP hint display in start_render handler');
+          // console.log('STOP hint display in start_render handler');
 
           // stop hint display
           this.stop();
@@ -1088,7 +1088,7 @@
 
         this.listenTo(module.discoveryView, 'DiscoveryView:end_render', function() {
 
-          console.log('START hint display in end_render handler');
+          // console.log('START hint display in end_render handler');
 
           // start hint display
           this.start();
@@ -1110,7 +1110,7 @@
           return;
         }
 
-        console.log('DiscoveryHintView', 'START', 'is started:', this.started);
+        // console.log('DiscoveryHintView', 'START', 'is started:', this.started);
 
         this.setPosition();
         this.show();
@@ -1121,7 +1121,7 @@
 
       stop: function() {
 
-        console.log('DiscoveryHintView', 'STOP', 'is started:', this.started);
+        // console.log('DiscoveryHintView', 'STOP', 'is started:', this.started);
 
         if(!this.started) {
           return;
@@ -1139,7 +1139,7 @@
 
         //console.group('DiscoveryHintView SHOW');
 
-        console.log('DiscoveryHintView', 'SHOW');
+        // console.log('DiscoveryHintView', 'SHOW');
 
         clearTimeout(view.hideDelayTimeout);
 
@@ -1149,7 +1149,7 @@
         }, function() {
           if(view.started) {
 
-            console.log('DiscoveryHintView', 'END OF SHOW');
+            // console.log('DiscoveryHintView', 'END OF SHOW');
 
             view.hideDelayTimeout = setTimeout(function() {
 
@@ -1168,7 +1168,7 @@
 
         var view = this;
         
-        console.log('DiscoveryHintView', 'HIDE');
+        // console.log('DiscoveryHintView', 'HIDE');
 
         clearTimeout(view.hideDelayTimeout);
 
@@ -1179,7 +1179,7 @@
           duration: VSLV_CONFIG.discovery_hint_hide_duration
         }, function() {
 
-          console.log('DiscoveryHintView', 'HIDDEN');
+          // console.log('DiscoveryHintView', 'HIDDEN');
 
           if(view.started) {
             view.setPosition().show();
@@ -1197,7 +1197,7 @@
             w = this.$el.width(),
             h = this.$el.height(),
             // set x & y - account for the fact that the paret container might have been scrolled to center the media
-            // and we also don't want the hint to appear beneath the menu even if it's collased
+            // and we also don't want the hint to appear beneath the menu even if it's collapsed
             x_min = $parent.scrollLeft()+w,
             x_max = pw+$parent.scrollLeft()-(w*2),
             x_range = x_max - x_min,
