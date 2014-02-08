@@ -1110,7 +1110,7 @@
           return;
         }
 
-        // console.log('DiscoveryHintView', 'START', 'is started:', this.started);
+        // console.log('DiscoveryHintView', 'START', 'is started:', this.started); 
 
         this.setPosition();
         this.show();

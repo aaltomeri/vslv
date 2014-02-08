@@ -26,7 +26,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           // add convenient thumbnail attribute
           if(this.get('featured_image')) {
             this.set('thumbnail',
-              this.get('featured_image').attachment_meta.sizes.thumbnail
+              this.get('featured_image').attachment_meta.sizes["portfolio-thumbnail"]
             );
           }
 

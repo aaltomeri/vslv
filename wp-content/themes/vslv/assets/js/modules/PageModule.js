@@ -93,7 +93,8 @@ var PAGE_MODULE = (function() {
 
         events: {
 
-          'click .toggle': 'toggle'
+          'click .toggle': 'toggle',
+          'touchstart .toggle': 'toggle'
 
         },
 
@@ -163,7 +164,7 @@ var PAGE_MODULE = (function() {
           setTimeout(function() {
 
               view.swiper = view.$el.swiper({scrollContainer: true, mode:'vertical'});
-              
+
             },
             50
           );
@@ -189,8 +190,13 @@ var PAGE_MODULE = (function() {
 
             view.trigger('PageView:is-shown');
 
-            // make scroll-hint appear
-            $('.scroll-hint').transition({opacity: 1});
+            // do we need to tell the user there is more content available and scroll is available?
+            if(view.$('> .content').outerHeight() < view.$el.outerHeight()) {
+              $('.scroll-hint').transition({opacity: 0});
+            }
+            else {
+              $('.scroll-hint').transition({opacity: 1});
+            }
             
             
           };
