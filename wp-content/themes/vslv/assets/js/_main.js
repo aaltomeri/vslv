@@ -4,6 +4,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
   var Router = Backbone.Router.extend({
 
+      previous_slug: null,
+
       // extend VSLV router with ability to trigger 'beforeroute' event
       // useful to perform operations before any route callback is called
       route: function(route, name, callback) {
@@ -38,6 +40,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
       project: function(slug, mediaIndex) {
 
         console.log("project: " + slug);
+
+        //$('body').removeClass(this.previous_slug);
 
         this.activateMenuItem(slug);
 
@@ -83,17 +87,29 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         console.log("page: " + slug);
 
         var router = this;
-
+            
         slug = this.cleanSlug(slug);
 
         // css operations
         // only after page/content is about to be shown
-        discovery_module.discoveryHintView.listenToOnce(page_module.currentPageView, 'PageView:is-hidden', function() {
+        page_module.currentPageView.listenToOnce(page_module.currentPageView, 'PageView:is-hidden', function() {
 
           // remove current page body class
-          $('body').attr('class', '');
+          $('body').removeClass(router.previous_slug);
           // add current page slug
           $('body').addClass(slug);
+
+          // very hackish
+          // but deals with a case where 'contact' center-panel has a different width
+          // than the regular content panel width - this is sone vie a body class
+          // so as, when the panel is being hidden, we set its translateX value to be minus its width
+          // and we then (here) remove the body class (contact) the cotent panel width is greater and the panel shows
+          // we thus need to re-set the translateX property now that we have a greater width
+          if(slug === 'portfolio') {
+            page_module.currentPageView.$el.css({ x: -this.$el.outerWidth() });
+          }
+
+          router.previous_slug = slug;
 
         });
         
@@ -105,7 +121,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           case 'portfolio':
 
             // will hide text panel
-            // and set cureentPageView model to be portfolio page model
+            // and set currentPageView model to be portfolio page model
             this.renderPage(slug);
 
             project_module.portfolioView.show();

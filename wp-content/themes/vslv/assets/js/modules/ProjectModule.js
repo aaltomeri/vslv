@@ -205,7 +205,10 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           }, this);
 
           // init Swiper
-          this.swiper = this.$el.swiper({scrollContainer: true, preventLinksPropagation: true});
+          this.swiper = this.$el.swiper({
+            scrollContainer: true,
+            preventLinksPropagation: true
+          });
 
         });
 
@@ -324,11 +327,14 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         setTimeout(function() {
 
+            var nx = -Math.round(Math.random()*$(view.swiper.wrapper).width()/2);
+
             view.trigger('PortfolioView:items-shown');
 
             // slide to random position
             view.swiper.setWrapperTransition(1000);
-            view.swiper.setWrapperTranslate(-(Math.random()*view.swiper.width),0,0);
+
+            view.swiper.setWrapperTranslate(nx,0,0);
 
           },
           timeout

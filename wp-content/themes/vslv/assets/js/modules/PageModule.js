@@ -250,6 +250,9 @@ var PAGE_MODULE = (function() {
 
           //console.log('PageView:hide');
 
+
+          view.trigger('PageView:hide');
+
           // only for projects
           if(type === 'project' && offsetX === undefined) {
 
@@ -288,7 +291,7 @@ var PAGE_MODULE = (function() {
                 }
 
                 // when hiding the panel the model has already been changed 
-                // if panel_type === 'center' it means we are about to show a page that disaplays its content in the center
+                // if panel_type === 'center' it means we are about to show a page that displays its content in the center
                 if(panel_type === 'center') {
 
                   view.$el.addClass('center-panel');
