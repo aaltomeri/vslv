@@ -546,3 +546,19 @@ address {
   font-style: normal;
   line-height: 1.428571429;
 }
+
+/** VSLV **/
+.contact1 {
+  font-family: serif;
+  text-transform: uppercase;
+}
+.contact2 {
+  font-family: sans-serif;
+  text-transform: uppercase;
+  color: #6d4523;
+}
+.contact3 {
+  font-family: serif;
+  text-transform: lowercase;
+  color: #6d4523;
+}
