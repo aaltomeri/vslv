@@ -399,6 +399,11 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
+        // apply vslv svg logo dimension fix
+        if(navigator.appName.indexOf('Internet Explorer') !== -1) {
+          this.ie_vslv_logo_height_fix();
+        }
+
         console.groupEnd();
 
       },
@@ -575,6 +580,21 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         });
 
         return app_data;
+
+      },
+
+      ie_vslv_logo_height_fix: function() {
+
+        var $img = $('.navbar-brand img'),
+            img = $img.get(0),
+            // IE seems to choke on getting the actual values for width and height
+            // so we give it the actual svg dimensions
+            w = 290,
+            h = 34,
+            ratio = h/w,
+            nh = $img.width()*ratio;
+
+        $('.navbar-brand img').height(nh);
 
       },
 
