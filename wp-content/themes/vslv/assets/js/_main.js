@@ -85,6 +85,17 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         var router = this;
 
         slug = this.cleanSlug(slug);
+
+        // css operations
+        // only after page/content is about to be shown
+        discovery_module.discoveryHintView.listenToOnce(page_module.currentPageView, 'PageView:is-hidden', function() {
+
+          // remove current page body class
+          $('body').attr('class', '');
+          // add current page slug
+          $('body').addClass(slug);
+
+        });
         
         this.activateMenuItem(slug);
 
@@ -378,7 +389,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
 
         // before any route
-        VSLV_APP.router.on('beforeroute', function() {
+        VSLV_APP.router.on('beforeroute', function(route) {
 
           // hide portfolio
           project_module.portfolioView.hide();

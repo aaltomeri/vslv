@@ -42,7 +42,12 @@
               route = VSLV_CONFIG.modules[type].route;
 
           if(type==="project") {
+
             Backbone.history.navigate(route + '/' + slug + '/' + (this.currentMediaIndex+1));
+
+            // reset menu
+            VSLV_APP.router.activateMenuItem(null);
+
           }
 
           this.trigger('Discovery:setCurrentMedia', cm);
@@ -1198,14 +1203,14 @@
             h = this.$el.height(),
             // set x & y - account for the fact that the paret container might have been scrolled to center the media
             // and we also don't want the hint to appear beneath the menu even if it's collapsed
-            x_min = $parent.scrollLeft()+w,
-            x_max = pw+$parent.scrollLeft()-(w*2),
+            x_min = $parent.scrollLeft() + 20,
+            x_max = pw+$parent.scrollLeft() - w,
             x_range = x_max - x_min,
-            y_min = $parent.scrollTop() + $('header').outerHeight()+(h*4),
-            y_max = ph+$parent.scrollTop()-$('header').outerHeight()-(h*4),
+            y_min = $parent.scrollTop() + $('header').outerHeight() + h,
+            y_max = ph + $parent.scrollTop() - $('header').outerHeight() - h,
             y_range = y_max - y_min,
-            x = Math.min(Math.max(Math.random()*x_range, x_min), x_max),
-            y = Math.min(Math.max(Math.random()*y_range, y_min), y_max);
+            x = Math.min(Math.max((Math.random()*x_range)+x_min, x_min), x_max),
+            y = Math.min(Math.max((Math.random()*y_range)+y_min, y_min), y_max);
 
         this.$el.css({
           top: Math.round(y),

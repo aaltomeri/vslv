@@ -180,7 +180,7 @@ var PAGE_MODULE = (function() {
               content = this.model.get('content'),
               panel_type = this.model.get('panel-type');
 
-          //console.log('PageView:show');
+          view.trigger('PageView:show');
 
           var onShown = function() {
 
@@ -193,9 +193,11 @@ var PAGE_MODULE = (function() {
             // do we need to tell the user there is more content available and scroll is available?
             if(view.$('> .content').outerHeight() < view.$el.outerHeight()) {
               $('.scroll-hint').transition({opacity: 0});
+              view.$('.content').removeClass('scrollable');
             }
             else {
               $('.scroll-hint').transition({opacity: 1});
+              view.$('.content').addClass('scrollable');
             }
             
             
