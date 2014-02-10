@@ -6444,7 +6444,7 @@ main > .preloader.animate {
   display: inline;
   list-style: none;
   height: 100%;
-  margin-left: 0.6%;
+  margin-left: 0.55%;
   overflow-x: auto;
 }
 #portfolio ul li img {
@@ -6481,6 +6481,7 @@ main > .preloader.animate {
 #content .content {
   font-size: .938rem;
   line-height: 1.375rem;
+  width: 100%;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #content .content {
@@ -6492,6 +6493,7 @@ main > .preloader.animate {
   cursor: ns-resize;
 }
 #content .content .inner-content {
+  width: 100%;
   padding: 50px 0px;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
@@ -6750,6 +6752,9 @@ body.contact #content .contact3 {
     font-size: 0.625rem;
     line-height: .938rem;
   }
+}
+body.project #content {
+  width: 43%;
 }
 .seo-content {
   display: none;

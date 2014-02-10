@@ -39,9 +39,14 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
        */
       project: function(slug, mediaIndex) {
 
+        var router = this;
+        
         console.log("project: " + slug);
 
-        //$('body').removeClass(this.previous_slug);
+        $('body').removeClass(this.previous_slug);
+        $('body').addClass('project');
+
+        router.previous_slug = 'project';
 
         this.activateMenuItem(slug);
 
