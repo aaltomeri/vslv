@@ -191,7 +191,7 @@ var PAGE_MODULE = (function() {
             view.trigger('PageView:is-shown');
 
             // do we need to tell the user there is more content available and scroll is available?
-            if(view.$('> .content').outerHeight() < view.$el.outerHeight()) {
+            if(view.$('> .content').height() < view.$el.height()) {
               $('.scroll-hint').transition({opacity: 0});
               view.$('.content').removeClass('scrollable');
             }

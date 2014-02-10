@@ -821,7 +821,7 @@ main {
 
         .inner-content {
 
-          padding: 60px 0px;
+          padding: 10% 0px;
 
           @media screen 
             and (min-device-width : 320px)
@@ -1188,6 +1188,17 @@ body.project {
   #content {
     
     width: 43%;
+    top: 37%;
+
+    // below tablet
+    // a bit ore than half center
+    @media screen and (max-width: @screen-tablet) {
+      width: 76%;
+    }
+
+    @media screen and (max-height: 568px) {
+      top: 24%;
+    }
 
   }
 

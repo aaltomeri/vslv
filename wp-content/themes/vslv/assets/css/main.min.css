@@ -6512,7 +6512,7 @@ main > .preloader.animate {
   }
 }
 #content .content.project .inner-content {
-  padding: 60px 0px;
+  padding: 10% 0px;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #content .content.project .inner-content {
@@ -6755,6 +6755,17 @@ body.contact #content .contact3 {
 }
 body.project #content {
   width: 43%;
+  top: 37%;
+}
+@media screen and (max-width: 768px) {
+  body.project #content {
+    width: 76%;
+  }
+}
+@media screen and (max-height: 568px) {
+  body.project #content {
+    top: 24%;
+  }
 }
 .seo-content {
   display: none;
