@@ -62,6 +62,55 @@ function vslv_augment_posts_json_with_attachments($_post, $post, $context) {
 }
 add_action( 'json_prepare_post', 'vslv_augment_posts_json_with_attachments', 10, 3 );
 
+/**
+ * will add connecte posts to posts json
+ * the conected posts have been added through the Post2Post Plugin
+ * and automatically added to posts via
+ * @see populate_posts_with_connected_posts in custom.php
+ */
+function vslv_augment_posts_with_connected_posts($_post, $post, $context) {
+
+  if($post['connected']) {
+
+    $_post['connected'] = $post['connected'];
+
+  }
+
+  $_post = vslv_add_client_to_project($_post);
+
+  return $_post;
+  
+}
+add_action( 'json_prepare_post', 'vslv_augment_posts_with_connected_posts', 10, 3 );
+
+function vslv_add_client_to_project($_post) {
+
+  if(!$_post['connected']) {
+
+    if($_post['type'] === 'project') {
+      $_post['client'] = array('title' => '');
+      return $_post;
+    }
+
+    return $_post;
+
+  }
+
+  if(count($_post['connected'])) {
+
+    if($_post['connected'][0]->post_type == 'client') {
+
+      $client = $_post['connected'][0];
+      $_post['client'] = array();
+      $_post['client']['title'] = $client->post_title;
+
+    }
+  }
+
+   return $_post;
+
+}
+
 function vslv_augment_videos_json_with_additional_formats($data, $post, $context) {
 
   $video_formats = VSLV_get_video_formats($data['ID']);
@@ -95,7 +144,7 @@ add_action( 'json_prepare_attachment', 'vslv_augment_videos_json_with_additional
 function roots_scripts() {
 
 
-  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '83907f68ba64f648255b02cb82f78e13');
+  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, 'ab1060943682e26c0a26ed2fc7ee0a52');
 
   // jQuery is loaded using the same method from HTML5 Boilerplate:
   // Grab Google CDN's latest jQuery with a protocol relative URL; fallback to local if offline
@@ -111,7 +160,7 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '7f210dd5e5333371d3432c410f9371cc', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'd3b1c9e3982978441b4cc79f8c0a3b87', true);
 
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');

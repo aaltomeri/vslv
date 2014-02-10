@@ -13,11 +13,23 @@ if($post !== null) {
 
 	// put GET params at the end of the uri
 	// useful for lang param for now
-	preg_match('/^(.*)?\?(.*)?/',home_url() . '&test=test', $matches);
+	preg_match('/^(.*)?\?(.*)?/',home_url(), $matches);
 	$home_url = empty($matches)? home_url() : $matches[1];
 	$query_string = isset($matches[2])? '?' . $matches[2] : '';
-	$request_uri = $home_url . '/wp-json.php/posts/' . $post->ID . $query_string; 
+
+	/* 
+	 as we need to use filters on get_posts results we can not use the more direct /posts/id approach
+	 @see json api getPost
+	 we need to use /post_types/?filter[p]=post_id 
+	 and then convert the resulting array into an object
+	*/
+	//$request_uri = $home_url . '/wp-json.php/posts/' . $post->ID . $query_string;
+	$type = $post->post_type;
+	$request_uri = $home_url . '/wp-json.php/'.$type.'s/' . ($query_string?'&':'?') . 'filter[p]=' . $post->ID;
 	$post_json = file_get_contents($request_uri);
+	$post_json = json_decode($post_json);
+	$post_json = $post_json[0];
+	$post_json = json_encode($post_json);
 	
 }
 else {

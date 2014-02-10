@@ -1274,6 +1274,7 @@
         slug: model.get('slug')  || '',
         content: model.get('content')  || '',
         medias: model.get('medias') || [],
+        client: model.get('client') || {},
         'panel-type': model.get('panel-type')  || 'left'
       });
 
@@ -1296,6 +1297,7 @@
           slug: model.get('slug'),
           content: model.get('content'),
           medias : model.get('medias') || [],
+          client: model.get('client') || {},
           'panel-type': model.get('panel-type')  || 'left'
         };
 

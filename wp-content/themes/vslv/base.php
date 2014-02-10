@@ -35,15 +35,14 @@
         
         <div class="swiper-wrapper content <%= data.type %>">
           <div class="swiper-slide inner-content">
+          
             <% if(data.type == 'project') { %>
-              <h1><%= data.title %></h1>
+              <h1><%= data.client.title %></h1>
+              <h3><%= data.title %></h3>
             <% } %>
-            <% if(data.content !== '') { %>
-              <%= data.content %>
-            <% } else { %>
-              <h3>Cras mattis consectetur purus sit amet fermentum. Maecenas sed diam eget risus varius blandit sit amet non magna.</h3>
-              <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean lacinia bibendum nulla sed consectetur.</p>
-            <% } %>
+            
+            <%= data.content %>
+            
             </div>
         </div>
       </script>
