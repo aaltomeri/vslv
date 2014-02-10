@@ -6498,7 +6498,7 @@ main > .preloader.animate {
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #content .content .inner-content {
-    padding: 25px 0px 40px;
+    padding: 25px 0px 25px;
   }
 }
 #content .content.project {
@@ -6514,9 +6514,12 @@ main > .preloader.animate {
 #content .content.project .inner-content {
   padding: 10% 0px;
 }
+#content .content.project .inner-content p:last-child {
+  margin-bottom: 0px;
+}
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #content .content.project .inner-content {
-    padding: 25px 0px 40px;
+    padding: 25px 0px 15px;
   }
 }
 #content h1,
