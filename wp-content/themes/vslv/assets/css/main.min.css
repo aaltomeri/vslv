@@ -6082,7 +6082,7 @@ h6 {
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   .navbar-default .navbar-header {
-    top: 9px;
+    top: 14px;
   }
 }
 .navbar-default .navbar-header .navbar-toggle {
@@ -6707,7 +6707,7 @@ body.contact #content {
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   body.contact #content {
-    max-height: 60%;
+    max-height: 40%;
   }
 }
 body.contact #content .content {
