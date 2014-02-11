@@ -669,7 +669,15 @@ main {
 
   &.is-open {
 
-    padding: 1.39% 0;
+    padding: 20px 0;
+
+    @media screen 
+      and (min-device-width : 320px)
+      and (max-device-width : 568px) {
+
+      padding: 10px 0;
+
+    }
 
     @media screen 
       and (min-device-width : 320px)
@@ -711,8 +719,16 @@ main {
 
         height: 100%;
 
-        margin-left: 0.55%;
+        margin-left: 20px;
         overflow-x: auto;
+
+        @media screen 
+          and (min-device-width : 320px)
+          and (max-device-width : 568px) {
+
+          margin-left: 10px;
+
+        }
 
         img {
           height: 100%;

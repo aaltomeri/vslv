@@ -6422,7 +6422,12 @@ main > .preloader.animate {
   height: 100% ! important;
 }
 #portfolio.is-open {
-  padding: 1.39% 0;
+  padding: 20px 0;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #portfolio.is-open {
+    padding: 10px 0;
+  }
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 768px) and (orientation: portrait) {
   #portfolio.is-open {
@@ -6444,8 +6449,13 @@ main > .preloader.animate {
   display: inline;
   list-style: none;
   height: 100%;
-  margin-left: 0.55%;
+  margin-left: 20px;
   overflow-x: auto;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #portfolio ul li {
+    margin-left: 10px;
+  }
 }
 #portfolio ul li img {
   height: 100%;
