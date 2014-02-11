@@ -194,6 +194,14 @@ var PAGE_MODULE = (function() {
             if(view.$('> .content').height() <= view.$el.height()) {
               $('.scroll-hint').transition({opacity: 0});
               view.$('.content').removeClass('scrollable');
+
+              // do not allow swipe when there is nothing to scroll
+              if(view.swiper instanceof Swiper) {
+                view.swiper.destroy();
+                view.swiper = null;
+                view.$el.removeClass('swiper-free-mode');
+              }
+
             }
             else {
               $('.scroll-hint').transition({opacity: 1});
