@@ -443,7 +443,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         }
         else {
 
-          module.collection.fetch({reset: true, data: {filter: {posts_per_page: -1, orderby: 'title', order: 'ASC'}}});
+          module.collection.fetch({reset: true, data: {filter: {posts_per_page: -1, orderby: 'menu_order', order: 'ASC'}}});
           
         }
 
