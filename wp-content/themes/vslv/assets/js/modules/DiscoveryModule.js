@@ -567,7 +567,7 @@
             // that will properly create a video element and set the correct source
             // depending on browser
             var view = this,
-                mediaElement = $('<video muted></video>').get(0),
+                mediaElement = $('<video></video>').get(0),
                 sources_html,
                 source_to_draw_on_canvas;
 
