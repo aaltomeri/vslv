@@ -59,7 +59,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         if(page_module.currentPageView.model.get('slug') === 'portfolio') {
 
-          this.listenToOnce(project_module.portfolioView, 'PortfolioView:items-hidden',
+          this.listenToOnce(project_module.portfolioView, 'PortfolioView:is-closed',
 
             function() {
 
@@ -419,7 +419,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           if(project_module.portfolioView.is_open) {
 
             project_module.portfolioView.hide();
-            
+
           }
 
           // hide menu
