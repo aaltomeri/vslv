@@ -381,9 +381,12 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
           // because if a Video Element is active the View has been bound with a click
           // to trigger the video play
-          discovery_module.discoveryView.$el.off('click');
+          discovery_module.discoveryView.$el.off('mouseup touchend');
 
-          // go back and unbind
+          // we want to close portfolio and show what's underneath
+          // which is equivalent to going back to previous page
+          // because we want to show some content
+          // not just the background image
           discovery_module.discoveryView.$el.one('click', function() {
 
             // unless we have just landed
@@ -413,7 +416,11 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         VSLV_APP.router.on('beforeroute', function(route) {
 
           // hide portfolio
-          project_module.portfolioView.hide();
+          if(project_module.portfolioView.is_open) {
+
+            project_module.portfolioView.hide();
+            
+          }
 
           // hide menu
           // only if it's been initialized as a collapsible

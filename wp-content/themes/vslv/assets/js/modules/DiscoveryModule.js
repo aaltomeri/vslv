@@ -571,6 +571,8 @@
                 sources_html,
                 source_to_draw_on_canvas;
 
+            this.undelegateEvents();
+
             console.log("MEDIA OBJECT", mediaObject);
 
             if(this.$el.find('video').length) {
@@ -593,7 +595,7 @@
               we thus need to act on the loadstart event if we want to do anything
               as loadeddata event is only triggered when some data has been preloaded
              */
-            $(mediaElement).on('loadstart', function() {
+            $(mediaElement).one('loadstart', function() {
               
               console.log('LOADSTART');
               
@@ -625,10 +627,10 @@
               // unbind all normal events for this view
               // !!!!!!!! this does not seem to be working here
               // so we repeat in loadeddata handler
-              view.undelegateEvents();
+              // view.undelegateEvents();
 
               // make video play on touch
-              view.$el.on('mouseup touchend', function(e) {
+              view.$el.one('mouseup touchend', function(e) {
                 console.log('ABOUT TO PLAY');
                 e.stopPropagation();
                 mediaElement.play();
@@ -642,7 +644,7 @@
 
 
             // as data is available
-            $(mediaElement).on('loadeddata', function() {
+            $(mediaElement).one('loadeddata', function() {
 
               console.log('LOADEDDATA');
 
@@ -662,13 +664,13 @@
               // unbind all normal events for this view
               // !!!!!!!!! this should not be here as it is already has been done in loadstart handler
               // but for some reason and ** only when video is first media in project ** it does not work in loadstart handler
-              view.undelegateEvents();
+              // view.undelegateEvents();
 
             });
 
 
             // AT THE END OF THE VIDEO
-            $(mediaElement).on('ended', function() {
+            $(mediaElement).one('ended', function() {
 
               console.log('VIDEO ENDED');
 

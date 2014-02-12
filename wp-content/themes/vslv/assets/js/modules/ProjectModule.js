@@ -147,6 +147,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       item_animation_delay: 40,
       item_animation_time: 400,
       swiper: null,
+      is_open: false,
 
       initialize: function() {
 
@@ -310,6 +311,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       },
 
+      slideTimeout: null,
       showItems: function() {
 
         var view = this,
@@ -325,11 +327,17 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         timeout = delay + this.item_animation_time;
 
-        setTimeout(function() {
+        if(this.slideTimeout) {
+          clearTimeout(this.slideTimeout);
+        }
+
+        this.slideTimeout = setTimeout(function() {
 
             var nx = -Math.round(Math.random()*$(view.swiper.wrapper).width()/2);
 
             view.trigger('PortfolioView:items-shown');
+
+            view.is_open = true;
 
             // slide to random position
             view.swiper.setWrapperTransition(1000);
@@ -359,6 +367,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         setTimeout(function() {
             view.trigger('PortfolioView:items-hidden');
+            view.is_open = false;
           },
           timeout
         );
