@@ -630,11 +630,27 @@
               // view.undelegateEvents();
 
               // make video play on touch
-              view.$el.one('mouseup touchend', function(e) {
-                console.log('ABOUT TO PLAY');
+              view.$el.on('mouseup touchend', function(e) {
+
                 e.stopPropagation();
-                mediaElement.play();
-                module.discoveryHintView.stop();
+
+                if(mediaElement.paused) {
+
+                  console.log('ABOUT TO PLAY');
+                  module.discoveryHintView.stop();
+                  mediaElement.play();
+                  
+                }
+                else {
+
+                  console.log('ABOUT TO PAUSE');
+                  module.discoveryHintView.start();
+                  mediaElement.pause();
+
+                }
+
+
+
               });
 
               // notify media has finished loading
