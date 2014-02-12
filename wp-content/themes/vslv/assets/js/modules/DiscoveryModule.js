@@ -601,7 +601,7 @@
 
               // for iOS and Android
               // draw poster image on the canvas
-              if(device.ios() || device.android()) {
+              if((device.ios() || device.android()) && mediaObject.poster) {
 
                 source_to_draw_on_canvas = new Image();
                 source_to_draw_on_canvas.src = mediaObject.poster;
