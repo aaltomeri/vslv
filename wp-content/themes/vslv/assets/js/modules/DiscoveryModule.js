@@ -1098,7 +1098,7 @@
           // console.log('START hint display in end_render handler');
 
           // start hint display
-          this.start();
+          //this.start();
 
         });
 
