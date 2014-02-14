@@ -325,7 +325,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         discoveries = discovery_module.init(firstDiscovery);
 
         // listen ONCE to media_loaded on DiscoveryView to make preloader disappear after first media has been loaded
-        discovery_module.discoveryView.once('DiscoveryView:media_loaded', function() {
+        discovery_module.discoveryView.once('DiscoveryView:setAndRenderEnded', function() {
 
           console.log('FIRST MEDIA LOADED');
 
@@ -344,10 +344,10 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         // make page_module display the Discovery infos
         // when new Discovery is set
-        discovery_module.discoveryView.on('Discovery:setAndRenderEnded', function(discoveryModel) {
+        discovery_module.discoveryView.on('DiscoveryView:setAndRenderEnded', function(discoveryModel) {
 
 
-          console.log('Discovery:setAndRenderEnded in Main');
+          console.log('DiscoveryView:setAndRenderEnded in Main');
 
           // content
           page_module.currentPageView.model = discoveryModel;

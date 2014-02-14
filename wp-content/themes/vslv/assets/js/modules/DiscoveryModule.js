@@ -388,7 +388,7 @@
             this.model.setCurrentMedia(this.collection.currentModel.currentMediaIndex);
 
             this.listenToOnce(this, 'DiscoveryView:end_render', function() {
-              this.trigger('Discovery:setAndRenderEnded', this.model);
+              this.trigger('DiscoveryView:setAndRenderEnded', this.model);
             });
 
           });
