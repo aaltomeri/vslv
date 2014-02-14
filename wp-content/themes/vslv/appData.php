@@ -25,7 +25,7 @@ if($post !== null) {
 	*/
 	//$request_uri = $home_url . '/wp-json.php/posts/' . $post->ID . $query_string;
 	$type = $post->post_type;
-	$request_uri = $home_url . '/wp-json.php/'.$type.'s/' . ($query_string?'&':'?') . 'filter[p]=' . $post->ID;
+	$request_uri = $home_url . '/wp-json.php/'.$type.'s/' . ($query_string?"$query_string&":'?') . 'filter[p]=' . $post->ID;
 	$post_json = file_get_contents($request_uri);
 	$post_json = json_decode($post_json);
 	$post_json = $post_json[0];
