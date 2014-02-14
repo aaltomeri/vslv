@@ -391,6 +391,14 @@
               this.trigger('DiscoveryView:setAndRenderEnded', this.model);
             });
 
+            // quick fix for Discovery with no media
+            // should not happen
+            // but in case it does we trigger this event to notify the app to proceed
+            // we should probably set a fallback image though
+            if(this.model.get('medias') === undefined || (this.model.get('medias') && this.model.get('medias').length === 0)) {
+              this.trigger('DiscoveryView:setAndRenderEnded', this.model);
+            }
+
           });
 
 
