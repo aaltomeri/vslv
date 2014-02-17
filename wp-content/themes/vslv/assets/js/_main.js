@@ -358,7 +358,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           if(discoveryModel.get('type') === 'project') {
 
             setTimeout(function() {
-              page_module.currentPageView.hide();
+              //page_module.currentPageView.hide();
             },
             VSLV_CONFIG.discovery_hide_content_delay);
             

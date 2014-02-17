@@ -269,8 +269,8 @@
         onMousedownHandler: function(e) {
 
           var view = this,
-              pointer_x = e.offsetX || e.originalEvent.pageX,
-              pointer_y = e.offsetY || e.originalEvent.pageY,
+              pointer_x = e.clientX || e.offsetX || e.originalEvent.pageX,
+              pointer_y = e.clientY || e.originalEvent.pageY,
               pointer_radius = this.pointer_radius,
               c = this.c;
 
