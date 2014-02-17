@@ -6422,7 +6422,7 @@ main > .preloader.animate {
   height: 100% ! important;
 }
 #portfolio.is-open {
-  padding: 20px 0;
+  padding: 0;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #portfolio.is-open {
@@ -6437,7 +6437,7 @@ main > .preloader.animate {
 #portfolio ul {
   position: relative;
   margin: 0;
-  padding: 0;
+  padding: 20px 0;
   width: auto;
   height: 100%;
   white-space: nowrap;
