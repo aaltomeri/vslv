@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "eb4f3168c5ae2a99cba04d6f6ec9c4ae",
+    "hash": "471b4df0ed9c245a47b2cda24bbdf056",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.10",
+            "version": "v1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "35a07647186a910b725fca9290b13ca2e265491a"
+                "reference": "9a1fd4e191beaa5cab79c05f923d8bcdd01b4e94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/35a07647186a910b725fca9290b13ca2e265491a",
-                "reference": "35a07647186a910b725fca9290b13ca2e265491a",
+                "url": "https://api.github.com/repos/composer/installers/zipball/9a1fd4e191beaa5cab79c05f923d8bcdd01b4e94",
+                "reference": "9a1fd4e191beaa5cab79c05f923d8bcdd01b4e94",
                 "shasum": ""
             },
             "replace": {
@@ -46,7 +46,7 @@
                 {
                     "name": "Kyle Robinson Young",
                     "email": "kyle@dontkry.com",
-                    "homepage": "http://dontkry.com",
+                    "homepage": "https://github.com/shama",
                     "role": "Developer"
                 }
             ],
@@ -86,7 +86,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-01-31 16:53:31"
+            "time": "2014-02-12 21:21:55"
         },
         {
             "name": "fancyguy/webroot-installer",
@@ -132,10 +132,10 @@
         },
         {
             "name": "wordpress",
-            "version": "3.8",
+            "version": "3.8.1",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/WordPress/WordPress/archive/3.8.zip",
+                "url": "https://github.com/WordPress/WordPress/archive/3.8.1.zip",
                 "reference": null,
                 "shasum": null
             },

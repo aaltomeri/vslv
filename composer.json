@@ -9,10 +9,10 @@
 			"package": {
 				"name": "wordpress",
 				"type": "webroot",
-				"version": "3.8",
+				"version": "3.8.1",
 				"dist": {
 					"type": "zip",
-					"url": "https://github.com/WordPress/WordPress/archive/3.8.zip"
+					"url": "https://github.com/WordPress/WordPress/archive/3.8.1.zip"
 				},
 				"require": {
 					"fancyguy/webroot-installer": "1.0.0"
@@ -22,7 +22,7 @@
 	],
 	"require":{
 	"php": ">=5.3.0",
-	"wordpress": "3.8",
+	"wordpress": "3.8.1",
 	"wpackagist/attachments": "*",
     	"wpackagist/wordpress-seo": "*",
     	"wpackagist/google-analytics-for-wordpress": "*",
