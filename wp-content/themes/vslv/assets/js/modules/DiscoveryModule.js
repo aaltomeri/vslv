@@ -141,6 +141,8 @@
       currentModel: null,
       currentModelIndex: -1,
 
+
+
       initialize: function() {},
 
       next: function() {
@@ -244,6 +246,8 @@
         pointer_radius: 100,
 
         rendering: false,
+
+        showLayerForFirstMedia: true,
 
         $preloader: null,
 
@@ -375,6 +379,9 @@
             // change model
             this.model = model;
 
+            // prepare to show layer again
+            this.showLayerForFirstMedia = true;
+
             // make view listen to model
             this.listenTo(this.model, 'Discovery:setCurrentMedia', function(mediaObject) {
 
@@ -501,8 +508,11 @@
             //window.addEventListener('resize', function() { console.log('resize'); });
 
             mediaElement = this.loadQueue.getResult(mediaObject.slug);
-            this.drawMediaOnCanvasAnimate(mediaElement, this.c);
 
+            // operations on mediaElement before we draw it on the canvas
+            mediaElement = this.transformMediaElement(mediaElement);
+
+            this.drawMediaOnCanvasAnimate(mediaElement, this.c);
 
             $(window).on('resize', { view: view, mediaElement: mediaElement}, this.windowResizeHandlerForImage);
             
@@ -536,10 +546,14 @@
               this.$preloader.css({scale: [0, 1]});
 
               mediaElement = e.item.tag;
+
+              // operations on mediaElement before we draw it on the canvas
+              mediaElement = this.transformMediaElement(mediaElement);
+
               this.drawMediaOnCanvasAnimate(mediaElement, this.c);
               
               // notify media has finished loading
-              this.trigger('DiscoveryView:media_loaded', mediaElement, mediaObject);
+              this.trigger('DiscoveryView:media_loaded', e.item.tag, mediaObject);
 
               $(window).on('resize', { view: view, mediaElement: mediaElement}, this.windowResizeHandlerForImage);
 
@@ -549,12 +563,12 @@
             _load_queue.loadFile({ id: mediaObject.slug, src: this.model.getMediaSource(mediaObject)});
 
           }
-
          
           console.log('mediaElement', mediaElement);
           console.groupEnd();
 
         },
+
 
         windowResizeHandlerForImage: function(e) {
 
@@ -616,6 +630,7 @@
                 source_to_draw_on_canvas = new Image();
                 source_to_draw_on_canvas.src = mediaObject.poster;
                 source_to_draw_on_canvas.addEventListener('load', function() {
+                  source_to_draw_on_canvas = view.transformMediaElement(source_to_draw_on_canvas);
                   view.drawMediaOnCanvasAnimate(source_to_draw_on_canvas, view.c);
                 });
 
@@ -679,7 +694,8 @@
               // for these 2 oss we have drawn the poster image in the loadstart handler
               if(!device.ios() && !device.android()) {
 
-                view.drawMediaOnCanvasAnimate(mediaElement, view.c);
+                source_to_draw_on_canvas = view.transformMediaElement(mediaElement);
+                view.drawMediaOnCanvasAnimate(source_to_draw_on_canvas, view.c);
                 
                 $(window).off('resize', view.windowResizeHandlerForVideo);
                 //$(window).on('resize', { view: view, mediaElement: mediaElement}, view.windowResizeHandlerForVideo);
@@ -731,7 +747,7 @@
 
               if(!device.android()) {
 
-                $(mediaElement).show();
+                //$(mediaElement).show();
 
               }
 
@@ -739,11 +755,11 @@
 
                 console.log('PLAYING');
 
-                if(device.android()) {
+                //if(device.android()) {
 
                   $(mediaElement).show();
 
-                }
+                //}
 
               });
 
@@ -795,6 +811,73 @@
           $(videoElement).css(other_dimension, od_value);
 
           return videoElement;
+
+        },
+
+        transformMediaElement: function(mediaElement) {
+
+            if(this.collection.currentModel.currentMediaIndex === 0 && this.showLayerForFirstMedia) {
+
+              // add layer on top of image to be discovered
+              mediaElement = this.getMediaElementWithLayer(mediaElement, "#000000", 0.8);
+
+              // we want to show the first media again without the layer
+              this.collection.currentModel.currentMediaIndex = -1;
+
+              this.showLayerForFirstMedia = false;
+
+            }
+
+            return mediaElement;
+
+        },
+
+        /**
+         * Transforms original MediaElement by adding a layer on top of it
+         * @param  HTMLImageElement or HTMLVideoElement mediaElement 
+         * @param  Hex Value color        the html color
+         * @param  float alpha        the alpha setting
+         * @return HTMLCanvasElement
+         */
+        getMediaElementWithLayer: function(mediaElement, color, alpha) {
+
+             var c1 = document.createElement('canvas'),
+                ctx1 = c1.getContext('2d'),
+                c2 = document.createElement('canvas'),
+                ctx2 = c2.getContext('2d'),
+                sw = mediaElement instanceof HTMLVideoElement ? mediaElement.videoWidth : mediaElement.width,
+                sh = mediaElement instanceof HTMLVideoElement ? mediaElement.videoHeight : mediaElement.height,
+
+              // get scale factors for both dimensions from the viewport and media properties
+              scale_h = this.$el.width() / sw,
+              scale_v = this.$el.height() / sh,
+              
+              // choose the biggest to keep proportions
+              scale = scale_h > scale_v ? scale_h : scale_v,
+              
+              // set the scaled the destination dimensions for the drawImage call
+              // using he chosen scale factor
+              dw = sw*scale,
+              dh = sh*scale;
+
+              // set temp canvas to our main canvas size
+              c1.width = c2.width = dw;
+              c1.height = c2.height = dh;
+
+              // set opacity for the layer
+              ctx2.globalAlpha = alpha;
+
+              // draw mediaElement on first temp canvas
+              this.drawMediaOnCanvas(mediaElement, c1);
+
+              // create layer
+              ctx2.fillStyle = color;
+              ctx2.fillRect(0, 0, c2.width, c2.height);
+
+              // draw it on the mediaElement
+              ctx1.drawImage(c2, 0, 0);
+
+              return c1;
 
         },
 
@@ -877,6 +960,7 @@
           var $temp_c = $(c).clone(),
               temp_c = $temp_c.get(0),
               temp_ctx = temp_c.getContext('2d');
+
           temp_c.width = c.width;
           temp_c.height = c.height;
           temp_ctx.drawImage(c, 0, 0);
@@ -889,7 +973,7 @@
 
           ctx.drawImage(temp_c, 0, 0, temp_c.width, temp_c.height, 0, 0, dw, dh);
 
-          // // center in viewport
+          // center in viewport
           this.$el.scrollLeft((dw - this.$el.width())/2);
           this.$el.scrollTop((dh - this.$el.height())/2);
 
@@ -903,7 +987,7 @@
             c.height = Math.floor(dh);
           }
 
-          // // center in viewport
+          // center in viewport
           this.$el.scrollLeft((dw - this.$el.width())/2);
           this.$el.scrollTop((dh - this.$el.height())/2);
 
