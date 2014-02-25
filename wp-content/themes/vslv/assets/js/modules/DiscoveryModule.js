@@ -247,6 +247,7 @@
 
         rendering: false,
 
+        started: false,
         showLayerForFirstMedia: true,
 
         $preloader: null,
@@ -379,8 +380,20 @@
             // change model
             this.model = model;
 
-            // prepare to show layer again
-            this.showLayerForFirstMedia = true;
+            // not for first Discovery
+            // at startup
+            if(this.collection.indexOf(model) === 0 && !this.started) {
+
+              this.showLayerForFirstMedia = false;
+              this.started = true;
+
+            }
+            else {
+
+              // prepare to show layer again
+              this.showLayerForFirstMedia = true;
+
+            }
 
             // make view listen to model
             this.listenTo(this.model, 'Discovery:setCurrentMedia', function(mediaObject) {
@@ -819,7 +832,7 @@
             if(this.collection.currentModel.currentMediaIndex === 0 && this.showLayerForFirstMedia) {
 
               // add layer on top of image to be discovered
-              mediaElement = this.getMediaElementWithLayer(mediaElement, "#000000", 0.8);
+              mediaElement = this.getMediaElementWithLayer(mediaElement, "#000000", VSLV_CONFIG.first_media_layer_opacity);
 
               // we want to show the first media again without the layer
               this.collection.currentModel.currentMediaIndex = -1;

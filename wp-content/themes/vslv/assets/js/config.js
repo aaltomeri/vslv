@@ -10,6 +10,8 @@ var VSLV_CONFIG = {
 	discovery_hint_show_duration: 2000, //ms
 	discovery_hint_hide_duration: 500, //ms
 
+	first_media_layer_opacity: 0.7,
+
 	modules: {
 		page: {
 			name: "page",
