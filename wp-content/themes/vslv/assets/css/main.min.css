@@ -5992,6 +5992,9 @@ td.visible-print {
 .hi-response-down-arrow:before {
   content: "G";
 }
+.hi-response-top-right-corner:before {
+  content: "P";
+}
 /**
  * Fonts
  */
