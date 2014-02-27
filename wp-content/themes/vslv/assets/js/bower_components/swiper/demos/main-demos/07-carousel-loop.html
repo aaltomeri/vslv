@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Demo</title>
-  <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <link rel="stylesheet" href="../../dev/idangerous.swiper.css">
   <style>
 /* Demo Styles */
 body {
@@ -13,10 +13,13 @@ body {
   line-height: 1.5;
 }
 .swiper-container {
-  width: 660px;
+  width: 100%;
   height: 250px;
   color: #fff;
   text-align: center;
+}
+.swiper-slide {
+  width: 200px;
 }
 .red-slide {
   background: #ca4040;
@@ -96,13 +99,15 @@ body {
     <div class="pagination"></div>
   </div>
   <script src="js/jquery-1.10.1.min.js"></script>
-  <script src="js/idangerous.swiper-2.1.min.js"></script>
+  <script src="../../dev/idangerous.swiper.js"></script>
   <script>
   var mySwiper = new Swiper('.swiper-container',{
-    pagination: '.pagination',
-    paginationClickable: true,
-    slidesPerView: 3,
-    loop: true
+    slidesPerView: 'auto',
+    freeMode: true,
+    freeModeFluid: true,
+    momentumRatio: 3,
+    loop: true,
+    loopedSlides: 16
   })
   </script>
 </body>

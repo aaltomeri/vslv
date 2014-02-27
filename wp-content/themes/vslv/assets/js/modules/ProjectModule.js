@@ -189,7 +189,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         this.project_thumbs_queue.on('complete', function() {
           this.project_thumbs_loaded = true;
           this.render();
-
           
           // notify we're ready
           module.trigger('PortfolioView:thumbs-loaded');
@@ -203,6 +202,8 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       render: function() {
 
+        var view = this;
+
         this.listenToOnce(this, 'PortfolioView:is-open', function() {
 
           this.collection.each(function(model, index) {
@@ -211,22 +212,39 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             var item = new PortofolioItemView({ model: model });
             this.items.push(item);
             item.render();
+
             // add them to the portfolio dom element
             this.$el.find('ul').append(item.$el);
 
-          }, this);
+          },
+          this);
 
           // init Swiper
           this.swiper = this.$el.swiper({
-            scrollContainer: true,
+
+            freeMode: true,
+            freeModeFluid: true,
+            momentumRatio: 1,
+            
+            loop: true,
+            slidesPerView: 'auto',
+            loopedSlides: this.items.length,
+            
+            resizeReInit: true,
+
             preventLinksPropagation: true
+
           });
+
+          // this.swiper.reInit();
 
         });
 
       },
 
       show: function() {
+
+        var view = this;
 
         this.trigger('PortfolioView:show');
 
@@ -356,10 +374,26 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             delay = 0,
             timeout = 0;
 
-        _.each(this.items, function(item, index) {
+        console.log("show items");
 
+        var n_slides = this.$('.swiper-slide').length,
+            n_actual_slides = n_slides/3;
+
+        this.$('.swiper-slide').each(function(el, index) {
+
+          // as there are 3 times the noral number of slides because of the swiper loop mode
+          // we apply the same delay to each slide every n slide
+          // for instance if there are 12 slides originally
+          // we apply the same delay to slide 1, 13 and 25
+          // this is done to avoid setting delay as if there were actually 3 times the number of slides
+
+          // so we set the index to be the same for each group of slides
+          index = index - (n_actual_slides*Math.floor(index/n_actual_slides));
           delay = index*view.item_animation_delay;
-          item.show(delay, this.item_animation_time);
+          
+          //$(this).transition({ opacity: 1, delay: delay, duration: this.item_animation_time });
+
+          $(this).transition({ opacity: 1});
 
         });
 
@@ -371,16 +405,16 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.slideTimeout = setTimeout(function() {
 
-            var nx = -Math.round(Math.random()*$(view.swiper.wrapper).width()/2);
+           // var nx = -Math.round(Math.random()*$(view.swiper.wrapper).width()/2);
 
             view.trigger('PortfolioView:items-shown');
 
             view.is_open = true;
 
             // slide to random position
-            view.swiper.setWrapperTransition(1000);
+            // view.swiper.setWrapperTransition(1000);
 
-            view.swiper.setWrapperTranslate(nx,0,0);
+            // view.swiper.setWrapperTranslate(nx,0,0);
 
           },
           timeout
@@ -392,12 +426,24 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         var view = this,
             delay = 0,
-            timeout = 0;
+            timeout = 0,
+            n_slides = this.$('.swiper-slide').length,
+            n_actual_slides = n_slides/3;
 
-        _.each(this.items, function(item, index) {
+        this.$('.swiper-slide').each(function(el, index) {
 
+          // as there are 3 times the noral number of slides because of the swiper loop mode
+          // we apply the same delay to each slide every n slide
+          // for instance if there are 12 slides originally
+          // we apply the same delay to slide 1, 13 and 25
+          // this is done to avoid setting delay as if there were actually 3 times the number of slides
+
+          // so we set the index to be the same for each group of slides
+          index = index - (n_actual_slides*Math.floor(index/n_actual_slides));
           delay = index*view.item_animation_delay/2;
-          item.hide(delay, this.item_animation_time/2);
+
+          //$(this).transition({ opacity: 0, delay: delay, duration: this.item_animation_time });
+          $(this).transition({ opacity: 0});
 
         });
 
@@ -421,6 +467,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
     PortofolioItemView = Backbone.View.extend({
 
         tagName: 'li',
+        className: 'swiper-slide',
         animation_duration: 400,
 
         events: {
