@@ -6423,6 +6423,13 @@ main > .preloader.animate {
 }
 #portfolio .swiper-wrapper {
   height: 100% ! important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#portfolio .swiper-wrapper .swiper-slide {
+  width: auto;
+  float: none !important;
 }
 #portfolio.is-open {
   padding: 0;
@@ -6449,16 +6456,20 @@ main > .preloader.animate {
 }
 #portfolio ul li {
   opacity: 0;
-  display: inline;
+  display: inline-block;
   list-style: none;
   height: 100%;
   margin-left: 20px;
-  overflow-x: auto;
+  overflow: hidden;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #portfolio ul li {
     margin-left: 10px;
   }
+}
+#portfolio ul li a {
+  display: block;
+  height: 100%;
 }
 #portfolio ul li img {
   height: 100%;

@@ -147,6 +147,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       item_animation_delay: 40,
       item_animation_time: 400,
       swiper: null,
+      is_showing: false,
       is_open: false,
 
       initialize: function() {
@@ -174,12 +175,22 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             });
           }
         });
+
+        this.project_thumbs_queue.on('progress', function(e) {
+
+          this.$el.css({
+            x: -this.$el.parent().width() * e.progress
+          });
+
+
+        },
+        this);
         
         // render portfolio when all images are preloaded
         this.project_thumbs_queue.on('complete', function() {
           this.project_thumbs_loaded = true;
           this.render();
-
+          
           // notify we're ready
           module.trigger('PortfolioView:thumbs-loaded');
 
@@ -192,6 +203,8 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       render: function() {
 
+        var view = this;
+
         this.listenToOnce(this, 'PortfolioView:is-open', function() {
 
           this.collection.each(function(model, index) {
@@ -200,16 +213,33 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             var item = new PortofolioItemView({ model: model });
             this.items.push(item);
             item.render();
+
             // add them to the portfolio dom element
             this.$el.find('ul').append(item.$el);
 
-          }, this);
+          },
+          this);
 
           // init Swiper
           this.swiper = this.$el.swiper({
-            scrollContainer: true,
+
+            freeMode: true,
+            freeModeFluid: true,
+            momentumRatio: 1,
+
+            initialSlide: 10,
+            
+            loop: true,
+            slidesPerView: 'auto',
+            loopedSlides: this.items.length,
+            
+            resizeReInit: true,
+
             preventLinksPropagation: true
+
           });
+
+          // this.swiper.reInit();
 
         });
 
@@ -217,17 +247,47 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       show: function() {
 
+        var view = this;
+
+        // quick fix to avoid trying to show PF
+        // when PF is already in the process of ...
+        if(this.is_showing) {
+          return;
+        }
+
+        this.is_showing = true;
+        this.on('PortfolioView:items-shown', function() {
+          this.is_showing = false;
+        });
+
         this.trigger('PortfolioView:show');
 
-        this.$el.stop();
         this.stopListening(this, 'PortfolioView:items-hidden');
 
         this.$el.transition({
 
-          left: 0,
+          x: -this.$el.parent().width(),
           duration: 400
 
-        });
+        }, function() {
+
+
+            setTimeout(function() {
+
+              // anchor portfolio so that it reacts well to resize
+              // if we did not do this we would have to setup a resize handler to deal with translate transform (I think)
+              view.$el.css({
+                  x: 0,
+                  left: 0
+                }
+              );
+              
+            },
+            2000);
+
+          }
+
+        );
 
         if(this.project_thumbs_loaded) {
 
@@ -244,9 +304,9 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       hide: function() {
 
-        this.trigger('PortfolioView:hide');
+        var view = this;
 
-        this.$el.stop();
+        this.trigger('PortfolioView:hide');
 
         this.stopListening(this, 'PortfolioView:items-hidden');
 
@@ -258,10 +318,20 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
             this.$el.transition({
 
-              left: "100%",
+              x: this.$el.parent().width(),
               duration: 1000
 
-            });
+            }, function() {
+
+              // anchor portfolio so that it reacts well to resize
+              // if we did not do this we would have to setup a resize handler to deal with translate transform (I think)
+              view.$el.css({
+                  x: 0,
+                  left: "100%"
+                }
+              );
+
+          });
 
         });
 
@@ -318,10 +388,26 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             delay = 0,
             timeout = 0;
 
-        _.each(this.items, function(item, index) {
+        console.log("show items");
 
+        var n_slides = this.$('.swiper-slide').length,
+            n_actual_slides = n_slides/3;
+
+        this.$('.swiper-slide').each(function(index, el) {
+
+          // as there are 3 times the noral number of slides because of the swiper loop mode
+          // we apply the same delay to each slide every n slide
+          // for instance if there are 12 slides originally
+          // we apply the same delay to slide 1, 13 and 25
+          // this is done to avoid setting delay as if there were actually 3 times the number of slides
+
+          // so we set the index to be the same for each group of slides
+          index = index - (n_actual_slides*Math.floor(index/n_actual_slides));
           delay = index*view.item_animation_delay;
-          item.show(delay, this.item_animation_time);
+
+          //$(this).transition({ opacity: 1, delay: delay, duration: this.item_animation_time });
+
+          $(this).transition({ opacity: 1});
 
         });
 
@@ -333,16 +419,9 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.slideTimeout = setTimeout(function() {
 
-            var nx = -Math.round(Math.random()*$(view.swiper.wrapper).width()/2);
-
             view.trigger('PortfolioView:items-shown');
 
             view.is_open = true;
-
-            // slide to random position
-            view.swiper.setWrapperTransition(1000);
-
-            view.swiper.setWrapperTranslate(nx,0,0);
 
           },
           timeout
@@ -354,12 +433,24 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         var view = this,
             delay = 0,
-            timeout = 0;
+            timeout = 0,
+            n_slides = this.$('.swiper-slide').length,
+            n_actual_slides = n_slides/3;
 
-        _.each(this.items, function(item, index) {
+        this.$('.swiper-slide').each(function(el, index) {
 
+          // as there are 3 times the noral number of slides because of the swiper loop mode
+          // we apply the same delay to each slide every n slide
+          // for instance if there are 12 slides originally
+          // we apply the same delay to slide 1, 13 and 25
+          // this is done to avoid setting delay as if there were actually 3 times the number of slides
+
+          // so we set the index to be the same for each group of slides
+          index = index - (n_actual_slides*Math.floor(index/n_actual_slides));
           delay = index*view.item_animation_delay/2;
-          item.hide(delay, this.item_animation_time/2);
+
+          //$(this).transition({ opacity: 0, delay: delay, duration: this.item_animation_time });
+          $(this).transition({ opacity: 0});
 
         });
 
@@ -383,6 +474,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
     PortofolioItemView = Backbone.View.extend({
 
         tagName: 'li',
+        className: 'swiper-slide',
         animation_duration: 400,
 
         events: {

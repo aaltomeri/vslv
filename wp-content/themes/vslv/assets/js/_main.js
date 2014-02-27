@@ -129,7 +129,16 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
             // and set currentPageView model to be portfolio page model
             this.renderPage(slug);
 
-            project_module.portfolioView.show();
+            if(project_module.portfolioView.project_thumbs_loaded) {
+              project_module.portfolioView.show();
+            }
+            else {
+              project_module.portfolioView.listenToOnce(
+                project_module,
+                'PortfolioView:thumbs-loaded',
+                project_module.portfolioView.show
+              );
+            }
 
             break;
 
@@ -236,6 +245,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
     firstDiscovery: null,
 
+    portoflio_position_randomized: false,
+
     // All pages
     common: {
 
@@ -294,7 +305,11 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         project_module.init(app_data.projects);
 
         if(currentPage.get('slug') === 'portfolio') {
-          project_module.portfolioView.listenTo(project_module, 'PortfolioView:thumbs-loaded', project_module.portfolioView.show);
+          project_module.portfolioView.listenTo(
+            project_module,
+            'PortfolioView:thumbs-loaded',
+            project_module.portfolioView.show
+          );
         }
 
         /**
@@ -400,6 +415,23 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
         
+        project_module.portfolioView.on('PortfolioView:items-shown', function() {
+            
+            if(!this.portoflio_position_randomized) {
+
+              var nx = -Math.round(Math.random()*$(this.swiper.wrapper).width()/6);
+
+              // slide to random position
+              this.swiper.setWrapperTransition(1000);
+              this.swiper.setWrapperTranslate(nx,0,0);
+              
+              this.portoflio_position_randomized = true;
+
+            }
+
+        },
+        project_module.portfolioView);
+
         project_module.portfolioView.on('PortfolioView:is-closed', function() {
           
           // unbind click on Discovery View
