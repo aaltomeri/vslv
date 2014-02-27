@@ -235,10 +235,28 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.$el.transition({
 
-          left: 0,
+          x: -this.$el.parent().width(),
           duration: 400
 
-        });
+        }, function() {
+
+
+            setTimeout(function() {
+
+              // anchor portfolio so that it reacts well to resize
+              // if we did not do this we would have to setup a resize handler to deal with translate transform (I think)
+              view.$el.css({
+                  x: 0,
+                  left: 0
+                }
+              );
+              
+            },
+            2000);
+
+          }
+
+        );
 
         if(this.project_thumbs_loaded) {
 
@@ -269,10 +287,20 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
             this.$el.transition({
 
-              left: "100%",
+              x: this.$el.parent().width(),
               duration: 1000
 
-            });
+            }, function() {
+
+              // anchor portfolio so that it reacts well to resize
+              // if we did not do this we would have to setup a resize handler to deal with translate transform (I think)
+              view.$el.css({
+                  x: 0,
+                  left: "100%"
+                }
+              );
+
+          });
 
         });
 
