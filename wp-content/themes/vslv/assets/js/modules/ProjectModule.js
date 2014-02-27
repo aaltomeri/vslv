@@ -230,7 +230,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.trigger('PortfolioView:show');
 
-        this.$el.stop();
         this.stopListening(this, 'PortfolioView:items-hidden');
 
         this.$el.transition({
@@ -273,9 +272,9 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       hide: function() {
 
-        this.trigger('PortfolioView:hide');
+        var view = this;
 
-        this.$el.stop();
+        this.trigger('PortfolioView:hide');
 
         this.stopListening(this, 'PortfolioView:items-hidden');
 
