@@ -147,6 +147,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       item_animation_delay: 40,
       item_animation_time: 400,
       swiper: null,
+      is_showing: false,
       is_open: false,
 
       initialize: function() {
@@ -225,6 +226,8 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             freeMode: true,
             freeModeFluid: true,
             momentumRatio: 1,
+
+            initialSlide: 10,
             
             loop: true,
             slidesPerView: 'auto',
@@ -245,6 +248,17 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       show: function() {
 
         var view = this;
+
+        // quick fix to avoid trying to show PF
+        // when PF is already in the process of ...
+        if(this.is_showing) {
+          return;
+        }
+
+        this.is_showing = true;
+        this.on('PortfolioView:items-shown', function() {
+          this.is_showing = false;
+        });
 
         this.trigger('PortfolioView:show');
 
@@ -379,7 +393,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         var n_slides = this.$('.swiper-slide').length,
             n_actual_slides = n_slides/3;
 
-        this.$('.swiper-slide').each(function(el, index) {
+        this.$('.swiper-slide').each(function(index, el) {
 
           // as there are 3 times the noral number of slides because of the swiper loop mode
           // we apply the same delay to each slide every n slide
@@ -390,7 +404,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           // so we set the index to be the same for each group of slides
           index = index - (n_actual_slides*Math.floor(index/n_actual_slides));
           delay = index*view.item_animation_delay;
-          
+
           //$(this).transition({ opacity: 1, delay: delay, duration: this.item_animation_time });
 
           $(this).transition({ opacity: 1});
@@ -405,16 +419,9 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.slideTimeout = setTimeout(function() {
 
-           // var nx = -Math.round(Math.random()*$(view.swiper.wrapper).width()/2);
-
             view.trigger('PortfolioView:items-shown');
 
             view.is_open = true;
-
-            // slide to random position
-            // view.swiper.setWrapperTransition(1000);
-
-            // view.swiper.setWrapperTranslate(nx,0,0);
 
           },
           timeout
