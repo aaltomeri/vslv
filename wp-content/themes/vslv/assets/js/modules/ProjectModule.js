@@ -174,12 +174,23 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             });
           }
         });
+
+        this.project_thumbs_queue.on('progress', function(e) {
+
+          this.$el.css({
+            x: -this.$el.parent().width() * e.progress
+          });
+
+
+        },
+        this);
         
         // render portfolio when all images are preloaded
         this.project_thumbs_queue.on('complete', function() {
           this.project_thumbs_loaded = true;
           this.render();
 
+          
           // notify we're ready
           module.trigger('PortfolioView:thumbs-loaded');
 
