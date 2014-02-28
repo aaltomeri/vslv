@@ -5981,13 +5981,11 @@ td.visible-print {
 .hi-response-remove:before {
   content: "g";
 }
-.hi-response-left-arrow-stop {
+.hi-response-left-arrow-stop:before {
+  content: "K";
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
-}
-.hi-response-left-arrow-stop:before {
-  content: "K";
 }
 .hi-response-down-arrow:before {
   content: "G";
@@ -6680,23 +6678,28 @@ main > .preloader.animate {
 }
 #content .toggle {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 0;
+  right: 0;
+  padding: 15px 0 0 0;
   cursor: pointer;
   color: #555555;
   z-index: 10;
   text-align: right;
-  width: 50px;
+  width: 30px;
   height: 50px;
 }
+#content .toggle:before {
+  display: block;
+  position: absolute;
+}
 #content.is-hidden .toggle {
-  -webkit-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
-  text-align: left;
+  height: 100%;
 }
 #content.is-hidden .toggle:before {
   content: "K";
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 #content .scroll-hint {
   position: absolute;

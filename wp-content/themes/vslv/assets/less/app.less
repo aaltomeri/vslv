@@ -1035,8 +1035,9 @@ main {
     .toggle {
 
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 0;
+      right: 0;
+      padding: 15px 0 0 0;
 
       cursor: pointer;
 
@@ -1046,8 +1047,14 @@ main {
 
       text-align: right;
 
-      width: 50px;
+      width: 30px;
       height: 50px;
+
+
+      &:before {
+        display: block;
+        position: absolute;
+      }
 
     }
 
@@ -1057,7 +1064,9 @@ main {
 
         .hi-response-left-arrow-stop();
 
-        text-align: left;
+        // text-align: left;
+         
+        height: 100%;
 
       }
 
