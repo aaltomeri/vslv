@@ -204,9 +204,16 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.project_thumbs_queue.on('progress', function(e) {
 
-          this.$el.css({
-            x: -this.$el.parent().width() * e.progress
-          });
+
+          // only display progress if we have landed on portoflio page
+          // otherwise we dont want to show the portfolio line
+          if(PAGE_MODULE.currentPage.get('slug') === 'portfolio') {
+
+            this.$el.css({
+              x: -this.$el.parent().width() * e.progress
+            });
+            
+          }
 
 
         },
