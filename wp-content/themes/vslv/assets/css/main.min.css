@@ -6774,7 +6774,6 @@ body.contact #content .content {
 }
 body.contact #content .contact1 {
   font-family: 'Merriweather', serif;
-  text-transform: uppercase;
   font-size: 0.875rem;
   line-height: 1.563rem;
   color: #333333;
@@ -6787,7 +6786,6 @@ body.contact #content .contact1 {
 }
 body.contact #content .contact2 {
   font-family: 'Maven Pro', sans-serif;
-  text-transform: uppercase;
   color: #6d4523;
   font-size: 1rem;
   line-height: 1.563rem;
@@ -6800,7 +6798,6 @@ body.contact #content .contact2 {
 }
 body.contact #content .contact3 {
   font-family: 'Merriweather', serif;
-  text-transform: lowercase;
   color: #6d4523;
   font-size: 1rem;
   line-height: 1.563rem;
