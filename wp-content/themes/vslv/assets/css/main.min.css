@@ -6769,7 +6769,7 @@ body.contact #content {
   }
 }
 body.contact #content .content {
-  top: 20px;
+  top: 0px;
   bottom: 0;
 }
 body.contact #content .contact1 {
