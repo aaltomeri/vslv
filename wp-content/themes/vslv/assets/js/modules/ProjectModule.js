@@ -150,6 +150,13 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       is_showing: false,
       is_open: false,
 
+      events: {
+
+        'mouseenter li': 'onItemEnterHandler',
+        'mouseleave li': 'onItemLeaveHandler'
+
+      },
+
       initialize: function() {
 
         this.listenTo(this.collection, 'reset', this.preloadThumbs);
@@ -242,6 +249,55 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           // this.swiper.reInit();
 
         });
+
+      },
+
+      /**
+       * positioning the over deco element at the top right corner of the item
+       * as the display css ppty for the item is 'inline'
+       * all attempts to do this with css had failed (crossbrower safe that is)
+       * so we're just resorting to js here and be done with it ...
+       */
+      onItemEnterHandler: function(e) {
+
+        var $item = $(e.currentTarget),
+            $img = $item.find('img:eq(0)'),
+            $hoverElement = $('<div></div>').css({
+              position: 'absolute',
+              top: -$img.height()/2+$item.height()/2, // li display: inline = no height for the actual element
+              right: 0
+            }).addClass('portfolio-item-hover');
+
+
+        // compute dynaic font size for hover element
+        // based on the base font size for an approximatively 250px high image
+        // the base font size is set in the .portfolio-item-hover class
+        // so we can get it at this point
+        var base_image_height = 250,
+            base_font_size = $hoverElement.css('font-size').match(/^[0-9]+/)[0],
+            base_line_height = $hoverElement.css('line-height').match(/^[0-9]+/)[0],
+            font_size = base_font_size/base_image_height*$img.height(),
+            line_height = base_line_height/base_image_height*$img.height();
+
+        $hoverElement.css({
+          'font-size': font_size + 'px',
+          'line-height': line_height + 'px'
+        });
+
+        if(!$item.find('.portfolio-item-hover').length) {
+
+          $item.append($hoverElement);
+
+        }
+
+      },
+
+      onItemLeaveHandler: function(e) {
+
+        var $item = $(e.currentTarget),
+            $hoverElement = $item.find('.portfolio-item-hover');
+
+        $hoverElement.remove();
 
       },
 

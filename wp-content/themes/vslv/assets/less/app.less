@@ -721,10 +721,12 @@ main {
 
     li {
         
+        position: relative;
+
         // hide by default
         opacity: 0;
 
-        display: inline-block;
+        display: inline;
         list-style: none;
 
         height: 100%;
@@ -743,8 +745,8 @@ main {
         a {
 
 
-          display: block;
-          height: 100%;
+          display: inline;
+          // height: 100%;
 
         }
 
@@ -756,6 +758,16 @@ main {
     } 
 
   }
+
+}
+
+.portfolio-item-hover {
+
+  .hi-response();
+  .hi-response-top-right-corner();
+  font-size: 60px;
+  line-height: 54px;
+  color: @text-color-003;
 
 }
 

@@ -6455,8 +6455,9 @@ main > .preloader.animate {
   overflow-y: hidden;
 }
 #portfolio ul li {
+  position: relative;
   opacity: 0;
-  display: inline-block;
+  display: inline;
   list-style: none;
   height: 100%;
   margin-left: 20px;
@@ -6468,12 +6469,37 @@ main > .preloader.animate {
   }
 }
 #portfolio ul li a {
-  display: block;
-  height: 100%;
+  display: inline;
 }
 #portfolio ul li img {
   height: 100%;
   width: auto;
+}
+.portfolio-item-hover {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'hi-response_webiconsregular';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 24px;
+  font-size: 60px;
+  line-height: 54px;
+  color: #8d7d74;
+}
+.portfolio-item-hover:empty {
+  width: auto;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .portfolio-item-hover {
+    font-size: 17px;
+  }
+}
+.portfolio-item-hover:before {
+  content: "P";
 }
 /* ==========================================================================
    Content
