@@ -268,6 +268,11 @@ var PROJECT_MODULE = (function(win, $, cjs) {
               right: 0
             }).addClass('portfolio-item-hover');
 
+        if(!$item.find('.portfolio-item-hover').length) {
+
+          $item.append($hoverElement);
+
+        }
 
         // compute dynaic font size for hover element
         // based on the base font size for an approximatively 250px high image
@@ -283,12 +288,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           'font-size': font_size + 'px',
           'line-height': line_height + 'px'
         });
-
-        if(!$item.find('.portfolio-item-hover').length) {
-
-          $item.append($hoverElement);
-
-        }
 
       },
 
