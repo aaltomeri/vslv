@@ -6248,6 +6248,16 @@ h6 {
     height: 100% !important;
   }
 }
+/* 
+
+  SWIPER overrides
+
+*/
+.swiper-wrapper {
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  box-sizing: border-box !important;
+}
 /* ==========================================================================
    Main
    ========================================================================== */
@@ -6421,9 +6431,6 @@ main > .preloader.animate {
 }
 #portfolio .swiper-wrapper {
   height: 100% ! important;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
 }
 #portfolio .swiper-wrapper .swiper-slide {
   width: auto;
@@ -6670,6 +6677,7 @@ main > .preloader.animate {
   left: 0;
   right: 0;
   margin: auto;
+  padding: 0 15%;
   width: 100% !important;
 }
 #content.center-panel .content .inner-content {
@@ -6821,6 +6829,13 @@ body.project #content {
   body.project #content {
     top: 24%;
   }
+}
+body.agence #content.center-panel {
+  height: 40%;
+}
+body.agence #content .content {
+  top: 0;
+  bottom: 0;
 }
 .seo-content {
   display: none;
