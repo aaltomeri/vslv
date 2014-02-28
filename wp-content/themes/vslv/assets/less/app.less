@@ -17,9 +17,9 @@
 @text-color-002: #6d4523;
 @text-color-003: #8d7d74;
 
-@menu-text-color: #555555;
-@menu-text-color-hover: #8d7d74;
-@menu-text-color-on: #6d4523;
+@menu-text-color: #444444;
+@menu-text-color-hover: #6d4523;
+@menu-text-color-on: #8d7d74;
 
 @icon-color: #555555;
 
@@ -64,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
 .navbar {
 
   display: relative;
-  height: 84px;
+  height: 70px;
 
   margin: 0;
   
@@ -72,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {
     
     position: absolute;
     
-    width: 95%;
+    width: 96.52777777777779%;
     height: 100%;
 
     margin: auto;
@@ -123,7 +123,7 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   transition: background-color 1s;
-  background-color: white;
+  background-color: rgba(255,255,255,.9);
   border: none;
 
   &.collapsed {
@@ -135,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
 
     position: absolute;
     bottom: auto;
-    top: 22px;
+    top: 13px;
 
     width: 100%;
 
@@ -151,8 +151,8 @@ h1, h2, h3, h4, h5, h6 {
     .navbar-toggle {
       
       position: absolute;
-      bottom: -4px;
-      right: 0;
+      bottom: 0px;
+      right: 12px;
 
       margin: 0;
       padding: 0;
@@ -243,11 +243,11 @@ h1, h2, h3, h4, h5, h6 {
   .navbar-collapse {
   
     position: absolute;
-    bottom: 34px;
+    bottom: 32px;
 
     // offset is obtained with right ppty (instead setting a padding for instance)
     // to avoid menu overlapping menu button
-    right: 50px;
+    right: 62px;
 
     width: auto;
 
@@ -294,7 +294,7 @@ h1, h2, h3, h4, h5, h6 {
     .language-switcher {
 
       position: absolute;
-      bottom: -25px;
+      bottom: -24px;
       right: -67px;
 
       width: auto;
@@ -662,6 +662,14 @@ main {
   top: 0;
   bottom: 0;
 
+  @media screen 
+        and (min-device-width : 320px)
+        and (max-device-width : 568px) {
+
+    top: 60px;
+
+  }
+
   z-index: 100;
 
   // hide by default
@@ -721,6 +729,14 @@ main {
     
     margin: 0;
     padding: 20px 0;
+
+    @media screen 
+      and (min-device-width : 320px)
+      and (max-device-width : 568px) {
+
+      padding: 0;
+
+    }
 
     width: auto;
     height: 100%;
@@ -794,6 +810,14 @@ main {
     padding: 0;
     
     width: 56%;
+
+    @media screen 
+        and (min-device-width : 320px)
+        and (max-device-width : 568px) {
+
+      top: 60px !important;
+
+    }
 
     // we want a larger panel in portait
     @media only screen 
@@ -1063,6 +1087,15 @@ main {
       width: 30px;
       height: 50px;
 
+      @media screen 
+        and (min-device-width : 320px)
+        and (max-device-width : 568px) {
+
+          padding: 10px 0 0 0;
+          width: 20px;
+
+      }
+
 
       &:before {
         display: block;
@@ -1090,6 +1123,14 @@ main {
       position: absolute;
       bottom: 15px;
       right: 15px;
+
+      @media screen 
+        and (min-device-width : 320px)
+        and (max-device-width : 568px) {
+
+          display: none;
+
+      }
 
       // correction for top: 1 on hi-response icon
       top: auto;
@@ -1187,7 +1228,7 @@ body.contact {
       and (min-device-width : 320px)
       and (max-device-width : 568px) {
 
-        max-height: 40%;
+        max-height: 60%;
 
     }
 
@@ -1267,7 +1308,7 @@ body.project {
     }
 
     @media screen and (max-height: 568px) {
-      top: 24%;
+      top: 34% !important;
     }
 
   }
@@ -1279,7 +1320,17 @@ body.agence {
   #content {
 
     &.center-panel {
+
       height: 40%;
+
+      @media screen 
+        and (min-device-width : 320px)
+        and (max-device-width : 568px) {
+
+          height: 60%;
+
+      }
+
     }
 
    .content {

@@ -159,7 +159,26 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
       initialize: function() {
 
+        var view = this;
+
         this.listenTo(this.collection, 'reset', this.preloadThumbs);
+
+        // adjust size pf open portfolio when resizing
+        // this is aimed at rotating a device 
+        // so that we get the proper PF height
+        $(window).on('resize', function() {
+
+          if(view.is_open) {
+
+            view.$el.css({
+
+              height: (device.landscape() && device.mobile())? "56%" : "36%"
+
+            });
+
+          }
+
+        });
 
       },
 
@@ -260,6 +279,13 @@ var PROJECT_MODULE = (function(win, $, cjs) {
        */
       onItemEnterHandler: function(e) {
 
+        // do nothing on touch devices
+        if(device.mobile() || device.tablet()) {
+
+          return;
+
+        }
+
         var $item = $(e.currentTarget),
             $img = $item.find('img:eq(0)'),
             $hoverElement = $('<div></div>').css({
@@ -292,6 +318,13 @@ var PROJECT_MODULE = (function(win, $, cjs) {
       },
 
       onItemLeaveHandler: function(e) {
+
+        // do nothing on touch devices
+        if(device.mobile() || device.tablet()) {
+
+          return;
+
+        }
 
         var $item = $(e.currentTarget),
             $hoverElement = $item.find('.portfolio-item-hover');
@@ -400,7 +433,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.$el.transition({
 
-          height: "36%",
+          height: (device.landscape() && device.mobile())? "56%" : "36%",
           duration: 600
 
         }, function() {

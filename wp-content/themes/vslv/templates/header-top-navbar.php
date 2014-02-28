@@ -1,10 +1,10 @@
-<header class="banner navbar navbar-default navbar-static-top collapsed" role="banner">
+<header class="banner navbar navbar-default navbar-static-top" role="banner">
 
   <div class="header-inner-wrap">
 
     <div class="navbar-header">
 
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         
         <span class="sr-only">Toggle navigation</span>
 
@@ -18,7 +18,7 @@
 
     </div>
 
-    <nav class="collapse navbar-collapse width" role="navigation">
+    <nav class="navbar-collapse width in" role="navigation">
       
       <?php $languages = icl_get_languages('skip_missing=0&orderby=name&order=DESC&link_empty_to=""'); ?>
       

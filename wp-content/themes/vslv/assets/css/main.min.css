@@ -6030,12 +6030,12 @@ h6 {
    ========================================================================== */
 .navbar {
   display: relative;
-  height: 84px;
+  height: 70px;
   margin: 0;
 }
 .navbar .header-inner-wrap {
   position: absolute;
-  width: 95%;
+  width: 96.52777777777779%;
   height: 100%;
   margin: auto;
   left: 0;
@@ -6061,10 +6061,10 @@ h6 {
   font-weight: 900;
   font-size: 0.750rem;
   text-transform: uppercase;
-  color: #555555;
+  color: #444444;
   letter-spacing: 0.15em;
   transition: background-color 1s;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   border: none;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
@@ -6078,7 +6078,7 @@ h6 {
 .navbar-default .navbar-header {
   position: absolute;
   bottom: auto;
-  top: 22px;
+  top: 13px;
   width: 100%;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
@@ -6088,12 +6088,12 @@ h6 {
 }
 .navbar-default .navbar-header .navbar-toggle {
   position: absolute;
-  bottom: -4px;
-  right: 0;
+  bottom: 0px;
+  right: 12px;
   margin: 0;
   padding: 0;
   border: none;
-  color: #555555;
+  color: #444444;
 }
 .navbar-default .navbar-header .navbar-toggle .icon-bar {
   background-color: #c8c8c8;
@@ -6142,8 +6142,8 @@ h6 {
 }
 .navbar-default .navbar-collapse {
   position: absolute;
-  bottom: 34px;
-  right: 50px;
+  bottom: 32px;
+  right: 62px;
   width: auto;
   border-top: 0;
   padding: 0px;
@@ -6170,7 +6170,7 @@ h6 {
 }
 .navbar-default .navbar-collapse .language-switcher {
   position: absolute;
-  bottom: -25px;
+  bottom: -24px;
   right: -67px;
   width: auto;
   font-size: 0.625rem;
@@ -6194,14 +6194,14 @@ h6 {
   display: inline;
 }
 .navbar-default .navbar-collapse .language-switcher li a {
-  color: #555555;
+  color: #444444;
 }
 .navbar-default .navbar-collapse .language-switcher li a:hover {
   text-decoration: none;
-  color: #8d7d74;
+  color: #6d4523;
 }
 .navbar-default .navbar-collapse .language-switcher li.active a {
-  color: #6d4523;
+  color: #8d7d74;
 }
 .navbar-default .navbar-collapse .language-switcher li:after {
   content: ' | ';
@@ -6230,17 +6230,17 @@ h6 {
 .navbar-default .navbar-collapse .navbar-nav a {
   padding: 0;
   line-height: .65rem;
-  color: #555555;
+  color: #444444;
 }
 .navbar-default .navbar-collapse .navbar-nav a:hover {
-  color: #8d7d74;
+  color: #6d4523;
 }
 .navbar-default .navbar-collapse .navbar-nav a:active {
-  color: #6d4523;
+  color: #8d7d74;
 }
 .navbar-default .navbar-collapse .navbar-nav > .active > a {
   background-color: transparent !important;
-  color: #6d4523;
+  color: #8d7d74;
 }
 @media (min-width: 768px) {
   .navbar-default .navbar-collapse.collapse {
@@ -6429,6 +6429,11 @@ main > .preloader.animate {
   background: rgba(255, 255, 255, 0.9);
   cursor: ew-resize;
 }
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #portfolio {
+    top: 60px;
+  }
+}
 #portfolio .swiper-wrapper {
   height: 100% ! important;
 }
@@ -6458,6 +6463,11 @@ main > .preloader.animate {
   white-space: nowrap;
   overflow-x: hidden;
   overflow-y: hidden;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #portfolio ul {
+    padding: 0;
+  }
 }
 #portfolio ul li {
   position: relative;
@@ -6522,6 +6532,11 @@ main > .preloader.animate {
   background: rgba(255, 255, 255, 0.9);
   color: #333333;
   padding: 0 50px;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #content {
+    top: 60px !important;
+  }
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 768px) and (orientation: portrait) {
   #content {
@@ -6696,6 +6711,12 @@ main > .preloader.animate {
   width: 30px;
   height: 50px;
 }
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #content .toggle {
+    padding: 10px 0 0 0;
+    width: 20px;
+  }
+}
 #content .toggle:before {
   display: block;
   position: absolute;
@@ -6716,6 +6737,11 @@ main > .preloader.animate {
   top: auto;
   color: #555555;
   z-index: 10;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #content .scroll-hint {
+    display: none;
+  }
 }
 #content ul.clients-list {
   margin: 0;
@@ -6773,7 +6799,7 @@ body.contact #content {
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   body.contact #content {
-    max-height: 40%;
+    max-height: 60%;
   }
 }
 body.contact #content .content {
@@ -6827,11 +6853,16 @@ body.project #content {
 }
 @media screen and (max-height: 568px) {
   body.project #content {
-    top: 24%;
+    top: 34% !important;
   }
 }
 body.agence #content.center-panel {
   height: 40%;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  body.agence #content.center-panel {
+    height: 60%;
+  }
 }
 body.agence #content .content {
   top: 0;

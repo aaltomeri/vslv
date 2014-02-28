@@ -457,7 +457,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           // hide menu
           // only if it's been initialized as a collapsible
           if($('.navbar-collapse').data("bs.collapse")) {
-            $( '.navbar-collapse').collapse('hide');
+            // $( '.navbar-collapse').collapse('hide');
           }
 
         });
@@ -596,9 +596,11 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         }
 
-        changeLogo("white");
+        // changeLogo("white");
 
         $('.navbar-collapse').on('show.bs.collapse', function() {
+
+          console.log('SHOW MENU');
 
           $('.navbar').removeClass('collapsed');
           $('.navbar-toggle').removeClass('collapsed');
@@ -609,6 +611,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         $('.navbar-collapse').on('hide.bs.collapse', function() {
 
+          console.log('HIDE MENU');
+          
           $('.navbar').addClass('collapsed');
           $('.navbar-toggle').addClass('collapsed');
           
