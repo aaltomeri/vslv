@@ -168,11 +168,11 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         // so that we get the proper PF height
         $(window).on('resize', function() {
 
+          var h = window.innerHeight;
+
           if(view.is_open) {
 
             view.$el.css({
-
-              var h = window.innerHeight;
 
               height: (device.landscape() && h < 568)? "56%" : "36%"
 
