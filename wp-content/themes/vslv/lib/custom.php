@@ -155,20 +155,33 @@ function vslvs_clients_list_sc( $atts ) {
 
   foreach ($clients as $key => $client) {
 
-    $output .= '<li>';    
 
-    // get first project
+    // add projects to client
     // connected posts are connected in @see populate_posts_with_connected_posts
     if($client->connected) {
 
-      $project = $client->connected[0];
-      $project_link = get_permalink($project->ID);
+      $output .= '<li class="client-with-projects">';    
+      
+      $output .= '<div>'.$client->post_title.'</div>';
 
-      $output .= "<a href='$project_link'>{$client->post_title}</a>";
+      $output .= '<ul class="client-projects">';
+
+      foreach($client->connected as $project) {
+
+        $project_link = get_permalink($project->ID);
+        
+        $output .= '<li>';
+          $output .= "<a href='$project_link'>{$project->post_title}</a>";
+        $output .= '</li>';
+        
+      }
+      
+      $output .= '</ul>';
 
     }
     else {
 
+      $output .= '<li>';    
       $output .= $client->post_title;
 
     }

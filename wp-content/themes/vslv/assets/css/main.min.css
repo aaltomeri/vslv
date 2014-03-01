@@ -6751,28 +6751,42 @@ main > .preloader.animate {
 #content ul.clients-list {
   margin: 0;
   padding: 0;
-  list-style: none;
-  text-align: center;
+}
+#content ul.clients-list > li {
+  margin-bottom: 4px;
+  letter-spacing: 0.08rem;
+}
+#content ul.clients-list > li.client-with-projects {
+  margin: 6px 0 10px 0;
+}
+#content ul.clients-list > li > ul {
+  margin: 0;
+  padding: 0;
+}
+#content ul.clients-list > li > ul li:first-child {
+  margin-top: -3px;
+}
+#content ul.clients-list > li > ul li {
+  margin-bottom: -2px;
 }
 #content ul.clients-list li {
-  font-family: 'Merriweather', sans-serif;
-  font-size: 0.8rem;
-  line-height: 1.563rem;
-  letter-spacing: 0.05rem;
-  color: #8d7d74;
+  list-style: none;
+  text-align: center;
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 1.063rem;
+  color: #333333;
   text-transform: uppercase;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #content ul.clients-list li {
-    font-size: 0.625rem;
-    line-height: .938rem;
+    font-size: 0.750rem;
   }
 }
 #content ul.clients-list li a {
   font-family: 'Maven Pro', sans-serif;
   font-weight: bold;
-  font-size: 0.89rem;
-  line-height: 1.563rem;
+  font-size: 0.938rem;
+  letter-spacing: 0.08rem;
   text-transform: uppercase;
   color: #6d4523;
   text-decoration: none;
@@ -6780,14 +6794,13 @@ main > .preloader.animate {
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   #content ul.clients-list li a {
     font-size: 0.750rem;
-    line-height: .938rem;
   }
 }
 #content ul.clients-list li a:hover {
-  color: #8d7d74;
+  color: #333333;
 }
 #content ul.clients-list li a:visited {
-  color: #333333;
+  color: #8d7d74;
 }
 /********************
 *
