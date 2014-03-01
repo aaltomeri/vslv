@@ -9,7 +9,7 @@ function client_init() {
 		'supports'          => array( 'title', 'editor' ),
 		'has_archive'       => true,
 		'query_var'         => true,
-		'rewrite'           => array('slug' => 'clients'),
+		'rewrite'           => array('slug' => '__clients'),// there exists at the time of this comment a page which slug is 'clients' so we disambiguate by adding __ in front of the client post type slug
 		'labels'            => array(
 			'name'                => __( 'Clients', 'vslv' ),
 			'singular_name'       => __( 'Client', 'vslv' ),
