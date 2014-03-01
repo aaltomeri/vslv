@@ -6815,7 +6815,7 @@ main > .preloader.animate {
 *
 *********************/
 body.contact #content {
-  max-height: 40%;
+  max-height: 50%;
 }
 @media screen and (min-width: 768px) {
   body.contact #content {
