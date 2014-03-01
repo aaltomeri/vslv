@@ -172,7 +172,9 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
             view.$el.css({
 
-              height: (device.landscape() && device.mobile())? "56%" : "36%"
+              var h = window.innerHeight;
+
+              height: (device.landscape() && h < 568)? "56%" : "36%"
 
             });
 
@@ -438,9 +440,11 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.trigger('PortfolioView:open');
 
+        var h = window.innerHeight;
+
         this.$el.transition({
 
-          height: (device.landscape() && device.mobile())? "56%" : "36%",
+          height: (device.landscape() && h < 568)? "56%" : "36%",
           duration: 600
 
         }, function() {

@@ -6434,6 +6434,11 @@ main > .preloader.animate {
     top: 60px;
   }
 }
+@media screen and (max-device-height: 568px) and (orientation: landscape) {
+  #portfolio {
+    top: 60px;
+  }
+}
 #portfolio .swiper-wrapper {
   height: 100% ! important;
 }
