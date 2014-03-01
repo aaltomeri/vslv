@@ -6754,6 +6754,11 @@ main > .preloader.animate {
   margin: 0;
   padding: 0;
 }
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  #content ul.clients-list {
+    line-height: 2em;
+  }
+}
 #content ul.clients-list > li {
   margin-bottom: 4px;
   letter-spacing: 0.08rem;
