@@ -31,7 +31,8 @@
         
         <!-- icons -->
         <span class="hi-response hi-response-remove toggle"></span>
-        <span class="hi-response hi-response-down-arrow scroll-hint"></span>
+        <span class="hi-response hi-response-up-arrow scroll-hint arrow-up"></span>
+        <span class="hi-response hi-response-down-arrow scroll-hint arrow-down"></span>
         
         <div class="swiper-wrapper content <%= data.type %>">
           <div class="swiper-slide inner-content">

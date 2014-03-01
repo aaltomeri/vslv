@@ -5987,6 +5987,9 @@ td.visible-print {
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+.hi-response-up-arrow:before {
+  content: "F";
+}
 .hi-response-down-arrow:before {
   content: "G";
 }
@@ -6741,6 +6744,7 @@ main > .preloader.animate {
   position: absolute;
   bottom: 15px;
   right: 15px;
+  cursor: pointer;
   top: auto;
   color: #555555;
   z-index: 10;
@@ -6749,6 +6753,9 @@ main > .preloader.animate {
   #content .scroll-hint {
     display: none;
   }
+}
+#content .scroll-hint.arrow-up {
+  bottom: 50px;
 }
 #content ul.clients-list {
   margin: 0;
@@ -6888,10 +6895,6 @@ body.agence #content.center-panel {
   body.agence #content.center-panel {
     height: 60%;
   }
-}
-body.agence #content .content {
-  top: 0;
-  bottom: 0;
 }
 .seo-content {
   display: none;

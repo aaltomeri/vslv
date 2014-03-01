@@ -94,7 +94,8 @@ var PAGE_MODULE = (function() {
         events: {
 
           'click .toggle': 'toggle',
-          'touchstart .toggle': 'toggle'
+          'touchstart .toggle': 'toggle',
+          'click .scroll-hint': '_scroll'
 
         },
 
@@ -164,6 +165,8 @@ var PAGE_MODULE = (function() {
           setTimeout(function() {
 
               view.swiper = view.$el.swiper({scrollContainer: true, mode:'vertical'});
+
+              view.swiper._vslv_position_y = 0;
 
             },
             50
@@ -351,6 +354,35 @@ var PAGE_MODULE = (function() {
           else {
             this.show();
           }
+
+        },
+
+        _scroll: function(e) {
+          
+          var el = e.currentTarget,
+              direction = $(el).hasClass('arrow-up')? 1 : -1,
+              step = 100*direction,
+              current_pos = this.swiper.getWrapperTranslate('y');
+
+
+          pos = (current_pos+step);
+
+          if(pos > 0) {
+
+            pos = 0;
+
+          }
+
+          if(pos < -$(this.swiper.wrapper).height()+this.swiper.height) {
+
+            pos = -$(this.swiper.wrapper).height()+this.swiper.height;
+
+          }
+          
+          this.swiper._vslv_position_y = pos;
+
+          this.swiper.setWrapperTransition(200);
+          this.swiper.setWrapperTranslate(0, pos,0);
 
         }
 
