@@ -252,6 +252,8 @@
 
         $preloader: null,
 
+        _skipVideo: false,
+
         events: {
           //'click': 'onClickHandler',
           'mousedown': 'onMousedownHandler',
@@ -356,6 +358,7 @@
 
           // assign dom element to view var
           this.$preloader = this.$('.preloader');
+
 
           // setting first media
           // setup callback if there are no medias we can work with
@@ -483,9 +486,20 @@
           // is it an image?
           if(cm.is_image) {
 
+            // hide video controls
+            this.hideVideoControls();
+            // unbind video specific events events
+            this.unbindVideoControlsEvents();
+
             // always remove video layer if it's present
             if(this.$el.find('video').length) {
+
+              // remove video
               this.$el.find('video').remove();
+
+              // rebind Discovery process events
+              this.delegateEvents();
+
             }
 
             this.renderImage(cm);
@@ -598,15 +612,19 @@
 
             console.log('video: ', mediaObject.source);
 
-            // this is temporary and should be converted into a method
-            // that will properly create a video element and set the correct source
-            // depending on browser
             var view = this,
                 mediaElement = $('<video muted></video>').get(0),
                 sources_html,
                 source_to_draw_on_canvas;
 
+            // reset skipVideo flag
+            view._skipVideo = false;
+
+            // stop Discovery process (clicking screen to uncover next media)
             this.undelegateEvents();
+
+            // we don't need the hint here
+            module.discoveryHintView.stop();
 
             console.log("MEDIA OBJECT", mediaObject);
 
@@ -620,7 +638,7 @@
               this.$el.append($(mediaElement));
 
             }
-
+        
             // set poster for video
             // necessary as some browser/devices do not want to show first frame (chrome on Android)
             $(mediaElement).attr('poster', mediaObject.poster);
@@ -666,29 +684,27 @@
               // view.undelegateEvents();
 
               // make video play on touch
-              view.$el.on('mouseup touchend', function(e) {
+              // view.$el.on('mouseup touchend', function(e) {
 
-                e.stopPropagation();
+              //   e.stopPropagation();
 
-                if(mediaElement.paused) {
+              //   if(mediaElement.paused) {
 
-                  console.log('ABOUT TO PLAY');
-                  module.discoveryHintView.stop();
-                  mediaElement.play();
-                  mediaElement.muted = false;
+              //     console.log('ABOUT TO PLAY');
+              //     module.discoveryHintView.stop();
+              //     mediaElement.play();
+              //     mediaElement.muted = false;
                   
-                }
-                else {
+              //   }
+              //   else {
 
-                  console.log('ABOUT TO PAUSE');
-                  module.discoveryHintView.start();
-                  mediaElement.pause();
+              //     console.log('ABOUT TO PAUSE');
+              //     module.discoveryHintView.start();
+              //     mediaElement.pause();
 
-                }
-
-
-
-              });
+              //   }
+              //   
+              // });
 
               // notify media has finished loading
               view.trigger('DiscoveryView:media_loaded', mediaElement, mediaObject);
@@ -720,36 +736,28 @@
               // but for some reason and ** only when video is first media in project ** it does not work in loadstart handler
               // view.undelegateEvents();
 
+              
+
+              // SHOW VIDEO CONTROLS
+              view.showVideoControls();
+
+              // VIDEO CONTROLS INIT
+              view.initVideoControls();
+
+
             });
 
 
             // AT THE END OF THE VIDEO
-            $(mediaElement).one('ended', function() {
+            $(mediaElement).on('ended', function() {
 
               console.log('VIDEO ENDED');
 
-              // at then end of the video
-              // draw last frame on canvas
-              if(!device.android() && !device.ios()) { // but not for those who behave badly
-                
-                console.log('DRAW LAST FRAME');
-                view.drawMediaOnCanvas(mediaElement, view.c);
-                view.$c.show();
+              if(view._skipVideo) {
+
+                view.skipVideo();
 
               }
-
-              // unbind events set for playing the video
-              view.$el.off('mouseup touchend');
-
-              // rebind all events
-              view.delegateEvents();
-              
-              $(mediaElement).remove();
-
-              module.discoveryHintView.start(APP_DATA.discovery_hint_message);
-
-              // notify we have finished to render
-              view.trigger('DiscoveryView:end_render');
 
             });
 
@@ -805,6 +813,164 @@
 
         },
 
+        initVideoControls: function() {
+
+          var view = this,
+              $video = this.$('video'),
+              video = $video.get(0),
+              $bwd = this.$('.control-bwd'),
+              $fwd = this.$('.control-fwd'),
+              $play = this.$('.control-play'),
+              $sound = this.$('.control-sound'),
+              $controls = this.$('.controls');
+
+
+          // INIT
+          
+          // always show play button ready to play
+          var play_src = $play.find('img').get(0).src,
+              play_new_src = play_src.replace('-pause', '-play');
+
+          $play.find('img').get(0).src = play_new_src;
+
+          /** EVENTS **/
+
+          // play
+          $video.on('playing', function() {
+
+            var src = $play.find('img').get(0).src,
+                new_src = src.replace('-play', '-pause');
+
+            $play.find('img').get(0).src = new_src;
+
+          });
+
+          // pause
+          $video.on('pause', function() {
+
+            var src = $play.find('img').get(0).src,
+                new_src = src.replace('-pause', '-play');
+
+            $play.find('img').get(0).src = new_src;
+
+          });
+
+          // volume change
+          $video.on('volumechange', function() {
+
+            var src = $sound.find('img').get(0).src,
+                new_src;
+
+            if(video.muted) {
+
+              new_src = src.replace('-on', '-off');
+              $sound.find('img').get(0).src = new_src;
+
+            }
+            else {
+
+              new_src = src.replace('-off', '-on');
+              $sound.find('img').get(0).src = new_src;
+
+            }
+
+
+          });
+
+          // unmute by default
+          // note: the video has been muted in its markup for ios compliance
+          video.muted = false;
+
+          /** BUTTONS ACTIONS **/
+
+          // PLAY / PAUSE
+          $play.on('click touchend', function (e) {
+
+              e.stopPropagation();
+
+              if(video.paused) {
+                video.play();
+              }
+              else {
+                video.pause();
+              }
+
+          });
+
+          // SOUND
+          $sound.on('click touchend', function () {
+
+              if(video.muted) {
+
+                video.muted = false;
+              }
+              else {
+                video.muted = true;
+              }
+
+
+          });
+
+          $bwd.on('click touchend', function() {
+
+            video.currentTime = 0;
+
+          });
+
+          $fwd.on('click touchend', function() {
+
+            view.skipVideo();
+
+          });
+
+        },
+
+        unbindVideoControlsEvents: function() {
+
+
+         var $video = this.$('video'),
+            video = $video.get(0),
+            $bwd = this.$('.control-bwd'),
+            $fwd = this.$('.control-fwd'),
+            $play = this.$('.control-play'),
+            $sound = this.$('.control-sound');
+
+
+          $video.off();
+          $bwd.off();
+          $fwd.off();
+          $play.off();
+          $sound.off();
+
+        },
+
+        skipVideo: function() {
+
+          $('video').get(0).pause();
+          
+          // notify we have finished to render
+          this.trigger('DiscoveryView:end_render');
+
+          // draw current frame on canvas
+          if(!device.android() && !device.ios()) { // but not for those who behave badly
+            
+            console.log('DRAW LAST FRAME');
+            this.drawMediaOnCanvas($('video').get(0), this.c);
+            this.$c.show();
+
+          }
+
+          $('video').remove();
+
+          module.discoveryHintView.start(APP_DATA.discovery_hint_message);
+
+          // rebind all events
+          this.delegateEvents();
+
+          this.next();
+
+        },
+
         setVideoDimensions: function(videoElement) {
 
           var master_dimension = this.c.width > this.c.height? 'width':'height',
@@ -827,17 +993,38 @@
 
         },
 
+        showVideoControls: function() {
+
+            $('.video-controls-wrapper').show();
+
+        },
+
+        hideVideoControls: function() {
+
+            $('.video-controls-wrapper').hide();
+
+        },
+
         transformMediaElement: function(mediaElement) {
+
+            var transformedMediaElement;
 
             if(this.collection.currentModel.currentMediaIndex === 0 && this.showLayerForFirstMedia) {
 
               // add layer on top of image to be discovered
-              mediaElement = this.getMediaElementWithLayer(mediaElement, "#000000", VSLV_CONFIG.first_media_layer_opacity);
+              transformedMediaElement = this.getMediaElementWithLayer(mediaElement, "#000000", VSLV_CONFIG.first_media_layer_opacity);
 
               // we want to show the first media again without the layer
-              this.collection.currentModel.currentMediaIndex = -1;
+              // unless mediaElement is a Video
+              if(!(mediaElement instanceof HTMLVideoElement)) {
+
+                this.collection.currentModel.currentMediaIndex = -1;
+
+              }
 
               this.showLayerForFirstMedia = false;
+
+              return transformedMediaElement;
 
             }
 

@@ -159,7 +159,7 @@ add_action( 'json_prepare_attachment', 'vslv_augment_videos_json_with_additional
 function roots_scripts() {
 
 
-  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, 'f79da16a627c5e3032169b28ae817cbf');
+  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '253bd11dcd27da147954418d1bc8ec5a');
 
   // jQuery is loaded using the same method from HTML5 Boilerplate:
   // Grab Google CDN's latest jQuery with a protocol relative URL; fallback to local if offline
@@ -175,7 +175,7 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'f6a8a0edb8a143e4d08d1f06e5654932', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '234693af9b81ca9ea80375e3cb812ef3', true);
 
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');

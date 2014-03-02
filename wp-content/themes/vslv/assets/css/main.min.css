@@ -6378,6 +6378,47 @@ main > .preloader.animate {
   height: auto;
   z-index: 20;
 }
+#discovery .video-controls-wrapper {
+  display: none;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+}
+#discovery .video-controls-wrapper .video-controls {
+  position: absolute;
+  bottom: 15%;
+  right: 0;
+  padding: 20px 25px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#discovery .video-controls-wrapper .video-controls .control {
+  float: left;
+  margin-right: 15px;
+  cursor: pointer;
+}
+#discovery .video-controls-wrapper .video-controls .control:last-child {
+  margin-right: 0;
+}
+#discovery .video-controls-wrapper .video-controls .control:before,
+#discovery .video-controls-wrapper .video-controls .control:after {
+  content: " ";
+  display: table;
+}
+#discovery .video-controls-wrapper .video-controls .control:after {
+  clear: both;
+}
+#discovery .video-controls-wrapper .video-controls .control:before,
+#discovery .video-controls-wrapper .video-controls .control:after {
+  content: " ";
+  display: table;
+}
+#discovery .video-controls-wrapper .video-controls .control:after {
+  clear: both;
+}
+#discovery .video-controls-wrapper .video-controls .control img {
+  height: 17px;
+}
 #discovery .preloader {
   position: fixed;
   z-index: 100;

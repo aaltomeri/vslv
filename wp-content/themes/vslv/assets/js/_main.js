@@ -540,7 +540,9 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
           console.log('PageView:is-hidden in  MAIN');
 
-          this.start();
+          if(!$('video').length) { // only if current Media is NOT a video - hackish as hell but I lack time
+            this.start();
+          }
           
         });
 
@@ -612,7 +614,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         $('.navbar-collapse').on('hide.bs.collapse', function() {
 
           console.log('HIDE MENU');
-          
+
           $('.navbar').addClass('collapsed');
           $('.navbar-toggle').addClass('collapsed');
           

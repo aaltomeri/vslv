@@ -261,7 +261,6 @@ var PAGE_MODULE = (function() {
 
           //console.log('PageView:hide');
 
-
           view.trigger('PageView:hide');
 
           // only for projects
@@ -358,7 +357,7 @@ var PAGE_MODULE = (function() {
         },
 
         _scroll: function(e) {
-          
+
           var el = e.currentTarget,
               direction = $(el).hasClass('arrow-up')? 1 : -1,
               step = 100*direction,

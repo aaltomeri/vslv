@@ -595,6 +595,51 @@ main {
 
     }
 
+    .video-controls-wrapper {
+      
+      display: none;
+
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      // background-color: rgba(20, 20, 20, 0.5);
+        
+      z-index: 100;
+
+      .video-controls {
+
+        position: absolute;
+        bottom: 15%;
+        right: 0;
+        padding: 20px 25px;
+
+        background-color: rgba(0, 0, 0, 0.3);
+
+        .control {
+          
+          float: left;
+          margin-right: 15px;
+          cursor: pointer;
+
+          &:last-child {
+            
+            margin-right: 0;
+
+          } 
+
+          .clearfix();
+          
+          img {
+            height: 17px;
+          }
+
+        }
+
+      }
+
+
+    }
+
     .preloader {
 
       position: fixed;

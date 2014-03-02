@@ -25,6 +25,24 @@
 
     <div id="discovery">
       <div class="preloader"></div>
+
+      <div class="video-controls-wrapper">
+        <div class="video-controls">
+          <div class="control control-bwd">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/video-control-bwd.svg" alt="Replay" />
+          </div>
+          <div class="control control-play">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/video-control-play.svg" alt="Play/Pause" />
+          </div>
+          <div class="control control-fwd">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/video-control-fwd.svg" alt="Skip" />
+          </div>
+          <div class="control control-sound">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/video-control-sound-on.svg" alt="Sound control" />
+          </div>
+        </div>
+        
+      </div>
     </div>
     <div id="content" class="is-hidden swiper-container">
       <script type="text/template" id="content-template">
