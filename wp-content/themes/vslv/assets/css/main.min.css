@@ -6749,10 +6749,8 @@ main > .preloader.animate {
   color: #555555;
   z-index: 10;
 }
-@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
-  #content .scroll-hint {
-    display: none;
-  }
+.touch #content .scroll-hint {
+  display: none;
 }
 #content .scroll-hint.arrow-up {
   bottom: 50px;
@@ -6778,7 +6776,7 @@ main > .preloader.animate {
   padding: 0;
 }
 #content ul.clients-list > li > ul li:first-child {
-  margin-top: -3px;
+  margin-top: -2px;
 }
 #content ul.clients-list > li > ul li {
   margin-bottom: -2px;

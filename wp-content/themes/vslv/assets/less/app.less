@@ -1135,10 +1135,9 @@ main {
       right: 15px;
 
       cursor: pointer;
-
-      @media screen 
-        and (min-device-width: 320px)
-        and (max-device-width: 568px) {
+      
+      // do not show scroll arrows on touch devices
+      .touch & {
 
           display: none;
 
@@ -1192,7 +1191,7 @@ main {
 
           li:first-child {
 
-            margin-top: -3px;
+            margin-top: -2px;
 
           }
 
