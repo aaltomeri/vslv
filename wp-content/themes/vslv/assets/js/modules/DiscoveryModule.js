@@ -677,34 +677,12 @@
               // the video can be considered has 'hidden', i.e. absent from the DOM
               // and thus not load (as video hidden in the DOM do not start loading )
               $(mediaElement).hide();
-              
-              // unbind all normal events for this view
-              // !!!!!!!! this does not seem to be working here
-              // so we repeat in loadeddata handler
-              // view.undelegateEvents();
 
-              // make video play on touch
-              // view.$el.on('mouseup touchend', function(e) {
+              // SHOW VIDEO CONTROLS
+              view.showVideoControls();
 
-              //   e.stopPropagation();
-
-              //   if(mediaElement.paused) {
-
-              //     console.log('ABOUT TO PLAY');
-              //     module.discoveryHintView.stop();
-              //     mediaElement.play();
-              //     mediaElement.muted = false;
-                  
-              //   }
-              //   else {
-
-              //     console.log('ABOUT TO PAUSE');
-              //     module.discoveryHintView.start();
-              //     mediaElement.pause();
-
-              //   }
-              //   
-              // });
+              // VIDEO CONTROLS INIT
+              view.initVideoControls();
 
               // notify media has finished loading
               view.trigger('DiscoveryView:media_loaded', mediaElement, mediaObject);
@@ -735,14 +713,6 @@
               // !!!!!!!!! this should not be here as it is already has been done in loadstart handler
               // but for some reason and ** only when video is first media in project ** it does not work in loadstart handler
               // view.undelegateEvents();
-
-              
-
-              // SHOW VIDEO CONTROLS
-              view.showVideoControls();
-
-              // VIDEO CONTROLS INIT
-              view.initVideoControls();
 
 
             });
@@ -884,7 +854,7 @@
           /** BUTTONS ACTIONS **/
 
           // PLAY / PAUSE
-          $play.on('click touchend', function (e) {
+          $play.on('click touchstart', function (e) {
 
               e.stopPropagation();
 
@@ -898,7 +868,7 @@
           });
 
           // SOUND
-          $sound.on('click touchend', function () {
+          $sound.on('click touchstart', function () {
 
               if(video.muted) {
 
@@ -911,13 +881,13 @@
 
           });
 
-          $bwd.on('click touchend', function() {
+          $bwd.on('click touchstart', function() {
 
             video.currentTime = 0;
 
           });
 
-          $fwd.on('click touchend', function() {
+          $fwd.on('click touchstart', function() {
 
             view.skipVideo();
 
