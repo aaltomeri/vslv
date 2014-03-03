@@ -6825,8 +6825,8 @@ main > .preloader.animate {
 #content ul.clients-list li {
   list-style: none;
   text-align: center;
-  font-family: 'Maven Pro', sans-serif;
-  font-size: 1.063rem;
+  font-family: 'Merriweather', serif;
+  font-size: 0.875rem;
   color: #333333;
   text-transform: uppercase;
 }
@@ -6838,8 +6838,8 @@ main > .preloader.animate {
 #content ul.clients-list li a {
   font-family: 'Maven Pro', sans-serif;
   font-weight: bold;
-  font-size: 0.938rem;
-  letter-spacing: 0.08rem;
+  font-size: 0.750rem;
+  letter-spacing: 0.05rem;
   text-transform: uppercase;
   color: #6d4523;
   text-decoration: none;

@@ -159,7 +159,7 @@ add_action( 'json_prepare_attachment', 'vslv_augment_videos_json_with_additional
 function roots_scripts() {
 
 
-  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '46581f10ce22820a63186e5b06e24f54');
+  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, '58824aa5f723bcc6644ea6feae793f89');
 
   // jQuery is loaded using the same method from HTML5 Boilerplate:
   // Grab Google CDN's latest jQuery with a protocol relative URL; fallback to local if offline
