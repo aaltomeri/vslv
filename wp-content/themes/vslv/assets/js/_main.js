@@ -39,7 +39,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
        */
       project: function(slug, mediaIndex) {
 
-        var router = this;
+        var router = this,
+            project_model = project_module.collection.findWhere({ slug: slug });
         
         console.log("project: " + slug);
 
@@ -50,7 +51,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           router.previous_slug = 'project';
 
         });
-        
+
         this.activateMenuItem(slug);
 
         if(mediaIndex === null) {
@@ -111,9 +112,9 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
           // very hackish
           // but deals with a case where 'contact' center-panel has a different width
-          // than the regular content panel width - this is sone vie a body class
+          // than the regular content panel width - this is done via a body class
           // so as, when the panel is being hidden, we set its translateX value to be minus its width
-          // and we then (here) remove the body class (contact) the cotent panel width is greater and the panel shows
+          // and we then (here) remove the body class (contact) the content panel width is greater and the panel shows
           // we thus need to re-set the translateX property now that we have a greater width
           if(slug === 'portfolio') {
             page_module.currentPageView.$el.css({ x: -this.$el.outerWidth() });
@@ -199,6 +200,13 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           
         }
 
+        // change page title
+        if(newPage) {
+
+          this.setDocumentTitle(newPage.get('title'));
+          
+        }
+
       },
 
       cleanSlug: function(slug) {
@@ -232,6 +240,12 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         $('body > header .navbar-nav li').removeClass('active');
         $('body > header .navbar-nav li.menu-' + slug).addClass('active');
 
+      },
+
+      setDocumentTitle: function(title) {
+
+        document.title = document.title.replace(/(.*)?\|(.*)?/, title + ' |$2');
+         
       }
 
     }),
@@ -381,10 +395,14 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
               //page_module.currentPageView.hide();
             },
             VSLV_CONFIG.discovery_hide_content_delay);
+
+            // change page title
+            VSLV_APP.router.setDocumentTitle(discoveryModel.get('client').title + ' | ' + discoveryModel.get('title'));
             
           }
 
-        });
+        },
+        this);
 
         discovery_module.discoveryView.on('Discovery:setCurrentMedia', function() {
           
