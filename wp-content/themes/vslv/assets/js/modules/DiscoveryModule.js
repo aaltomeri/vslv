@@ -723,7 +723,7 @@
 
               console.log('VIDEO ENDED');
 
-              if(view._skipVideo) {
+              if(device.iphone()) {
 
                 view.skipVideo();
 
@@ -746,18 +746,14 @@
 
                 console.log('PLAYING');
 
-                //if(device.android()) {
-
-                  $(mediaElement).show();
-
-                //}
+                $(mediaElement).show();
 
               });
 
             });
 
             // set SOURCES
-            // make sure this is dine before hiding the video
+            // make sure this is done before hiding the video
             // otherwise loading is not started
             sources_html = mediaObject.video_formats_tags.join('\n');
             $(mediaElement).html(sources_html);
@@ -813,6 +809,10 @@
 
             $play.find('img').get(0).src = new_src;
 
+            if(device.iphone()) {
+              $video.show();
+            }
+
           });
 
           // pause
@@ -822,6 +822,15 @@
                 new_src = src.replace('-pause', '-play');
 
             $play.find('img').get(0).src = new_src;
+
+            // as we pause the video on iphone
+            // we want to hide it (this happens when going back from fullscreen)
+            // because we need to access the custom controls we setup
+            // which is not possible whatever z-index the video has
+            // hiding the video and reshowing on play seem to do the trick ...
+            if(device.iphone()) {
+              $video.hide();
+            }
 
           });
 
@@ -871,7 +880,6 @@
           $sound.on('click touchstart', function () {
 
               if(video.muted) {
-
                 video.muted = false;
               }
               else {
@@ -889,6 +897,7 @@
 
           $fwd.on('click touchstart', function() {
 
+            console.log('FWD');
             view.skipVideo();
 
           });
