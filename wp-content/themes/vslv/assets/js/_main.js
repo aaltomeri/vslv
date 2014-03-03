@@ -43,11 +43,14 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         
         console.log("project: " + slug);
 
-        $('body').removeClass(this.previous_slug);
-        $('body').addClass('project');
+        this.listenToOnce(page_module.currentPageView, 'PageView:is-hidden', function() {
 
-        router.previous_slug = 'project';
+          $('body').removeClass(this.previous_slug);
+          $('body').addClass('project');
+          router.previous_slug = 'project';
 
+        });
+        
         this.activateMenuItem(slug);
 
         if(mediaIndex === null) {
@@ -76,6 +79,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           discoveries.setCurrentModelBySlug(slug, mediaIndex);
 
         }
+
+
 
       },
 
