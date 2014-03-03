@@ -369,6 +369,17 @@ function vslv_mce_before_init_insert_formats( $init_array ) {
 // Attach callback to 'tiny_mce_before_init' 
 add_filter( 'tiny_mce_before_init', 'vslv_mce_before_init_insert_formats' );
 
+/** 404 redirects to Portfolio **/
+function vslv_template_redirect()
+{
+    if( is_404() )
+    {
+        wp_redirect( home_url( ) );
+        exit();
+    }
+}
+add_action( 'template_redirect', 'vslv_template_redirect' );
+
 
 
 
