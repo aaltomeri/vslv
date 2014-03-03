@@ -6889,6 +6889,16 @@ body.contact #content .contact1 {
     line-height: .938rem;
   }
 }
+body.contact #content a.contact1 {
+  color: #6d4523;
+  text-decoration: none;
+}
+body.contact #content a.contact1:hover {
+  color: #333333;
+}
+body.contact #content a.contact1:visited {
+  color: #8d7d74;
+}
 body.contact #content .contact2 {
   font-family: 'Maven Pro', sans-serif;
   color: #6d4523;
