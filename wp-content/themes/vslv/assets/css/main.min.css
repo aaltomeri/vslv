@@ -6935,6 +6935,9 @@ body.agence #content.center-panel {
     height: 60%;
   }
 }
+body.agence #content .content {
+  bottom: 0;
+}
 .seo-content {
   display: none;
 }
