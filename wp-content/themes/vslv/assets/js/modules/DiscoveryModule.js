@@ -1091,6 +1091,79 @@
           this.$el.scrollTop(Math.round((h - this.$el.height())/2));
 
         },
+
+        /**
+         * manipulate canvas to accout for hi DPI screens
+         * @see http://www.html5rocks.com/en/tutorials/canvas/hidpi
+         */
+        adaptCanvasToHiDPIScreen: function(canvasElement, bypass) {
+
+          var c = canvasElement,
+              ctx = c.getContext('2d'),
+              devicePixelRatio = window.devicePixelRatio,
+              backingStoreRatio = this.getBackingStoreRatio(ctx),
+              ratio = this.getDevicePixelBackingStoreRatio(ctx),
+              _bypass = bypass || false;
+
+          // upscale the canvas if the two ratios don't match
+          if (devicePixelRatio !== backingStoreRatio && !_bypass) {
+
+              var oldWidth = c.width;
+              var oldHeight = c.height;
+
+              c.width = oldWidth * ratio;
+              c.height = oldHeight * ratio;
+
+
+              c.style.width = oldWidth + 'px';
+              c.style.height = oldHeight + 'px';
+
+              // now scale the context to counter
+              // the fact that we've manually scaled
+              // our canvas element
+              ctx.scale(ratio, ratio);
+
+          }
+
+        },
+
+        getBackingStoreRatio: function(ctx) {
+
+          var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                                  ctx.mozBackingStorePixelRatio ||
+                                  ctx.msBackingStorePixelRatio ||
+                                  ctx.oBackingStorePixelRatio ||
+                                  ctx.backingStorePixelRatio || 1;
+
+
+          return backingStoreRatio;
+
+        },
+
+        getDevicePixelBackingStoreRatio: function(ctx) {
+
+          var devicePixelRatio = window.devicePixelRatio || 1,
+              backingStoreRatio = this.getBackingStoreRatio(ctx),
+              ratio = devicePixelRatio / backingStoreRatio;
+          
+          return ratio;
+
+        },
+
+        /**
+         * set $el bg image and hide canvas
+         * NOTE: deprecated
+         */
+        replaceCanvasWithBgImage: function(mediaElement, canvasElement) {
+
+          if(mediaElement instanceof HTMLImageElement) {
+
+            this.$el.css({"background-image": 'url(' + mediaElement.src + ')'});
+            $(canvasElement).transit({opacity:0});
+
+          }
+
+        },
         drawMediaOnCanvas: function(mediaElement, canvasElement) {
 
           var m = mediaElement,
@@ -1117,6 +1190,9 @@
           // size canvas with scaled dimensions
           c.width = dw;
           c.height = dh;
+
+          // hi DPI stuff
+          this.adaptCanvasToHiDPIScreen(c);
 
           // draw image on canvas
           ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
@@ -1181,6 +1257,10 @@
           c.height = c2.height = c3.height = dh;
 
           ctx.drawImage(temp_c, 0, 0, temp_c.width, temp_c.height, 0, 0, dw, dh);
+          // hi DPI stuff
+          this.adaptCanvasToHiDPIScreen(c, true);
+          this.adaptCanvasToHiDPIScreen(c2, true);
+          this.adaptCanvasToHiDPIScreen(c3, true);
 
           // center in viewport
           this.$el.scrollLeft((dw - this.$el.width())/2);
@@ -1293,6 +1373,7 @@
               // using he chosen scale factor
               dw = sw*scale,
               dh = sh*scale;
+              dp_bs_ratio = 1;//this.getDevicePixelBackingStoreRatio(ctx);
 
           // reset shape canvas
           c3.width = c3.width;
@@ -1312,9 +1393,11 @@
           
           // draw shape on element canvas
           ctx2.drawImage(c3, 0, 0);
+          ctx2.drawImage(c3, 0, 0, c2.width, c2.height, 0, 0, c2.width/dp_bs_ratio, c2.height/dp_bs_ratio);
           
           // draw temp media element canvas with shape on main canvas
           ctx.drawImage(c2, 0, 0);
+          ctx.drawImage(c2, 0, 0, c2.width, c2.height, 0, 0, c.width/dp_bs_ratio, c.height/dp_bs_ratio);
           
 
         },
