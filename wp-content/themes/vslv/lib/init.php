@@ -16,6 +16,7 @@ function roots_setup() {
   // set_post_thumbnail_size(150, 150, false);
   
   add_image_size('portfolio-thumbnail', 500, 500, true); 
+  add_image_size('discovery_small', 768, 9999);
   add_image_size('discovery', 1920, 9999);
 
   // Add post formats (http://codex.wordpress.org/Post_Formats)
