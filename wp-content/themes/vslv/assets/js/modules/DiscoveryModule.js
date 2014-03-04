@@ -1181,9 +1181,9 @@
               
               // set the scaled the destination dimensions for the drawImage call
               // using he chosen scale factor
-              dw = sw*scale,
-              dh = sh*scale;
-          
+              dw = Math.round(sw*scale),
+              dh = Math.round(sh*scale);
+              
           // reset canvas
           c.width = c.width;
 
@@ -1234,8 +1234,8 @@
               
               // set the scaled destination dimensions for the drawImage call
               // using he chosen scale factor
-              dw = sw*scale,
-              dh = sh*scale,
+              dw = Math.round(sw*scale),
+              dh = Math.round(sh*scale),
 
               // coordinates have been stored in onClickHandler
               // pick a random point if mouse coordinates have not been set yet (at site init for instance)
@@ -1371,8 +1371,8 @@
               
               // set the scaled destination dimensions for the drawImage call
               // using he chosen scale factor
-              dw = sw*scale,
-              dh = sh*scale;
+              dw = Math.round(sw*scale),
+              dh = Math.round(sh*scale),
               dp_bs_ratio = 1;//this.getDevicePixelBackingStoreRatio(ctx);
 
           // reset shape canvas
