@@ -256,8 +256,8 @@
 
         events: {
           //'click': 'onClickHandler',
-          'mousedown': 'onMousedownHandler',
-          'touchstart': 'onMousedownHandler',
+          //'mousedown': 'onMousedownHandler',
+          //'touchstart': 'onMousedownHandler',
           'mouseup': 'onMouseupHandler',
           'touchend': 'onMouseupHandler'
         },
@@ -276,15 +276,20 @@
         onMousedownHandler: function(e) {
 
           var view = this,
-              pointer_x = e.clientX || e.offsetX || e.originalEvent.pageX,
-              pointer_y = e.clientY || e.originalEvent.pageY,
+              pointer_x = e.clientX || e.originalEvent.touches[0].clientX || e.originalEvent.pageX,
+              pointer_y = e.clientY || e.originalEvent.touches[0].clientY || e.originalEvent.pageY,
               pointer_radius = this.pointer_radius,
               c = this.c;
+
+          // account for main canvas parent div having been scrolled to center it
+          pointer_x += view.el.scrollLeft;
+          pointer_y += view.el.scrollTop;
 
           // get mouse coordinates
           // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
           this.pointer_x = pointer_x;
           this.pointer_y = pointer_y;
+          
 
           var mediaObject = this.model.getNextMedia(),
               mediaElement;
@@ -330,6 +335,19 @@
 
           this.$el.off('mousemove');
           this.$el.off('touchmove');
+
+          var view = this,
+              pointer_x = e.clientX || e.originalEvent.touches[0].clientX || e.originalEvent.pageX,
+              pointer_y = e.clientY || e.originalEvent.touches[0].clientY || e.originalEvent.pageY;
+
+          // account for main canvas parent div having been scrolled to center it
+          pointer_x += this.el.scrollLeft;
+          pointer_y += this.el.scrollTop;
+          
+          // get mouse coordinates
+          // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
+          this.pointer_x = pointer_x;
+          this.pointer_y = pointer_y;
 
           this.next();
 
