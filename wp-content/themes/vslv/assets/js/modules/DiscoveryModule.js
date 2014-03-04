@@ -1164,6 +1164,12 @@
           }
 
         },
+
+
+        /**
+         * DRAWING METHODS
+         */
+
         drawMediaOnCanvas: function(mediaElement, canvasElement) {
 
           var m = mediaElement,
@@ -1178,7 +1184,7 @@
               
               // choose the biggest to keep proportions
               scale = scale_h > scale_v ? scale_h : scale_v,
-              
+
               // set the scaled the destination dimensions for the drawImage call
               // using he chosen scale factor
               dw = Math.round(sw*scale),
@@ -1241,40 +1247,33 @@
               // pick a random point if mouse coordinates have not been set yet (at site init for instance)
               pointer_x = this.pointer_x? this.pointer_x : Math.random()*dw,
               pointer_y = this.pointer_y? this.pointer_y : Math.random()*dh;
-
-          var $temp_c = $(c).clone(),
-              temp_c = $temp_c.get(0),
-              temp_ctx = temp_c.getContext('2d');
-
-          temp_c.width = c.width;
-          temp_c.height = c.height;
-          temp_ctx.drawImage(c, 0, 0);
-          //this.$el.append($temp_c);
           
-          // size temp canvas with scaled dimensions
-          // temp canvas will be drawn onto main canvas
-          c.width = c2.width = c3.width = dw;
-          c.height = c2.height = c3.height = dh;
+          // copy canvas in its current state
+          // before it's wiped clean by setting its w & h
+          // we will draw it back onto itself just after so that we avoid a white flash
+          var $tmp_c = $(c).clone(),
+          tmp_c = $tmp_c.get(0),
+          tmp_ctx = tmp_c.getContext('2d');
+          tmp_c.width = c.width;
+          tmp_c.height = c.height;
+          tmp_ctx.drawImage(c, 0, 0);
+          //this.$el.append($tmp_c);
 
-          ctx.drawImage(temp_c, 0, 0, temp_c.width, temp_c.height, 0, 0, dw, dh);
+          // size main canvas with scaled dimensions
+          c.width = dw;
+          c.height = dh;
+          
+          // all canvases take main canvas size
+          c2.width = c3.width = c.width;
+          c2.height = c3.height = c.height;
+
           // hi DPI stuff
           this.adaptCanvasToHiDPIScreen(c, true);
           this.adaptCanvasToHiDPIScreen(c2, true);
           this.adaptCanvasToHiDPIScreen(c3, true);
 
-          // center in viewport
-          this.$el.scrollLeft((dw - this.$el.width())/2);
-          this.$el.scrollTop((dh - this.$el.height())/2);
-
-          // resize canvas only if media sizes differ
-          // this will result in a 'flash' as media is wiped out
-          // it is acceptable for now as we should not have media of different sizes
-          if(c.width !== Math.floor(dw)) {
-            c.width = Math.floor(dw);
-          }
-          if(c.height !== Math.floor(dh)) {
-            c.height = Math.floor(dh);
-          }
+          // avoid white flash by copying buffered canvas onto itself
+          ctx.drawImage(tmp_c, 0, 0, tmp_c.width, tmp_c.height, 0, 0, dw, dh);
 
           // center in viewport
           this.centerContentInViewPort();
@@ -1306,7 +1305,7 @@
 
             radius += __step;
 
-            view.gradient_draw(mediaElement, pointer_x, pointer_y, radius*1.05, canvasElement);
+            view.gradient_draw(mediaElement, pointer_x, pointer_y, radius, canvasElement);
 
             _then = timestamp;
 
@@ -1325,6 +1324,8 @@
               // and make things clean
               // it will also set the main canvas size to the correct dimensions
               view.drawMediaOnCanvas(mediaElement, canvasElement);
+
+              console.log('end of gradient rendering');
 
               // notify we have finished tthe transition effect
               view.trigger('DiscoveryView:end_transition');
@@ -1381,6 +1382,11 @@
           //draw element on temp canvas
           ctx2.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
 
+          // DEBUG
+          // this.$el.append($(c2));
+          // $(this.c).hide();
+          // radius = 800;
+
           // make shape - gradient
           var grd = ctx3.createRadialGradient(x, y, 0, x, y, radius);
           grd.addColorStop(0, "rgba(255,255,255,0.7)");
@@ -1392,11 +1398,9 @@
           ctx3.closePath();
           
           // draw shape on element canvas
-          ctx2.drawImage(c3, 0, 0);
           ctx2.drawImage(c3, 0, 0, c2.width, c2.height, 0, 0, c2.width/dp_bs_ratio, c2.height/dp_bs_ratio);
           
           // draw temp media element canvas with shape on main canvas
-          ctx.drawImage(c2, 0, 0);
           ctx.drawImage(c2, 0, 0, c2.width, c2.height, 0, 0, c.width/dp_bs_ratio, c.height/dp_bs_ratio);
           
 
