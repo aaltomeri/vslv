@@ -1002,6 +1002,10 @@
 
         },
 
+         /**
+         * HELPERS
+         */
+
         transformMediaElement: function(mediaElement) {
 
             var transformedMediaElement;
@@ -1078,6 +1082,15 @@
 
         },
 
+        centerContentInViewPort: function() {
+
+          var w = $(this.c).width(),
+              h = $(this.c).height();
+
+          this.$el.scrollLeft(Math.round((w - this.$el.width())/2));
+          this.$el.scrollTop(Math.round((h - this.$el.height())/2));
+
+        },
         drawMediaOnCanvas: function(mediaElement, canvasElement) {
 
           var m = mediaElement,
@@ -1109,8 +1122,7 @@
           ctx.drawImage(mediaElement, 0, 0, sw, sh, 0, 0, dw, dh);
           
           // center in viewport
-          this.$el.scrollLeft((dw - this.$el.width())/2);
-          this.$el.scrollTop((dh - this.$el.height())/2);
+          this.centerContentInViewPort();
 
         },
 
@@ -1185,8 +1197,7 @@
           }
 
           // center in viewport
-          this.$el.scrollLeft((dw - this.$el.width())/2);
-          this.$el.scrollTop((dh - this.$el.height())/2);
+          this.centerContentInViewPort();
 
           // set temp canvas context globalCompositeOperation to 'destination-atop' here as the context has been reset
           // by setting the canvas dimensions
