@@ -120,7 +120,7 @@
        */
       getMediaSource: function(mediaObject) {
 
-        var size = VSLV_CONFIG.discovery_wp_image_size || null,
+        var size = (window.innerWidth < VSLV_CONFIG.discovery_wp_image_small_size_breakpoint? VSLV_CONFIG.discovery_wp_image_small_size : VSLV_CONFIG.discovery_wp_image_size) || null,
         thumbnail_o = size? mediaObject.attachment_meta.sizes[size] : undefined,
         source = (typeof thumbnail_o !== 'undefined')? thumbnail_o.url : mediaObject.source;
 

@@ -5,6 +5,8 @@ var VSLV_CONFIG = {
 
 	// the Wordpress image size name used in Discovery process
 	discovery_wp_image_size: 'discovery',
+	discovery_wp_image_small_size_breakpoint: 568,
+	discovery_wp_image_small_size: 'discovery_small',
 	discovery_hide_content_delay: 5000, //ms
 	discovery_hint_interval: 14000, //ms
 	discovery_hint_show_duration: 2000, //ms
