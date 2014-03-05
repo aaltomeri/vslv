@@ -255,19 +255,37 @@
         _skipVideo: false,
 
         events: {
-          //'click': 'onClickHandler',
-          //'mousedown': 'onMousedownHandler',
-          //'touchstart': 'onMousedownHandler',
-          'mouseup': 'onMouseupHandler',
-          'touchend': 'onMouseupHandler'
+          'click': 'onClickHandler',
+          'touchstart': 'onClickHandler',
+          // 'mousedown': 'onMousedownHandler',
+          // 'touchstart': 'onMousedownHandler',
+          // 'mouseup': 'onMouseupHandler',
+          // 'touchend': 'onMouseupHandler'
         },
 
         onClickHandler: function(e) {
 
+          var event_type = e.type;
+
+          // some devices react to both click and touchstart
+          // we only want to act on one of them
+          if(Modernizr.touch && event_type === 'click') {
+            return;
+          }
+
           // get mouse coordinates
           // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
-          this.pointer_x = e.offsetX;
-          this.pointer_y = e.offsetY;
+          var view = this,
+              pointer_x = e.clientX || e.originalEvent.touches[0].clientX || e.originalEvent.pageX,
+              pointer_y = e.clientY || e.originalEvent.touches[0].clientY || e.originalEvent.pageY;
+
+          // account for main canvas parent div having been scrolled to center it
+          pointer_x += this.el.scrollLeft;
+          pointer_y += this.el.scrollTop;
+
+          // store mouse coordinates
+          this.pointer_x = pointer_x;
+          this.pointer_y = pointer_y;
 
           this.next();
 
@@ -285,11 +303,9 @@
           pointer_x += view.el.scrollLeft;
           pointer_y += view.el.scrollTop;
 
-          // get mouse coordinates
-          // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
+          // store mouse coordinates
           this.pointer_x = pointer_x;
           this.pointer_y = pointer_y;
-          
 
           var mediaObject = this.model.getNextMedia(),
               mediaElement;
@@ -343,9 +359,8 @@
           // account for main canvas parent div having been scrolled to center it
           pointer_x += this.el.scrollLeft;
           pointer_y += this.el.scrollTop;
-          
-          // get mouse coordinates
-          // using screenX as we want to account for the #discovery container offsetScrolls needed for centering
+
+          // store mouse coordinates
           this.pointer_x = pointer_x;
           this.pointer_y = pointer_y;
 
