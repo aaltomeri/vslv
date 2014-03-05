@@ -1309,14 +1309,14 @@
 
             if(_then) {
               _draw_time = _now - _then;
-              // console.log('_draw_time: ', _draw_time);
+              console.log('_draw_time: ', _draw_time);
             }
 
-            if(_draw_time > 32) {
-              __step = _step * Math.round(_draw_time)/32;
+            if(_draw_time) {
+              __step = _step * Math.round(_draw_time)/48;
             }
 
-            // console.log('__step: ', __step);
+            console.log('__step: ', __step);
 
             radius += __step;
 
