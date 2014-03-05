@@ -810,18 +810,23 @@ function kgvid_video_embed_enqueue_scripts() {
 		wp_enqueue_script( 'swfobject' );
 	}
 
-	//Video.js script and skins
-	if ( $options['embed_method'] != "WordPress Default" ) {
-		wp_enqueue_script( 'video-js', plugins_url("", __FILE__).'/video-js/video.js', '', '4.3.0' );
-		wp_enqueue_style( 'video-js-css', plugins_url("", __FILE__).'/video-js/video-js.css', '', '4.3.0' );
-		wp_enqueue_style( 'video-js-kg-skin', plugins_url("", __FILE__).'/video-js/kg-video-js-skin.css', '', $options['version'] );
+	// admin check added by AAM 
+	// since do no use the scripts in front
+	if(is_admin()) {
+		//Video.js script and skins
+		if ( $options['embed_method'] != "WordPress Default" ) {
+			wp_enqueue_script( 'video-js', plugins_url("", __FILE__).'/video-js/video.js', '', '4.3.0' );
+			wp_enqueue_style( 'video-js-css', plugins_url("", __FILE__).'/video-js/video-js.css', '', '4.3.0' );
+			wp_enqueue_style( 'video-js-kg-skin', plugins_url("", __FILE__).'/video-js/kg-video-js-skin.css', '', $options['version'] );
+		}
+
+		//plugin-related frontend scripts and styles
+		wp_enqueue_style( 'kgvid_video_styles', plugins_url("/css/kgvid_styles.css", __FILE__), '', $options['version'] );
+		//wp_enqueue_script( 'jquery-ui-dialog' );
+		wp_enqueue_script( 'kgvid_video_embed', plugins_url("/js/kgvid_video_embed.js", __FILE__), '', $options['version'] );
+		wp_localize_script( 'kgvid_video_embed', 'ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) ); // setting ajaxurl
 	}
 
-	//plugin-related frontend scripts and styles
-	wp_enqueue_style( 'kgvid_video_styles', plugins_url("/css/kgvid_styles.css", __FILE__), '', $options['version'] );
-	//wp_enqueue_script( 'jquery-ui-dialog' );
-	wp_enqueue_script( 'kgvid_video_embed', plugins_url("/js/kgvid_video_embed.js", __FILE__), '', $options['version'] );
-	wp_localize_script( 'kgvid_video_embed', 'ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) ); // setting ajaxurl
 }
 add_action('wp_enqueue_scripts', 'kgvid_video_embed_enqueue_scripts', 12);
 
@@ -853,7 +858,7 @@ function kgvid_video_embed_print_scripts() {
 	$options = get_option('kgvid_video_embed_options');
 
 	if ( $options['embed_method'] != "WordPress Default" ) {
-		echo '<script type="text/javascript">videojs.options.flash.swf = "'.plugins_url("", __FILE__).'/video-js/video-js.swf?4.0.0"</script>'."\n";
+		// echo '<script type="text/javascript">videojs.options.flash.swf = "'.plugins_url("", __FILE__).'/video-js/video-js.swf?4.0.0"</script>'."\n";
 	}
 
 	foreach ( $posts as $post ) {
@@ -879,7 +884,8 @@ function kgvid_video_embed_print_scripts() {
 	}
 
 }
-add_action('wp_head', 'kgvid_video_embed_print_scripts', 99);
+// AAM : we dont need this for VSLV
+// add_action('wp_head', 'kgvid_video_embed_print_scripts', 99);
 
 function kgvid_shortcode_atts($atts) {
 
