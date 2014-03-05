@@ -257,11 +257,11 @@ function VSLV_get_video_formats($attachment_id, $format_as_source_tags = false) 
   // those need to be exactky as they are here
   // since they are used in video info
   $video_formats = array(
-    '1080' => array('type' => 'mp4', 'media-query' => 'min-device-width: 1280px'),
-    '720' => array('type' => 'mp4', 'media-query' => 'min-device-width: 768px'),
-    'mobile' => array('type' => 'mp4', 'media-query' => 'min-device-width: 320px'),
-    'webm' => array('type' => 'webm', 'media-query' => 'min-device-width: 320px'),
-    'ogg' => array('type' => 'ogg', 'media-query' => 'min-device-width: 320px')
+    '1080' => array('type' => 'mp4', 'media-query' => 'screen and (min-device-width: 1280px)'),
+    '720' => array('type' => 'mp4', 'media-query' => 'screen and (min-device-width: 7608px), screen and (-webkit-min-device-pixel-ratio: 2)'),
+    'mobile' => array('type' => 'mp4', 'media-query' => 'screen and (min-device-width: 320px)'),
+    'webm' => array('type' => 'webm', 'media-query' => 'screen and (min-device-width: 320px)'),
+    'ogg' => array('type' => 'ogg', 'media-query' => 'screen and (min-device-width: 320px)')
   );
 
   foreach ($video_formats as $name => $infos) {
@@ -305,7 +305,7 @@ function VSLV_make_video_formats_tags($sources) {
 
   foreach ($sources as $name => $infos) {
 
-    $source_tags[$name] = sprintf('<source src="%s" type="video/%s" media="(%s)">',
+    $source_tags[$name] = sprintf('<source src="%s" type="video/%s" media="%s">',
       $infos['url'],
       $infos['type'],
       $infos['media-query']
