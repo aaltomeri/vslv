@@ -987,7 +987,7 @@
 
           var master_dimension = this.c.width > this.c.height? 'width':'height',
               other_dimension = (master_dimension === 'width')? 'height' : 'width',
-              md_value = this.c[master_dimension],
+              md_value = this.c[master_dimension] / window.devicePixelRatio,
               od_value = 'auto';
 
           // changes based on devices
