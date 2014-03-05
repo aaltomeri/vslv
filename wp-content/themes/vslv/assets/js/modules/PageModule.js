@@ -391,7 +391,7 @@ var PAGE_MODULE = (function() {
       init = function(currentPost_data) {
 
         module.collection = new Collection();
-        module.collection.fetch({reset: true});
+        module.collection_fetch_promise = module.collection.fetch({reset: true});
 
         module.collection.on('reset', function() {
 

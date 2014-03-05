@@ -112,12 +112,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
           var medias_promises = [];
 
-          this.on('reset', function() {
-
-            module.trigger('Projects:loaded');
-
-          });
-
         }
 
 
@@ -161,8 +155,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         var view = this;
 
-        this.listenTo(this.collection, 'reset', this.preloadThumbs);
-
         // adjust size pf open portfolio when resizing
         // this is aimed at rotating a device 
         // so that we get the proper PF height
@@ -181,6 +173,13 @@ var PROJECT_MODULE = (function(win, $, cjs) {
           }
 
         });
+
+      },
+
+      init: function() {
+
+        this.preloadThumbs();
+
 
       },
 
@@ -494,7 +493,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.$('.swiper-slide').each(function(index, el) {
 
-          // as there are 3 times the noral number of slides because of the swiper loop mode
+          // as there are 3 times the normal number of slides because of the swiper loop mode
           // we apply the same delay to each slide every n slide
           // for instance if there are 12 slides originally
           // we apply the same delay to slide 1, 13 and 25
@@ -538,7 +537,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         this.$('.swiper-slide').each(function(el, index) {
 
-          // as there are 3 times the noral number of slides because of the swiper loop mode
+          // as there are 3 times the normal number of slides because of the swiper loop mode
           // we apply the same delay to each slide every n slide
           // for instance if there are 12 slides originally
           // we apply the same delay to slide 1, 13 and 25
@@ -580,9 +579,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         },
 
-        initialize: function() {
-
-        },
+        initialize: function() {},
 
         render: function() {
 
@@ -633,7 +630,16 @@ var PROJECT_MODULE = (function(win, $, cjs) {
     init = function(projects) {
 
         module.collection = new Collection();
+
         module.portfolioView = new PortfolioView({ el: '#portfolio', collection: module.collection });
+
+        module.collection.on('reset', function() {
+
+          module.trigger('Projects:loaded');
+
+          module.portfolioView.init();
+          
+        });
 
         // fetch projects if no projects have been passed
         if(projects.length) {
@@ -643,7 +649,16 @@ var PROJECT_MODULE = (function(win, $, cjs) {
         }
         else {
 
-          module.collection.fetch({reset: true, data: {filter: {posts_per_page: -1, orderby: 'menu_order', order: 'ASC'}}});
+          module.collection_fetch_promise = module.collection.fetch({
+            reset: true,
+            data: {
+              filter: {
+                posts_per_page: -1,
+                orderby: 'menu_order',
+                order: 'ASC'
+              }
+            }
+          });
           
         }
 

@@ -460,6 +460,18 @@
 
         },
 
+        disable: function() {
+
+          this.undelegateEvents();
+
+        },
+
+        eable: function() {
+
+          this.delegateEvents();
+
+        },
+
         next: function() {
 
           // prevent switching to next media

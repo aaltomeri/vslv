@@ -258,6 +258,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
     root: "/",
 
+    started: false,
+
     history_length: 0,
 
     router: new Router(),
@@ -284,22 +286,17 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // when Pages are ready
         page_module.on('Pages:loaded', function() {
 
-            // START ROUTING
-            // should trigger route
-            Backbone.history.start({pushState: true, root: VSLV_APP.root });
             
           },
           this
         );
-
 
         /**
          * when Projects are ready
          */
         project_module.on('Projects:loaded', function() {
 
-            // init discovery process
-            this.initDiscoveryProcess(project_module.collection);
+            
 
           },
           this
@@ -316,29 +313,65 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         /**
          * INIT PROJECTS
          * we can pass projects data if we want to
-         * bootstraping the app with it
+         * bootstrap the app with it
          * at the moment this is an empty array (@see appData.php)
          * as we want to make an ajax request and show a preloader 
          */
-        
         project_module.init(app_data.projects);
 
-        if(currentPage.get('slug') === 'portfolio') {
-          project_module.portfolioView.listenTo(
-            project_module,
-            'PortfolioView:thumbs-loaded',
-            project_module.portfolioView.show
-          );
-        }
+
+        // START
+        // When Pages and Projects data has been fetched
+        $.when(
+          page_module.collection_fetch_promise,
+          project_module.collection_fetch_promise
+        ).then($.proxy(function (pages, projects) {
+
+          console.log(pages);
+          console.log(projects);
+
+          // hide main preloader
+          $('main > .preloader').transition({opacity: 0}).removeClass('animate');
+
+          // do this only after route has been triggered to avoid displaying hint too soon
+          this.initHintDisplay();
+
+          // Main Menu
+          this.initMainMenu();
+
+          // START ROUTING
+          // should trigger route
+          Backbone.history.start({pushState: true, root: VSLV_APP.root });
+
+          // init discovery process
+          this.initDiscoveryProcess(project_module.collection);
+
+          if(currentPage.get('slug') === 'portfolio') {
+            project_module.portfolioView.listenTo(
+              project_module,
+              'PortfolioView:thumbs-loaded',
+              function() {
+                project_module.portfolioView.show();
+                VSLV_APP.started = true;
+              }
+            );
+          }
+          else {
+            VSLV_APP.started = true;
+          }
+
+
+        }, this));
+
 
         /**
-         * DISCOVERIES
+         * ADD LANDING PAGE/POST/PROJECT AS FIRST DISCOVERY
          */
 
         firstDiscovery = discovery_module.make_discovery(currentPage);
 
         // in case medias infos has not been loaded for currentPage
-        // wait until it is and add its medias to the corresponding Discovery Model
+        // wait until it has and add its medias to the corresponding Discovery Model
         if(typeof currentPage.get('medias') !== "undefined" && currentPage.get('medias').length === 0) {
 
           // add 'medias' to Discovery model when they're available for Current Page
@@ -354,32 +387,24 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         }
 
-        // INIT DISCOVERIES and CREATE DISCOVERY COLLECTION
-        // also creates Discovery View which will rule the Discovery process (cycling through projects)
+        /**
+         * INIT DISCOVERIES and CREATE DISCOVERY COLLECTION
+         * also creates Discovery View which will rule the Discovery process (cycling through projects)
+         */
         discoveries = discovery_module.init(firstDiscovery);
 
-        // listen ONCE to media_loaded on DiscoveryView to make preloader disappear after first media has been loaded
-        discovery_module.discoveryView.once('DiscoveryView:media_loaded', function() {
-
-          // console.log('FIRST MEDIA LOADED');
-
-          // hide main preloader
-          $('main > .preloader').transition({opacity: 0}).removeClass('animate');
-
-          // do this only after route has been triggered to avoid displaying hint too soon
-          this.initHintDisplay();
-
-          // Main Menu
-          this.initMainMenu();
+        // disable the view - will be re-enabled by accessing a project via the portfolio
+        discovery_module.discoveryView.disable();
 
 
-        },
-        this);
+
+        /**
+         * DISCOVERY EVENTS
+         */
 
         // make page_module display the Discovery infos
         // when new Discovery is set
         discovery_module.discoveryView.on('DiscoveryView:setAndRenderEnded', function(discoveryModel) {
-
 
           console.log('DiscoveryView:setAndRenderEnded in Main');
 
@@ -411,6 +436,12 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
+
+
+        /**
+         * PORTFOLIO EVENTS
+         */
+
         // disable Discovery View when Portoflio is open
         // hide portfolio and show text panel again
         project_module.portfolioView.on('PortfolioView:is-open', function() {
@@ -438,8 +469,11 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
         
+
         project_module.portfolioView.on('PortfolioView:items-shown', function() {
             
+
+            // Randomize PF position
             if(!this.portoflio_position_randomized) {
 
               var nx = -Math.round(Math.random()*$(this.swiper.wrapper).width()/6);
@@ -455,6 +489,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         },
         project_module.portfolioView);
 
+
+
         project_module.portfolioView.on('PortfolioView:is-closed', function() {
           
           // unbind click on Discovery View
@@ -466,6 +502,10 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
+
+        /**
+         * ROUTER STUFF
+         */
 
         // before any route
         VSLV_APP.router.on('beforeroute', function(route) {
@@ -493,7 +533,12 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
-        // apply vslv svg logo dimension fix
+
+        /**
+         * MISC
+         */
+
+        // apply vslv svg logo dimension fix for IE
         if(navigator.appName.indexOf('Internet Explorer') !== -1) {
           this.ie_vslv_logo_height_fix();
         }
@@ -512,7 +557,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         firstDiscovery = discovery_module.collection.at(0);
 
         // now that we have the infos we need
-        // we can start the PRELOADING of discoveries medias
+        // we can start the PRELOADING all of discoveries medias
         discovery_module.discoveryView.preloadAllMedias();
 
         // remove first Discovery from collection if it's a page
@@ -731,7 +776,7 @@ $(document).on("click", "a:not([data-bypass])", function(evt) {
     return;
   }
 
-  if (href.prop && href.prop.slice(0, root.length) === root) {
+  if (href.prop && href.prop.slice(0, root.length) === root && VSLV_APP.started) {
 
     evt.preventDefault();
     Backbone.history.navigate(href.attr.replace(root,''), true);
