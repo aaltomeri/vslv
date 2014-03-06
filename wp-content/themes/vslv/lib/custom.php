@@ -258,7 +258,7 @@ function VSLV_get_video_formats($attachment_id, $format_as_source_tags = false) 
   // since they are used in video info
   $video_formats = array(
     '1080' => array('type' => 'mp4', 'media-query' => 'screen and (min-device-width: 1280px)'),
-    '720' => array('type' => 'mp4', 'media-query' => 'screen and (min-device-width: 7608px), screen and (-webkit-min-device-pixel-ratio: 2)'),
+    '720' => array('type' => 'mp4', 'media-query' => 'screen and (min-device-width: 768px), screen and (-webkit-min-device-pixel-ratio: 2)'),
     'mobile' => array('type' => 'mp4', 'media-query' => 'screen and (min-device-width: 320px)'),
     'webm' => array('type' => 'webm', 'media-query' => 'screen and (min-device-width: 320px)'),
     'ogg' => array('type' => 'ogg', 'media-query' => 'screen and (min-device-width: 320px)')
