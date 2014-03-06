@@ -6133,7 +6133,7 @@ h6 {
 }
 .navbar-default .navbar-header .navbar-brand img {
   width: 248px;
-  height: auto;
+  height: 29px;
 }
 @media screen and (min-device-width: 320px) and (max-device-width: 568px) {
   .navbar-default .navbar-header .navbar-brand {
@@ -6141,6 +6141,7 @@ h6 {
   }
   .navbar-default .navbar-header .navbar-brand img {
     width: 124px;
+    height: 15px;
   }
 }
 .navbar-default .navbar-collapse {
