@@ -250,7 +250,7 @@ function VSLV_get_video_formats($attachment_id, $format_as_source_tags = false) 
     'url' => $original_url, 
     'type' => $moviefiletype,
     'order' => $order,
-    'media-query' => 'min-device-width: 1280px'
+    'media-query' => 'screen and (min-device-width: 1280px)'
   );
   
   // hard coded KGVID plugin video formats
