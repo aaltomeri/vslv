@@ -370,15 +370,23 @@ function vslv_mce_before_init_insert_formats( $init_array ) {
 add_filter( 'tiny_mce_before_init', 'vslv_mce_before_init_insert_formats' );
 
 /** 404 redirects to Portfolio **/
-function vslv_template_redirect()
+function vslv_404()
 {
-    if( is_404() )
+    global $wp_query;
+
+    // page does not exist
+    // unless we are querying for wp-admin
+    // a little hackish - done becaus wp must redirect to wp-core/wp-admin
+    // and won't if we don't do this
+    // as /wp-admin is associated with a category°name at this stage
+    // there is a better way but ...
+    if( is_404() && $wp_query->query_vars['category_name'] != "wp-admin")
     {
         wp_redirect( home_url( ) );
         exit();
     }
 }
-add_action( 'template_redirect', 'vslv_template_redirect' );
+add_action( 'wp', 'vslv_404' );
 
 
 
