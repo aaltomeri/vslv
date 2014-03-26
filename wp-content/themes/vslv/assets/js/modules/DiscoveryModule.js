@@ -39,14 +39,18 @@
           // update address bar
           var type = this.get('type'),
               slug = this.get('slug'),
-              route = VSLV_CONFIG.modules[type].route;
+              route = VSLV_CONFIG.modules[type].route,
+              url = route + '/' + slug + '/' + (this.currentMediaIndex+1) + window.location.search;
 
           if(type==="project") {
 
-            Backbone.history.navigate(route + '/' + slug + '/' + (this.currentMediaIndex+1) + window.location.search);
+            Backbone.history.navigate(url);
 
             // reset menu
             VSLV_APP.router.activateMenuItem(null);
+
+            // analytics
+            _gaq.push(['_trackPageview', url]);
 
           }
 
