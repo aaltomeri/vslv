@@ -43,7 +43,7 @@
 
           if(type==="project") {
 
-            Backbone.history.navigate(route + '/' + slug + '/' + (this.currentMediaIndex+1));
+            Backbone.history.navigate(route + '/' + slug + '/' + (this.currentMediaIndex+1) + window.location.search);
 
             // reset menu
             VSLV_APP.router.activateMenuItem(null);
