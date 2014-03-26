@@ -1,336 +1,542 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Vue sur la ville\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-14 18:49+0100\n"
+"POT-Creation-Date: 2014-03-26 18:11+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
 "X-Poedit-Basepath: ../\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ./templates\n"
 "X-Poedit-SearchPath-2: ./lib\n"
 
-#: 404.php:5
-msgid "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
-msgstr "La page demandée a changé de nom ou est temporairement inaccessible."
+#: 404.php:4
+msgid "Sorry, but the page you were trying to view does not exist."
+msgstr ""
 
-#: 404.php:8
-msgid "Please try the following:"
-msgstr "Veuillez essayer les actions suivantes :"
+#: 404.php:7
+msgid "It looks like this was the result of either:"
+msgstr ""
+
+#: 404.php:9
+msgid "a mistyped address"
+msgstr ""
 
 #: 404.php:10
-msgid "Check your spelling"
-msgstr "Vérifiez votre syntaxe"
+msgid "an out-of-date link"
+msgstr ""
 
-#: 404.php:11
-#, php-format
-msgid "Return to the <a href=\"%s\">home page</a>"
-msgstr "Revenir à la <a href=\"%s\">page d'accueil</a>"
+#: appData.php:53
+msgid "Follow me >"
+msgstr "Suivez-moi >"
 
-#: 404.php:12
-msgid "Click the <a href=\"javascript:history.back()\">Back</a> button"
-msgstr "Cliquer sur le bouton <a href=\"javascript:history.back()\">Retour</a>"
+#: base.php:6
+msgid ""
+"You are using an <strong>outdated</strong> browser. Please <a href=\"http://"
+"browsehappy.com/\">upgrade your browser</a> to improve your experience."
+msgstr ""
 
-#: lib/activation.php:31
-#: lib/activation.php:32
+#: index.php:5
+msgid "Sorry, no results were found."
+msgstr "Désolé, aucun résultat n'a été trouvé."
+
+#: index.php:17
+msgid "&larr; Older posts"
+msgstr "&larr; Articles plus anciens"
+
+#: index.php:18
+msgid "Newer posts &rarr;"
+msgstr "Articles plus récents &rarr;"
+
+#: lib/activation.php:28 lib/activation.php:29
 msgid "Theme Activation"
 msgstr "Activation du thème"
 
-#: lib/activation.php:68
+#: lib/activation.php:51
 #, php-format
 msgid "%s Theme Activation"
 msgstr "Activation du thème %s"
 
-#: lib/activation.php:83
-#: lib/activation.php:85
+#: lib/activation.php:62 lib/activation.php:64
 msgid "Create static front page?"
 msgstr "Créer une page d'accueil ?"
 
-#: lib/activation.php:87
-#: lib/activation.php:100
-#: lib/activation.php:113
-#: lib/activation.php:126
-#: lib/activation.php:139
+#: lib/activation.php:66 lib/activation.php:79 lib/activation.php:92
+#: lib/activation.php:105 lib/activation.php:118
 msgid "Yes"
 msgstr "Oui"
 
-#: lib/activation.php:88
-#: lib/activation.php:101
-#: lib/activation.php:114
-#: lib/activation.php:127
-#: lib/activation.php:140
+#: lib/activation.php:67 lib/activation.php:80 lib/activation.php:93
+#: lib/activation.php:106 lib/activation.php:119
 msgid "No"
 msgstr "Non"
 
-#: lib/activation.php:91
+#: lib/activation.php:70
 msgid "Create a page called Home and set it to be the static front page"
 msgstr "Créer une page \"Home\" et la définir comme page d'accueil statique ?"
 
-#: lib/activation.php:96
+#: lib/activation.php:75
 msgid "Change permalink structure?"
 msgstr "Modifier la structure des permaliens ?"
 
-#: lib/activation.php:98
+#: lib/activation.php:77
 msgid "Update permalink structure?"
 msgstr "Mettre à jour la structure des permaliens ?"
 
-#: lib/activation.php:104
+#: lib/activation.php:83
 msgid "Change permalink structure to /&#37;postname&#37;/"
 msgstr "Changer la structure permaliens en /&#37;postname&#37;/"
 
-#: lib/activation.php:109
+#: lib/activation.php:88
 msgid "Change uploads folder?"
 msgstr "Changer le dossier d'upload ?"
 
-#: lib/activation.php:111
+#: lib/activation.php:90
 msgid "Update uploads folder?"
 msgstr "Mettre à jour le dossier d'upload ?"
 
-#: lib/activation.php:117
-msgid "Change uploads folder to /assets/ instead of /wp-content/uploads/"
-msgstr "Changer le dossier d'upload en /assets/ à la place de /wp-content/uploads/"
+#: lib/activation.php:96
+#, fuzzy
+msgid "Change uploads folder to /media/ instead of /wp-content/uploads/"
+msgstr ""
+"Changer le dossier d'upload en /assets/ à la place de /wp-content/uploads/"
 
-#: lib/activation.php:122
-#: lib/activation.php:124
+#: lib/activation.php:101 lib/activation.php:103
 msgid "Create navigation menu?"
 msgstr "Créer un menu de navigation ?"
 
-#: lib/activation.php:130
+#: lib/activation.php:109
 msgid "Create the Primary Navigation menu and set the location"
 msgstr "Créer le menus de navigation primaire et définir sa position"
 
-#: lib/activation.php:135
-#: lib/activation.php:137
+#: lib/activation.php:114 lib/activation.php:116
 msgid "Add pages to menu?"
 msgstr "Ajouter les pages au menu ?"
 
-#: lib/activation.php:143
+#: lib/activation.php:122
 msgid "Add all current published pages to the Primary Navigation"
-msgstr "Ajouter toutes les pages actuellement publiées à la navigation primaire"
+msgstr ""
+"Ajouter toutes les pages actuellement publiées à la navigation primaire"
 
-#: lib/cleanup.php:388
+#: lib/cleanup.php:198
 msgid "Continued"
 msgstr "Suite"
 
-#: lib/htaccess.php:25
-#, php-format
-msgid "Please make sure your <a href=\"%s\">.htaccess</a> file is writable "
-msgstr "Veuillez vérifier que votre fichier <a href=\"%s\">.htaccess</a> soit accessible en écriture"
+#: lib/custom.php:44
+msgid "Title"
+msgstr ""
 
-#: lib/init.php:13
+#: lib/custom.php:50
+msgid "Caption"
+msgstr ""
+
+#: lib/custom.php:80
+msgid "Attach Files"
+msgstr ""
+
+#: lib/custom.php:83
+msgid "Attach"
+msgstr ""
+
+#: lib/init.php:11
 msgid "Primary Navigation"
 msgstr "Navigation Primaire"
 
-#: lib/utils.php:14
+#: lib/titles.php:10
 msgid "Latest Posts"
 msgstr "Derniers Articles"
 
-#: lib/utils.php:23
+#: lib/titles.php:19
 #, php-format
 msgid "Daily Archives: %s"
 msgstr "Archives quotidiennes : %s"
 
-#: lib/utils.php:25
+#: lib/titles.php:21
 #, php-format
 msgid "Monthly Archives: %s"
 msgstr "Archives mensuelles : %s"
 
-#: lib/utils.php:27
+#: lib/titles.php:23
 #, php-format
 msgid "Yearly Archives: %s"
 msgstr "Archives annuelles : %s"
 
-#: lib/utils.php:31
+#: lib/titles.php:26
 #, php-format
 msgid "Author Archives: %s"
 msgstr "Archives d'auteurs : %s"
 
-#: lib/utils.php:36
+#: lib/titles.php:31
 #, php-format
 msgid "Search Results for %s"
 msgstr "Résultats de la recherche pour %s"
 
-#: lib/utils.php:38
-msgid "File Not Found"
+#: lib/titles.php:33
+#, fuzzy
+msgid "Not Found"
 msgstr "Fichier non trouvé"
 
-#: lib/widgets.php:6
-msgid "Primary Sidebar"
+#: lib/widgets.php:8
+#, fuzzy
+msgid "Primary"
 msgstr "Barre latérale Primaire"
 
-#: lib/widgets.php:15
+#: lib/widgets.php:17
 msgid "Footer"
 msgstr "Pied de page"
 
-#: lib/widgets.php:41
+#: lib/widgets.php:45
 msgid "Use this widget to add a vCard"
 msgstr "Utiliser ce widget pour ajouter une vCard"
 
-#: lib/widgets.php:43
+#: lib/widgets.php:47
 msgid "Roots: vCard"
 msgstr "Roots: vCard"
 
-#: lib/widgets.php:70
+#: lib/widgets.php:74
 msgid "vCard"
 msgstr "vCard"
 
-#: templates/comments.php:7
-#, php-format
-msgid "<cite class=\"fn\">%s</cite>"
-msgstr "<cite class=\"fn\">%s</cite>"
+#: post-types/client.php:14 post-types/client.php:16 post-types/client.php:26
+msgid "Clients"
+msgstr ""
 
-#: templates/comments.php:8
+#: post-types/client.php:15
+msgid "Client"
+msgstr ""
+
+#: post-types/client.php:17
+msgid "New client"
+msgstr ""
+
+#: post-types/client.php:18 post-types/project.php:18
+msgid "Add New"
+msgstr ""
+
+#: post-types/client.php:19
+msgid "Add New client"
+msgstr ""
+
+#: post-types/client.php:20
+msgid "Edit client"
+msgstr ""
+
+#: post-types/client.php:21
+msgid "View client"
+msgstr ""
+
+#: post-types/client.php:22
+#, fuzzy
+msgid "Search clients"
+msgstr "Recherche"
+
+#: post-types/client.php:23
+msgid "No clients found"
+msgstr ""
+
+#: post-types/client.php:24
+msgid "No clients found in trash"
+msgstr ""
+
+#: post-types/client.php:25
+msgid "Parent client"
+msgstr ""
+
+#: post-types/client.php:40
+#, php-format
+msgid "Client updated. <a target=\"_blank\" href=\"%s\">View client</a>"
+msgstr ""
+
+#: post-types/client.php:41 post-types/project.php:41
+msgid "Custom field updated."
+msgstr ""
+
+#: post-types/client.php:42 post-types/project.php:42
+msgid "Custom field deleted."
+msgstr ""
+
+#: post-types/client.php:43
+msgid "Client updated."
+msgstr ""
+
+#: post-types/client.php:45
+#, php-format
+msgid "Client restored to revision from %s"
+msgstr ""
+
+#: post-types/client.php:46
+#, fuzzy, php-format
+msgid "Client published. <a href=\"%s\">View client</a>"
+msgstr "Revenir à la <a href=\"%s\">page d'accueil</a>"
+
+#: post-types/client.php:47
+msgid "Client saved."
+msgstr ""
+
+#: post-types/client.php:48
+#, php-format
+msgid "Client submitted. <a target=\"_blank\" href=\"%s\">Preview client</a>"
+msgstr ""
+
+#: post-types/client.php:49
+#, php-format
+msgid ""
+"Client scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
+"\">Preview client</a>"
+msgstr ""
+
+#: post-types/client.php:51 post-types/project.php:51
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: post-types/client.php:52
+#, php-format
+msgid ""
+"Client draft updated. <a target=\"_blank\" href=\"%s\">Preview client</a>"
+msgstr ""
+
+#: post-types/project.php:14 post-types/project.php:16
+#: post-types/project.php:26
+msgid "Projects"
+msgstr ""
+
+#: post-types/project.php:15
+msgid "Project"
+msgstr ""
+
+#: post-types/project.php:17
+msgid "New project"
+msgstr ""
+
+#: post-types/project.php:19
+msgid "Add New project"
+msgstr ""
+
+#: post-types/project.php:20
+msgid "Edit project"
+msgstr ""
+
+#: post-types/project.php:21
+msgid "View project"
+msgstr ""
+
+#: post-types/project.php:22
+#, fuzzy
+msgid "Search projects"
+msgstr "Rechercher pour :"
+
+#: post-types/project.php:23
+msgid "No projects found"
+msgstr ""
+
+#: post-types/project.php:24
+msgid "No projects found in trash"
+msgstr ""
+
+#: post-types/project.php:25
+msgid "Parent project"
+msgstr ""
+
+#: post-types/project.php:40
+#, php-format
+msgid "Project updated. <a target=\"_blank\" href=\"%s\">View project</a>"
+msgstr ""
+
+#: post-types/project.php:43
+msgid "Project updated."
+msgstr ""
+
+#: post-types/project.php:45
+#, php-format
+msgid "Project restored to revision from %s"
+msgstr ""
+
+#: post-types/project.php:46
+#, fuzzy, php-format
+msgid "Project published. <a href=\"%s\">View project</a>"
+msgstr "Revenir à la <a href=\"%s\">page d'accueil</a>"
+
+#: post-types/project.php:47
+msgid "Project saved."
+msgstr ""
+
+#: post-types/project.php:48
+#, php-format
+msgid "Project submitted. <a target=\"_blank\" href=\"%s\">Preview project</a>"
+msgstr ""
+
+#: post-types/project.php:49
+#, php-format
+msgid ""
+"Project scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href="
+"\"%2$s\">Preview project</a>"
+msgstr ""
+
+#: post-types/project.php:52
+#, php-format
+msgid ""
+"Project draft updated. <a target=\"_blank\" href=\"%s\">Preview project</a>"
+msgstr ""
+
+#: templates/comment.php:4
 #, php-format
 msgid "%1$s"
 msgstr "%1$s"
 
-#: templates/comments.php:9
+#: templates/comment.php:5
 msgid "(Edit)"
 msgstr "(Editer)"
 
-#: templates/comments.php:15
+#: templates/comment.php:9
 msgid "Your comment is awaiting moderation."
 msgstr "Votre commentaire est en attente de modération."
 
-#: templates/comments.php:32
-msgid "This post is password protected. Enter the password to view comments."
-msgstr "Cet article est protégé par mot de passe. Entrez le mot de passe pour voir les commentaires."
-
-#: templates/comments.php:39
-msgid "One Response to &ldquo;%2$s&rdquo;"
-msgid_plural "%1$s Responses to &ldquo;%2$s&rdquo;"
-msgstr[0] "Une réponse à &ldquo;%2$s&rdquo;"
-msgstr[1] "%1$s résponses à &ldquo;%2$s&rdquo;"
-
-#: templates/comments.php:49
-#: templates/comments.php:51
+#: templates/comments.php:18
 msgid "&larr; Older comments"
 msgstr "&larr; Commentaires plus anciens"
 
-#: templates/comments.php:54
-#: templates/comments.php:56
+#: templates/comments.php:21
 msgid "Newer comments &rarr;"
 msgstr "Commentaires plus récents &rarr;"
 
-#: templates/comments.php:66
-#: templates/comments.php:76
+#: templates/comments.php:29 templates/comments.php:38
 msgid "Comments are closed."
 msgstr "Les commentaires sont fermés."
 
-#: templates/comments.php:83
+#: templates/comments.php:45
 msgid "Leave a Reply"
 msgstr "Répondre"
 
-#: templates/comments.php:83
+#: templates/comments.php:45
 #, php-format
 msgid "Leave a Reply to %s"
 msgstr "Répondre à %s"
 
-#: templates/comments.php:86
+#: templates/comments.php:48
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
-msgstr "Vous devez être <a href=\"%s\">connecté</a> pour ajouter un commentaire."
+msgstr ""
+"Vous devez être <a href=\"%s\">connecté</a> pour ajouter un commentaire."
 
-#: templates/comments.php:90
+#: templates/comments.php:53
 #, php-format
 msgid "Logged in as <a href=\"%s/wp-admin/profile.php\">%s</a>."
 msgstr "Connecté en tant que <a href=\"%s/wp-admin/profile.php\">%s</a>."
 
-#: templates/comments.php:90
+#: templates/comments.php:54
 msgid "Log out of this account"
 msgstr "Déconnexion de ce compte"
 
-#: templates/comments.php:90
+#: templates/comments.php:54
 msgid "Log out &raquo;"
 msgstr "Déconnexion &raquo;"
 
-#: templates/comments.php:92
+#: templates/comments.php:58
 msgid "Name"
 msgstr "Nom"
 
-#: templates/comments.php:92
-#: templates/comments.php:94
+#: templates/comments.php:58 templates/comments.php:62
 msgid " (required)"
 msgstr " (obligatoire)"
 
-#: templates/comments.php:94
+#: templates/comments.php:62
 msgid "Email (will not be published)"
 msgstr "Email (ne sera pas publié)"
 
-#: templates/comments.php:96
+#: templates/comments.php:66
 msgid "Website"
 msgstr "Site web"
 
-#: templates/comments.php:99
+#: templates/comments.php:71
 msgid "Comment"
 msgstr "Commentaire"
 
-#: templates/comments.php:101
+#: templates/comments.php:74
 msgid "Submit Comment"
 msgstr "Ajouter un commentaire"
 
-#: templates/content-single.php:11
+#: templates/content-single.php:25
 msgid "Pages:"
 msgstr "Pages :"
 
-#: templates/content.php:4
-msgid "Sorry, no results were found."
-msgstr "Désolé, aucun résultat n'a été trouvé."
-
-#: templates/content.php:28
-#: templates/content.php:30
-msgid "&larr; Older posts"
-msgstr "&larr; Articles plus anciens"
-
-#: templates/content.php:33
-#: templates/content.php:35
-msgid "Newer posts &rarr;"
-msgstr "Articles plus récents &rarr;"
-
-#: templates/entry-meta.php:1
-#, php-format
-msgid "Posted on %s at %s."
-msgstr "Publié le %s à %s."
-
 #: templates/entry-meta.php:2
-msgid "Written by"
-msgstr "Rédigé par"
+msgid "By"
+msgstr ""
 
-#: templates/searchform.php:2
-msgid "Search for:"
-msgstr "Rechercher pour :"
-
-#: templates/searchform.php:3
-#: templates/searchform.php:4
+#: templates/searchform.php:3 templates/searchform.php:6
 msgid "Search"
 msgstr "Recherche"
 
-msgid "Title (optional):"
-msgstr "Titre (facultatif) :"
+#: templates/searchform.php:4
+msgid "Search for:"
+msgstr "Rechercher pour :"
 
-msgid "Street Address:"
-msgstr "Rue :"
+#~ msgid ""
+#~ "The page you are looking for might have been removed, had its name "
+#~ "changed, or is temporarily unavailable."
+#~ msgstr ""
+#~ "La page demandée a changé de nom ou est temporairement inaccessible."
 
-msgid "City/Locality:"
-msgstr "Ville/Localité :"
+#~ msgid "Please try the following:"
+#~ msgstr "Veuillez essayer les actions suivantes :"
 
-msgid "State/Region:"
-msgstr "État/Région :"
+#~ msgid "Check your spelling"
+#~ msgstr "Vérifiez votre syntaxe"
 
-msgid "Zipcode/Postal Code:"
-msgstr "Code Postal :"
+#~ msgid "Click the <a href=\"javascript:history.back()\">Back</a> button"
+#~ msgstr ""
+#~ "Cliquer sur le bouton <a href=\"javascript:history.back()\">Retour</a>"
 
-msgid "Telephone:"
-msgstr "Téléphone :"
+#~ msgid "Please make sure your <a href=\"%s\">.htaccess</a> file is writable "
+#~ msgstr ""
+#~ "Veuillez vérifier que votre fichier <a href=\"%s\">.htaccess</a> soit "
+#~ "accessible en écriture"
 
-msgid "Email:"
-msgstr "Email :"
+#~ msgid "<cite class=\"fn\">%s</cite>"
+#~ msgstr "<cite class=\"fn\">%s</cite>"
 
+#~ msgid ""
+#~ "This post is password protected. Enter the password to view comments."
+#~ msgstr ""
+#~ "Cet article est protégé par mot de passe. Entrez le mot de passe pour "
+#~ "voir les commentaires."
+
+#~ msgid "One Response to &ldquo;%2$s&rdquo;"
+#~ msgid_plural "%1$s Responses to &ldquo;%2$s&rdquo;"
+#~ msgstr[0] "Une réponse à &ldquo;%2$s&rdquo;"
+#~ msgstr[1] "%1$s résponses à &ldquo;%2$s&rdquo;"
+
+#~ msgid "Posted on %s at %s."
+#~ msgstr "Publié le %s à %s."
+
+#~ msgid "Written by"
+#~ msgstr "Rédigé par"
+
+#~ msgid "Title (optional):"
+#~ msgstr "Titre (facultatif) :"
+
+#~ msgid "Street Address:"
+#~ msgstr "Rue :"
+
+#~ msgid "City/Locality:"
+#~ msgstr "Ville/Localité :"
+
+#~ msgid "State/Region:"
+#~ msgstr "État/Région :"
+
+#~ msgid "Zipcode/Postal Code:"
+#~ msgstr "Code Postal :"
+
+#~ msgid "Telephone:"
+#~ msgstr "Téléphone :"
+
+#~ msgid "Email:"
+#~ msgstr "Email :"
