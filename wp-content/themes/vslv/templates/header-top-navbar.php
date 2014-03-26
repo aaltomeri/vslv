@@ -12,7 +12,7 @@
 
       </button>
 
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="<?php bloginfo('home'); ?>" data-bypass>
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/logo-vslv-color.svg" alt="<?php bloginfo('name'); ?>" />
       </a>
 
