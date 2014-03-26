@@ -41,6 +41,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         var router = this,
             project_model = project_module.collection.findWhere({ slug: slug });
+
+        slug = this.cleanSlug(slug);
         
         console.log("project: " + slug);
 
