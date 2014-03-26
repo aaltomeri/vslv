@@ -787,7 +787,7 @@ $(document).on("click", "a:not([data-bypass])", function(evt) {
 
     evt.preventDefault();
     Backbone.history.navigate(href.attr.replace(root,''), true);
-    //_gaq.push(['_trackPageview']); 
+    _gaq.push(['_trackPageview']);
     
   }
 
