@@ -217,6 +217,13 @@ var PAGE_MODULE = (function() {
           this.$el.show();
           this.$el.removeClass('is-hidden');
 
+          // NO CONTENT PANEL FOR PORTFOLIO
+          // WHICH HAPPENS TO BE A PAGE
+          // FOR NAVIGATION REASONS
+          if(slug === 'portfolio') {
+            return;
+          }
+
           if(content || (title && type === 'project')) {
 
             if(panel_type ===  "center") {
