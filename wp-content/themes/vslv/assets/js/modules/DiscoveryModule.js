@@ -793,6 +793,8 @@
 
                 $(mediaElement).show();
 
+                view.trigger('DiscoveryView:VideoPlaying');
+
               });
 
             });

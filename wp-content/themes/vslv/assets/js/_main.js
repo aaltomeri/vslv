@@ -436,7 +436,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         },
         this);
 
-        discovery_module.discoveryView.on('Discovery:setCurrentMedia', function() {
+        discovery_module.discoveryView.on('Discovery:setCurrentMedia DiscoveryView:VideoPlaying', function() {
           
           console.log('Discovery:setCurrentMedia in Main');
           page_module.currentPageView.hide();
