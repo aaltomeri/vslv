@@ -466,7 +466,7 @@
 
         },
 
-        eable: function() {
+        enable: function() {
 
           this.delegateEvents();
 
