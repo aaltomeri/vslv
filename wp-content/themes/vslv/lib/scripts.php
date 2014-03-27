@@ -111,6 +111,40 @@ function vslv_add_client_to_project($_post) {
 
 }
 
+/**
+ * Add other languages basic infos for each post
+ */
+function vslv_add_languages_infos($_post) {
+
+  global $sitepress;
+
+  $languages = $sitepress->get_active_languages();
+  $_post['languages'] = array();
+
+  $icl_element_type = 'post_' . $_post['type'];
+  $trid = $sitepress->get_element_trid($_post['ID'], $icl_element_type);
+  $translations = $sitepress->get_element_translations($trid, $icl_element_type);
+
+  foreach($translations as $lang) {
+
+    $code = $lang->language_code;
+
+    $_post['languages'][$code] = array();
+
+    $url = get_permalink($translations[$code]->element_id);
+    
+    $_post['languages'][$code]['id'] = $lang->element_id;
+    $_post['languages'][$code]['title'] = $lang->post_title;
+    $_post['languages'][$code]['url'] = $url;
+
+  }
+  
+  return $_post;
+
+
+}
+add_action( 'json_prepare_post', 'vslv_add_languages_infos', 10, 3 );
+
 function vslv_augment_videos_json_with_additional_formats($data, $post, $context) {
 
   $video_formats = VSLV_get_video_formats($data['ID']);
@@ -175,7 +209,7 @@ function roots_scripts() {
   }
 
   wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', false, null, false);
-  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, '183361dae3ff271491f869ca0eba7997', true);
+  wp_register_script('roots_scripts', get_template_directory_uri() . '/assets/js/scripts.min.js', false, 'd60d860d52d360ae12f4e7d796102cf7', true);
 
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');

@@ -43,6 +43,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
             project_model = project_module.collection.findWhere({ slug: slug });
 
         slug = this.cleanSlug(slug);
+
+        this.updateLanguageSwitcher(slug);
         
         console.log("project: " + slug);
 
@@ -102,6 +104,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         var router = this;
             
         slug = this.cleanSlug(slug);
+
+        this.updateLanguageSwitcher(slug);
 
         // css operations
         // only after page/content is about to be shown
@@ -248,6 +252,29 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         document.title = document.title.replace(/(.*)?\|(.*)?/, title + ' |$2');
          
+      },
+
+      updateLanguageSwitcher: function(slug) {
+
+
+        var model = page_module.collection.findWhere({ slug: slug }) ||
+                      project_module.collection.findWhere({ slug: slug });
+
+        if(!model) {
+          return;
+        }
+
+        // update language switcher urls
+        var $ls = $('body > header .language-switcher'),
+            $ls_links = $ls.find('a');
+
+        _.each(model.get('languages'), function(value, key, collection) {
+          
+          var $link = $ls.find('.' + key + ' a'); // there is a language_code class on each li element in the language switcher
+          $link.attr('href', value.url);
+
+        });
+
       }
 
     }),
