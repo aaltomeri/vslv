@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         files: {
           'assets/css/main.min.css': [
             'assets/less/app.less',
-            'assets/js/bower_components/swiper/dev/idangerous.swiper.css'
+            'assets/js/bower_components/swiper/dist/idangerous.swiper.css'
           ]
         },
         options: {
