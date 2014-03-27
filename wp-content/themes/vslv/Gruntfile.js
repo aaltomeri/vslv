@@ -43,7 +43,7 @@ module.exports = function(grunt) {
             'assets/js/bower_components/devicejs/lib/device.js',
             'assets/js/bower_components/PreloadJS/lib/preloadjs-0.4.1.min.js',
             'assets/js/bower_components/jquery.transit/jquery.transit.js',
-            'assets/js/bower_components/swiper/dev/idangerous.swiper.js',
+            'assets/js/bower_components/swiper/dist/idangerous.swiper.js',
             'assets/js/modules/*.js',
             'assets/js/_*.js'
           ]
