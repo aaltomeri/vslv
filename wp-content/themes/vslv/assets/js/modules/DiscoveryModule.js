@@ -78,7 +78,7 @@
           }
         }
         catch(error) {
-          //console.log(error.message, this);
+          // console.log(error.message, this);
           return;
         }
         
@@ -151,7 +151,7 @@
 
       next: function() {
 
-        console.group("Next Discovery");
+        // console.group("Next Discovery");
 
         // loop
         if(this.currentModelIndex === this.length-1) {
@@ -163,7 +163,7 @@
         this.currentModelIndex++;
         this.setCurrentModel(this.currentModelIndex, 0);
 
-        console.groupEnd();
+        // console.groupEnd();
 
         return this.currentModel;
 
@@ -186,8 +186,8 @@
           
         this.currentModelIndex = this.indexOf(this.currentModel);
 
-        console.info("Discovery index: ", this.currentModelIndex+1, "/", this.length, ' - ', this.currentModel.get("slug"));
-        console.info("Discovery Medias: ", this.currentModel.get("medias"));
+        // console.info("Discovery index: ", this.currentModelIndex+1, "/", this.length, ' - ', this.currentModel.get("slug"));
+        // console.info("Discovery Medias: ", this.currentModel.get("medias"));
 
         this.trigger("Discovery:set", this.currentModel);
 
@@ -485,7 +485,7 @@
             return;
           }
 
-          console.log('NEXT');
+          // console.log('NEXT');
 
           // setting the next media on the current model
           // will trigger render
@@ -506,12 +506,12 @@
          */
         render: function() {
 
-          console.group('render Discovery Media');
+          // console.group('render Discovery Media');
 
           var cm = this.model.currentMedia;
 
           if( cm === null) {
-            console.warn('TRYING TO RENDER DISCOVERY VIEW BUT NO CURRENT MEDIA HAS BEEN SET FOR THE CURRENT DISCOVERY MODEL');
+            // console.warn('TRYING TO RENDER DISCOVERY VIEW BUT NO CURRENT MEDIA HAS BEEN SET FOR THE CURRENT DISCOVERY MODEL');
             return;
           }
 
@@ -572,7 +572,7 @@
           var mediaElement,
               view = this;
 
-          console.log('img: ', mediaObject.source);
+          // console.log('img: ', mediaObject.source);
 
           $(window).off('resize', this.windowResizeHandlerForImage);
 
@@ -581,7 +581,7 @@
           // we are expecting an HTML Image
           if(this.loadQueue !== null && this.loadQueue.getResult(mediaObject.slug) instanceof HTMLImageElement) { // yep
 
-            //window.addEventListener('resize', function() { console.log('resize'); });
+            //window.addEventListener('resize', function() { // console.log('resize'); });
 
             mediaElement = this.loadQueue.getResult(mediaObject.slug);
 
@@ -597,16 +597,16 @@
 
             var _load_queue = new createjs.LoadQueue();
 
-            console.log("LOAD MEDIA NOT ALREADY LOADED BY MAIN QUEUE", mediaObject.slug);
+            // console.log("LOAD MEDIA NOT ALREADY LOADED BY MAIN QUEUE", mediaObject.slug);
 
             // progress
             _load_queue.on('fileprogress', function(e) {
 
-              //console.log(e.progress);
+              // console.log(e.progress);
               this.$preloader.css({scale: [e.progress, 1]});
               if(e.progress === 1) {
-                console.log('END PROGRESS');
-                console.time('DELAY PROGRESS<->FILELOAD');
+                // console.log('END PROGRESS');
+                // console.time('DELAY PROGRESS<->FILELOAD');
               }
 
             },
@@ -615,8 +615,8 @@
             // complete
             _load_queue.on('fileload', function(e) {
 
-              console.log('fileload: ', e.item.tag);
-              console.timeEnd('DELAY PROGRESS<->FILELOAD');
+              // console.log('fileload: ', e.item.tag);
+              // console.timeEnd('DELAY PROGRESS<->FILELOAD');
 
               // reset preloader
               this.$preloader.css({scale: [0, 1]});
@@ -640,8 +640,8 @@
 
           }
          
-          console.log('mediaElement', mediaElement);
-          console.groupEnd();
+          // console.log('mediaElement', mediaElement);
+          // console.groupEnd();
 
         },
 
@@ -653,13 +653,13 @@
 
           view.drawMediaOnCanvas(mediaElement, view.c);
 
-          console.log('resize 2');
+          // console.log('resize 2');
 
         },
 
         renderVideo: function(mediaObject) {
 
-            console.log('video: ', mediaObject.source);
+            // console.log('video: ', mediaObject.source);
 
             var view = this,
                 mediaElement = $('<video muted></video>').get(0),
@@ -675,7 +675,7 @@
             // we don't need the hint here
             module.discoveryHintView.stop();
 
-            console.log("MEDIA OBJECT", mediaObject);
+            // console.log("MEDIA OBJECT", mediaObject);
 
             if(this.$el.find('video').length) {
 
@@ -699,7 +699,7 @@
              */
             $(mediaElement).one('loadstart', function() {
               
-              console.log('LOADSTART');
+              // console.log('LOADSTART');
               
               view.setVideoDimensions(mediaElement);
 
@@ -742,7 +742,7 @@
             // as data is available
             $(mediaElement).one('loadeddata', function() {
 
-              console.log('LOADEDDATA');
+              // console.log('LOADEDDATA');
 
               // draw first frame on canvas
               // but not on iOS or Android 
@@ -770,7 +770,7 @@
             // AT THE END OF THE VIDEO
             $(mediaElement).on('ended', function() {
 
-              console.log('VIDEO ENDED');
+              // console.log('VIDEO ENDED');
 
               if(device.iphone()) {
 
@@ -783,7 +783,7 @@
             // show video at the end of the transition
             this.listenToOnce(this, 'DiscoveryView:end_render', function() {
 
-              console.log('TRANSITION END');
+              // console.log('TRANSITION END');
 
               if(!device.android()) {
 
@@ -793,7 +793,7 @@
 
               $(mediaElement).one('playing', function() {
 
-                console.log('PLAYING');
+                // console.log('PLAYING');
 
                 $(mediaElement).show();
 
@@ -948,7 +948,7 @@
 
           $fwd.on('click touchstart', function() {
 
-            console.log('FWD');
+            // console.log('FWD');
             view.skipVideo();
 
           });
@@ -984,7 +984,7 @@
           // draw current frame on canvas
           if(!device.android() && !device.ios()) { // but not for those who behave badly
             
-            console.log('DRAW LAST FRAME');
+            // console.log('DRAW LAST FRAME');
             this.drawMediaOnCanvas($('video').get(0), this.c);
             this.$c.show();
 
@@ -1321,20 +1321,20 @@
 
             var __step = _step;
 
-            // console.time('Draw');
+            // // console.time('Draw');
 
             _now = timestamp;
 
             if(_then) {
               _draw_time = _now - _then;
-              // console.log('_draw_time: ', _draw_time);
+              // // console.log('_draw_time: ', _draw_time);
             }
 
             if(_draw_time) {
               __step = _step * Math.round(_draw_time)/48;
             }
 
-            // console.log('__step: ', __step);
+            // // console.log('__step: ', __step);
 
             radius += __step;
 
@@ -1342,7 +1342,7 @@
 
             _then = timestamp;
 
-            // console.timeEnd('Draw');
+            // // console.timeEnd('Draw');
 
             // make the loop run until we consider the whole media has been discovered
             if(radius <= sw) {
@@ -1358,7 +1358,7 @@
               // it will also set the main canvas size to the correct dimensions
               view.drawMediaOnCanvas(mediaElement, canvasElement);
 
-              console.log('end of gradient rendering');
+              // console.log('end of gradient rendering');
 
               // notify we have finished tthe transition effect
               view.trigger('DiscoveryView:end_transition');
@@ -1446,7 +1446,7 @@
          */
         preloadAllMedias: function() {
 
-          console.group("DiscoveryView: Preload All Medias");
+          // console.group("DiscoveryView: Preload All Medias");
 
           // we need to get a list of objects to be used in a PreloadJS manifest
           // we make sure there are no duplicates based on .id
@@ -1483,10 +1483,10 @@
           ), function(o) { return o.id; })),
           _load_queue = new createjs.LoadQueue();
 
-          //console.log(_load_manifest);
+          // console.log(_load_manifest);
 
           _load_queue.on('progress', function(e) {
-            // console.log(e.progress);
+            // // console.log(e.progress);
           });
 
           _load_queue.on('fileload', function(e) {
@@ -1494,7 +1494,7 @@
           });
 
           _load_queue.on('complete', function(e) {
-            console.log("All images preloaded");
+            // console.log("All images preloaded");
             //setInterval(function() { view.next(); }, 500);
           },
           this);
@@ -1505,7 +1505,7 @@
           // to be able to ask it later for medias that have been preloaded
           this.loadQueue = _load_queue;
 
-          console.groupEnd();
+          // console.groupEnd();
 
         }
 
@@ -1522,7 +1522,7 @@
 
         this.listenTo(module.discoveryView, 'DiscoveryView:start_render', function() {
 
-          // console.log('STOP hint display in start_render handler');
+          // // console.log('STOP hint display in start_render handler');
 
           // stop hint display
           this.stop();
@@ -1532,7 +1532,7 @@
 
         this.listenTo(module.discoveryView, 'DiscoveryView:end_render', function() {
 
-          // console.log('START hint display in end_render handler');
+          // // console.log('START hint display in end_render handler');
 
           // start hint display
           //this.start();
@@ -1554,7 +1554,7 @@
           return;
         }
 
-        // console.log('DiscoveryHintView', 'START', 'is started:', this.started); 
+        // // console.log('DiscoveryHintView', 'START', 'is started:', this.started); 
 
         this.setPosition();
         this.show();
@@ -1565,7 +1565,7 @@
 
       stop: function() {
 
-        // console.log('DiscoveryHintView', 'STOP', 'is started:', this.started);
+        // // console.log('DiscoveryHintView', 'STOP', 'is started:', this.started);
 
         if(!this.started) {
           return;
@@ -1581,9 +1581,9 @@
 
         var view = this;
 
-        //console.group('DiscoveryHintView SHOW');
+        // console.group('DiscoveryHintView SHOW');
 
-        // console.log('DiscoveryHintView', 'SHOW');
+        // // console.log('DiscoveryHintView', 'SHOW');
 
         clearTimeout(view.hideDelayTimeout);
 
@@ -1593,7 +1593,7 @@
         }, function() {
           if(view.started) {
 
-            // console.log('DiscoveryHintView', 'END OF SHOW');
+            // // console.log('DiscoveryHintView', 'END OF SHOW');
 
             view.hideDelayTimeout = setTimeout(function() {
 
@@ -1612,7 +1612,7 @@
 
         var view = this;
         
-        // console.log('DiscoveryHintView', 'HIDE');
+        // // console.log('DiscoveryHintView', 'HIDE');
 
         clearTimeout(view.hideDelayTimeout);
 
@@ -1623,7 +1623,7 @@
           duration: VSLV_CONFIG.discovery_hint_hide_duration
         }, function() {
 
-          // console.log('DiscoveryHintView', 'HIDDEN');
+          // // console.log('DiscoveryHintView', 'HIDDEN');
 
           if(view.started) {
             view.setPosition().show();

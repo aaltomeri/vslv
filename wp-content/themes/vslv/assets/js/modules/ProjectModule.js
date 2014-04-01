@@ -273,8 +273,6 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
           });
 
-          // this.swiper.reInit();
-
         });
 
       },
@@ -486,7 +484,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
             delay = 0,
             timeout = 0;
 
-        console.log("show items");
+        // console.log("show items");
 
         var n_slides = this.$('.swiper-slide').length,
             n_actual_slides = n_slides/3;
@@ -621,7 +619,7 @@ var PROJECT_MODULE = (function(win, $, cjs) {
 
         launchProject: function() {
 
-            //console.log(this.model);
+            // console.log(this.model);
 
         }
 

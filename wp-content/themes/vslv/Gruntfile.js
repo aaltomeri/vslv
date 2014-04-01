@@ -22,7 +22,7 @@ module.exports = function(grunt) {
           ]
         },
         options: {
-          compress: false,
+          cleancss: true,
           // LESS source map
           // To enable, set sourceMap to true and update sourceMapRootpath based on your install
           sourceMap: false,
@@ -52,9 +52,9 @@ module.exports = function(grunt) {
           // JS source map: to enable, uncomment the lines below and update sourceMappingURL based on your install
           // sourceMap: 'assets/js/scripts.min.js.map',
           // sourceMappingURL: '/Users/thomasmery/Documents/WebDev/Clients/Mister Brown/Vue Sur La Ville/application/www/wp-content/themes/vslv/assets/js/scripts.min.js.map',
-          beautify: true,
-          mangle: false,
-          compress: false
+          beautify: false,
+          mangle: true,
+          compress: true
         }
       }
     },

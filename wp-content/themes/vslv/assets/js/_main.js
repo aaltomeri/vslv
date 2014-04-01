@@ -46,7 +46,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         this.updateLanguageSwitcher(slug);
         
-        console.log("project: " + slug);
+        // console.log("project: " + slug);
 
         this.listenToOnce(page_module.currentPageView, 'PageView:is-hidden', function() {
 
@@ -99,7 +99,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
        */
       page: function(slug) {
 
-        console.log("page: " + slug);
+        // console.log("page: " + slug);
 
         var router = this;
             
@@ -302,7 +302,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       init: function() {
 
-        console.group('APP INIT');
+        // console.group('APP INIT');
 
         // app data 
         app_data = this.parse_app_data();
@@ -356,8 +356,8 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           project_module.collection_fetch_promise
         ).then($.proxy(function (pages, projects) {
 
-          console.log(pages);
-          console.log(projects);
+          // console.log(pages);
+          // console.log(projects);
 
           // hide main preloader
           $('main > .preloader').transition({opacity: 0}).removeClass('animate');
@@ -440,7 +440,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // when new Discovery is set
         discovery_module.discoveryView.on('DiscoveryView:setAndRenderEnded', function(discoveryModel) {
 
-          console.log('DiscoveryView:setAndRenderEnded in Main');
+          // console.log('DiscoveryView:setAndRenderEnded in Main');
 
           // content
           page_module.currentPageView.model = discoveryModel;
@@ -465,7 +465,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         discovery_module.discoveryView.on('Discovery:setCurrentMedia DiscoveryView:VideoPlaying', function() {
           
-          console.log('Discovery:setCurrentMedia in Main');
+          // console.log('Discovery:setCurrentMedia in Main');
           page_module.currentPageView.hide();
 
         });
@@ -577,7 +577,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
           this.ie_vslv_logo_height_fix();
         }
 
-        console.groupEnd();
+        // console.groupEnd();
 
       },
 
@@ -640,7 +640,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
             return;
           }
 
-          console.log('PageView:is-hidden in  MAIN');
+          // console.log('PageView:is-hidden in  MAIN');
 
           if(!$('video').length) { // only if current Media is NOT a video - hackish as hell but I lack time
             this.start();
@@ -651,7 +651,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // stop displaying hint when page is shown
         discovery_module.discoveryHintView.listenTo(page_module.currentPageView, 'PageView:is-shown', function() {
           
-          console.log('PageView:is-shown in  MAIN');
+          // console.log('PageView:is-shown in  MAIN');
 
           this.stop();
 
@@ -660,7 +660,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
         // or when we show the portfolio
         discovery_module.discoveryHintView.listenTo(project_module.portfolioView, 'PortfolioView:show', function() {
           
-          console.log('PortfolioView:show in  MAIN');
+          // console.log('PortfolioView:show in  MAIN');
           
           this.stop();
 
@@ -688,7 +688,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
        */
       initMainMenu: function() {
 
-        console.log('initMainMenu');
+        // console.log('initMainMenu');
 
         function changeLogo(type) {
 
@@ -704,7 +704,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         $('.navbar-collapse').on('show.bs.collapse', function() {
 
-          console.log('SHOW MENU');
+          // console.log('SHOW MENU');
 
           $('.navbar').removeClass('collapsed');
           $('.navbar-toggle').removeClass('collapsed');
@@ -715,7 +715,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         $('.navbar-collapse').on('hide.bs.collapse', function() {
 
-          console.log('HIDE MENU');
+          // console.log('HIDE MENU');
 
           $('.navbar').addClass('collapsed');
           $('.navbar-toggle').addClass('collapsed');
