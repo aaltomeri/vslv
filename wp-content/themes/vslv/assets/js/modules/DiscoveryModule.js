@@ -1321,20 +1321,20 @@
 
             var __step = _step;
 
-            // // console.time('Draw');
+            // console.time('Draw');
 
             _now = timestamp;
 
             if(_then) {
               _draw_time = _now - _then;
-              // // console.log('_draw_time: ', _draw_time);
+              // console.log('_draw_time: ', _draw_time);
             }
 
             if(_draw_time) {
-              __step = _step * Math.round(_draw_time)/48;
+              __step = _step * Math.round(_draw_time)/32;
             }
 
-            // // console.log('__step: ', __step);
+            // console.log('__step: ', __step);
 
             radius += __step;
 
@@ -1342,7 +1342,7 @@
 
             _then = timestamp;
 
-            // // console.timeEnd('Draw');
+            // console.timeEnd('Draw');
 
             // make the loop run until we consider the whole media has been discovered
             if(radius <= sw) {
@@ -1486,7 +1486,7 @@
           // console.log(_load_manifest);
 
           _load_queue.on('progress', function(e) {
-            // // console.log(e.progress);
+            // console.log(e.progress);
           });
 
           _load_queue.on('fileload', function(e) {
@@ -1522,7 +1522,7 @@
 
         this.listenTo(module.discoveryView, 'DiscoveryView:start_render', function() {
 
-          // // console.log('STOP hint display in start_render handler');
+          // console.log('STOP hint display in start_render handler');
 
           // stop hint display
           this.stop();
@@ -1532,7 +1532,7 @@
 
         this.listenTo(module.discoveryView, 'DiscoveryView:end_render', function() {
 
-          // // console.log('START hint display in end_render handler');
+          // console.log('START hint display in end_render handler');
 
           // start hint display
           //this.start();
@@ -1554,7 +1554,7 @@
           return;
         }
 
-        // // console.log('DiscoveryHintView', 'START', 'is started:', this.started); 
+        // console.log('DiscoveryHintView', 'START', 'is started:', this.started); 
 
         this.setPosition();
         this.show();
@@ -1565,7 +1565,7 @@
 
       stop: function() {
 
-        // // console.log('DiscoveryHintView', 'STOP', 'is started:', this.started);
+        // console.log('DiscoveryHintView', 'STOP', 'is started:', this.started);
 
         if(!this.started) {
           return;
@@ -1583,7 +1583,7 @@
 
         // console.group('DiscoveryHintView SHOW');
 
-        // // console.log('DiscoveryHintView', 'SHOW');
+        // console.log('DiscoveryHintView', 'SHOW');
 
         clearTimeout(view.hideDelayTimeout);
 
@@ -1593,7 +1593,7 @@
         }, function() {
           if(view.started) {
 
-            // // console.log('DiscoveryHintView', 'END OF SHOW');
+            // console.log('DiscoveryHintView', 'END OF SHOW');
 
             view.hideDelayTimeout = setTimeout(function() {
 
@@ -1612,7 +1612,7 @@
 
         var view = this;
         
-        // // console.log('DiscoveryHintView', 'HIDE');
+        // console.log('DiscoveryHintView', 'HIDE');
 
         clearTimeout(view.hideDelayTimeout);
 
@@ -1623,7 +1623,7 @@
           duration: VSLV_CONFIG.discovery_hint_hide_duration
         }, function() {
 
-          // // console.log('DiscoveryHintView', 'HIDDEN');
+          // console.log('DiscoveryHintView', 'HIDDEN');
 
           if(view.started) {
             view.setPosition().show();
