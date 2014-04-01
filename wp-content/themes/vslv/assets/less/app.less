@@ -702,14 +702,6 @@ main {
    Portfolio
    ========================================================================== */
 
-// Hack for FF
-// all other browsers are fine with display: inline-block here 
-@-moz-document url-prefix() { 
-  #portfolio ul li {
-     display: inline;
-  }
-}
-
 #portfolio {
   
   position: absolute;
@@ -848,6 +840,14 @@ main {
 
   }
 
+}
+
+// Hack for FF
+// all other browsers are fine with display: inline-block here 
+@-moz-document url-prefix() { 
+  #portfolio ul li {
+     display: inline;
+  }
 }
 
 .portfolio-item-hover {
