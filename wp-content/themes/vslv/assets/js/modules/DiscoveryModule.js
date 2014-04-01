@@ -801,6 +801,8 @@
 
               });
 
+              mediaElement.play();
+
             });
 
             // set SOURCES
