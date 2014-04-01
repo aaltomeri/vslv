@@ -1333,7 +1333,7 @@
             }
 
             if(_draw_time) {
-              __step = _step * Math.round(_draw_time)/32;
+              __step = _step * Math.round(_draw_time)/40;
             }
 
             // console.log('__step: ', __step);
