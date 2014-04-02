@@ -532,24 +532,24 @@
 
           });
 
+          // hide video controls
+          this.hideVideoControls();
+          // unbind video specific events events
+          this.unbindVideoControlsEvents();
+
+          // always remove video layer if it's present
+          if(this.$el.find('video').length) {
+
+            // remove video
+            this.$el.find('video').remove();
+
+            // rebind Discovery process events
+            this.delegateEvents();
+
+          }
+
           // is it an image?
           if(cm.is_image) {
-
-            // hide video controls
-            this.hideVideoControls();
-            // unbind video specific events events
-            this.unbindVideoControlsEvents();
-
-            // always remove video layer if it's present
-            if(this.$el.find('video').length) {
-
-              // remove video
-              this.$el.find('video').remove();
-
-              // rebind Discovery process events
-              this.delegateEvents();
-
-            }
 
             this.renderImage(cm);
 
@@ -677,17 +677,8 @@
 
             // console.log("MEDIA OBJECT", mediaObject);
 
-            if(this.$el.find('video').length) {
+            this.$el.append($(mediaElement));
 
-              mediaElement = this.$el.find('video').get(0);
-
-            }
-            else {
-
-              this.$el.append($(mediaElement));
-
-            }
-        
             // set poster for video
             // necessary as some browser/devices do not want to show first frame (chrome on Android)
             $(mediaElement).attr('poster', mediaObject.poster);
