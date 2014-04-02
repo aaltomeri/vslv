@@ -261,7 +261,7 @@
         events: {
           'click': 'onClickHandler',
           'touchstart': 'onClickHandler',
-          // 'mousedown': 'onMousedownHandler',
+          'mousedown': 'onMousedownHandler',
           // 'touchstart': 'onMousedownHandler',
           // 'mouseup': 'onMouseupHandler',
           // 'touchend': 'onMouseupHandler'
@@ -323,27 +323,27 @@
              * on mouse or touch move behaviour
              * 
              */
-            this.$el.on("mousemove touchmove", function(e) {
+            // this.$el.on("mousemove touchmove", function(e) {
               
-                var pointer_x = e.clientX || e.originalEvent.touches[0].clientX || e.originalEvent.pageX,
-                    pointer_y = e.clientY || e.originalEvent.touches[0].clientY || e.originalEvent.pageY;
+            //     var pointer_x = e.clientX || e.originalEvent.touches[0].clientX || e.originalEvent.pageX,
+            //         pointer_y = e.clientY || e.originalEvent.touches[0].clientY || e.originalEvent.pageY;
 
-                // prevent native behaviour on some devices
-                // like cancelling custom touch events on Chrome for Android
-                e.preventDefault();
+            //     // prevent native behaviour on some devices
+            //     // like cancelling custom touch events on Chrome for Android
+            //     e.preventDefault();
 
-                // account for main canvas parent div having been scrolled to center it
-                pointer_x += view.el.scrollLeft;
-                pointer_y += view.el.scrollTop;
+            //     // account for main canvas parent div having been scrolled to center it
+            //     pointer_x += view.el.scrollLeft;
+            //     pointer_y += view.el.scrollTop;
 
-                // record coordinates
-                // they will be used on release
-                view.pointer_x = pointer_x;
-                view.pointer_y = pointer_y;
+            //     // record coordinates
+            //     // they will be used on release
+            //     view.pointer_x = pointer_x;
+            //     view.pointer_y = pointer_y;
 
-                view.gradient_draw(mediaElement, pointer_x, pointer_y, pointer_radius, c);
+            //     view.gradient_draw(mediaElement, pointer_x, pointer_y, pointer_radius, c);
             
-            });
+            // });
             
           }
 
@@ -518,8 +518,11 @@
           // notify we're beginning to render
           this.rendering = true;
           this.trigger('DiscoveryView:start_render');
+
+          // When we consider renering has ended
           this.listenToOnce(this, 'DiscoveryView:end_render',function() {
 
+            // will allow another rendering process
             this.rendering = false;
 
           });
