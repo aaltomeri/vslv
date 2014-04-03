@@ -56,7 +56,7 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
         });
 
-        this.activateMenuItem(slug);
+        this.activateMenuItem(slug, true);
 
         if(mediaIndex === null) {
           mediaIndex = 1;
@@ -240,11 +240,17 @@ var VSLV_APP = (function(page_module, project_module, discovery_module, app_data
 
       },
     
-      activateMenuItem: function(slug) {
+      activateMenuItem: function(slug, belongsToPortfolio) {
 
         // activate menu item
         $('body > header .navbar-nav li').removeClass('active');
         $('body > header .navbar-nav li.menu-' + slug).addClass('active');
+
+        // when navigating projects make portfolio item active
+        if(belongsToPortfolio) {
+          $('body > header .navbar-nav li.menu-portfolio').addClass('active');
+          
+        }
 
       },
 

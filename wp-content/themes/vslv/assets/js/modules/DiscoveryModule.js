@@ -47,7 +47,22 @@
             Backbone.history.navigate(url);
 
             // reset menu
-            VSLV_APP.router.activateMenuItem(null);
+            VSLV_APP.router.activateMenuItem('portfolio');
+
+            // body class stuff to avoid content panel to be at the wrong place
+            // snce its position relies on a body class
+            if(VSLV_APP.router.previous_slug !== "project") {
+
+              this.listenToOnce(PAGE_MODULE.currentPageView, 'PageView:is-hidden', function() {
+                
+                $('body').removeClass(VSLV_APP.router.previous_slug);
+                $('body').addClass('project');
+                VSLV_APP.router.previous_slug = 'project';
+
+              });
+
+
+            }
 
             // analytics
             _gaq.push(['_trackPageview', url]);
